@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoho</title>
+   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+    
+</head>
+<style>
+                  
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 1px;
+      margin: 0;
+      color: black;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+    
+    .logo img {
+      max-height: 100px;
+    }
+    
+    .company-info h2 {
+      margin: 0;
+      font-size: 2em;
+    }
+    
+    .company-info p {
+      margin: 0;
+      line-height: 1.5;
+    }
+    
+    .i.invoice-box {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    
+    .invoice-box h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    
+    .invoice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .invoice-details p, .client-details p {
+      margin: 5px 0;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    #th {
+      background-color: #f2f2f2;
+      color: black;
+    }
+    
+    .invoice-total {
+      margin-top: 20px;
+      text-align: right;
+    }
+    
+    .invoice-total p {
+      margin: 5px 0;
+    }
+    
+    footer {
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      text-align: center;
+      font-size: 0.8em;
+      color: #888;
+      margin-top: 20px;
+    }
+    
+    footer p {
+      margin: 5px 0;
+    }
+    
+    input[type=text], select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+
+    }
+    
+    label {
+      padding: 12px 12px 12px 0;
+      display: inline-block;
+    }
+    
+    
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    
+    @media screen and (max-width: 600px) {
+      .col-25, .col-75, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+      }
+      input[type=text], select, textarea {
+      width: 100%;
+
+    }
+    }
+
+    .dropdown input,
+    .dropdown button {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
+
+    .dropdown.open input,
+    .dropdown.open button {
+      display: block;
+    }
+
+    .row a{
+      color: rgb(218, 164, 48);
+      font-size: 12px;
+    }
+
+    .table th a{
+      color:rgb(218, 164, 48);
+      font-size: 11px;
+      margin-left: 100px;
+    }
+
+
+    ::-webkit-scrollbar {
+      width: 5px; 
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #888; 
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555; 
+    }
+    .fields {
+      display: none;
+    }
+  
+    
+                    </style>
+<body>
+
+    <div class="my-5 page" size="A4" >
+        <div class="p-5">
+            <section id="selected-area" style="background-color: rgb(255, 221, 176);"class=" p-2 m-2 mb-5">
+               
+                  <header style="	background-color: #8b3131;border-radius: 1rem;">
+                      <div class="logo ">
+                          <img class="ml-2" width="100rem" style="border-radius: 50%;" src="{% static 'images/zlogo.png' %}" alt="Company Logo">
+                      </div>
+                      <div style="background: #8b3131;color: black;" class="company-info">
+                          <h2 class="text-white">{{company.company_name}}</h2>
+                          <p class="text-white"> {{company.address}}<br>{{company.city}}<br>Ph: {{company.contact_number}}<br>Email: {{company.company_email}}</p>
+                      </div>
+                  </header>
+                  <div class="invoice-box">
+                      <div class="invoice-header">
+                          <div class="row">
+                            <div class="col-sm-4">
+                              <div class="invoice-details text-dark">
+                                <p class="text-dark">Order No#: {{po_item.Pur_no}}</p>
+    
+                                  <p class="text-dark">Reference #: {{po_item.ref}}</p>
+                                  <p class="text-dark">Purchase Date: {{po_item.Ord_date}}</p>
+                                  <p class="text-dark">Expect Delivery Date: {{po_item.exp_date}}</p>
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <p class="text-dark">Vendor Name : {{po_item.vendor_name}}</p>
+                                <p class="text-dark">Vendor Mail :{{po_item.vendor_mail}}</p>
+                                <p class="text-dark">Vendor Gst_treart : {{po_item.vendor_gst_traet}}</p>
+                                <p class="text-dark">Vendor Gst_No :{{po_item.vendor_gst_no}}</p>
+                            </div>
+                            <div class="col-sm-4">
+                              <div class="client-details">
+                                {% if po_item.customer_name == '' %}
+                                   <p class="text-dark">Client Name: {{po_item.Org_name}} </p>
+     
+                                   <p class="text-dark">Address: {{po_item.Org_address}}</p>
+                                   <p class="text-dark">Gst: {{po_item.Org_gst}}</p>
+                                   {% else %}
+                                   <p class="text-dark">Client Name: {{po_item.customer_name}} </p>
+                                   <p class="text-dark">Client Mail: {{po_item.customer_mail}} </p>
+     
+                                   <p class="text-dark">Address: {{po_item.customer_address}}<br></p>
+                                   {% endif %}
+                               </div>
+                            </div>
+                          </div>
+
+
+           
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                      
+                                      <th id="th">Product</th>
+                                      <th id="th">Account</th>
+                                      
+                                        <th id="th">Quantity</th>
+                                        <th id="th">Price</th>
+                                        <th id="th">Discount</th>
+                                        <th id="th">Tax %</th>
+                                        <th id="th"> Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  {% for i in po_table %}
+                                  <tr>
+                                    <td>{{i.item}}</td>
+                                    <td>{{i.account}}</td>
+                                    <td>{{i.quantity}}</td>
+                                    <td>{{i.rate}}</td>
+                                    <td>{{i.discount}}</td>
+                                    <td>{{i.tax}}</td>
+                                    <td>{{i.amount}}</td>
+                                  </tr>
+                                  {% endfor %}
+      
+                              </tbody>
+                            </table>
+                        </div>
+                      </div>
+                      
+                    <div class="row">
+                       <div class="col-sm-8"></div>
+                       <div class="col-sm-4">
+                           <table >
+                               <tr>
+                                   <td>Subtotal</td>
+                                   <td>{{po_item.sub_total}}</td>
+                               </tr>
+                               {% if po_item.igst != 0.0%}
+                               <tr>
+                                   <td>IGST</td>
+                                   <td>{{po_item.igst}}</td>
+                               </tr>
+                               {% else %}
+                               <tr>
+                                   <td>SGST</td>
+                                   <td>{{po_item.sgst}}</td>
+                               </tr>
+                               <tr>
+                                   <td>CGST</td>
+                                   <td>{{po_item.cgst}}</td>
+                               </tr>
+                               {% endif %}
+                               <tr>
+                                   <td>Total Tax</td>
+                                   <td>{{po_item.tax_amount}}</td>
+                               </tr>
+                               <tr>
+                                   <td>Shipping Charge</td>
+                                   <td>{{po_item.shipping_charge}}</td>
+                               </tr>
+                               <tr>
+                                   <td>Grand Total</td>
+                                   <td>{{po_item.grand_total}}</td>
+                               </tr>
+                             </table>
+                       </div>
+                    </div>
+                     
+                  </div>
+
+                  <footer class="mb-5">
+                      <p class="text-dark">&copy; Zho Books 2023 | Info park kakkanad kochi, Ernamkulam, kerala India 12345 | Phone: (123) 456-7890 | Email: info@zohodjango.com</p>
+                  </footer>
+                  <div class="mt-5 mb-5">
+      
+                  </div>
+                 </section>
+            
+        </div>
+    </div>
+      
+    
+    
+</body>
+
+</html>

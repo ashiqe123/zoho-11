@@ -1,0 +1,437 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<style>
+    #a_over{
+        color: rgb(197, 129, 4);
+    }
+    #a_over:hover{
+        color: rgb(182, 181, 180);
+        font-weight: bold;
+    }
+    
+</style>
+
+
+<div>
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+
+           <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <h3>All Reports</h3>
+            </div>
+            <div  class="col-sm-12 col-md-8 col-lg-8">
+
+                
+                <div class="dropdown" id="myDropdown">
+                   
+                    <input type="text" id="myInput" class="dropdown-toggle form-control bg-light text-dark" onkeyup="filterFunction()"  data-bs-toggle="dropdown" aria-expanded="false" placeholder="search reports" >
+                    <ul class="dropdown-menu dropdown-menu-dark "  style="overflow-y: scroll;height: 370px;width: 100%;background-color: rgba(158, 156, 156, 0.932);"> 
+                      <li class="dropdown-header "> <span style="color: rgb(173, 101, 5);font-weight: bold;font-size: larger;">Business Overview</span>                       
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Profit and Loss <span style="color: rgba(158, 156, 156, 0.932);display: none;">bussiness</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Profit and Loss (schedule lll)<span style="color: rgba(158, 156, 156, 0.932);display: none;">bussiness</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Horizontal Profit and Loss<span style="color: rgba(158, 156, 156, 0.932);display: none;">bussiness</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Cash Flow Statement<span style="color: rgba(158, 156, 156, 0.932);display: none;">bussiness</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Balance Sheet<span style="color: rgba(158, 156, 156, 0.932);display: none;">bussiness</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Horizontal Balance Sheet<span style="color: rgba(158, 156, 156, 0.932);display: none;">bussiness</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Balance Sheet (schedule lll)<span style="color: rgba(158, 156, 156, 0.932);display: none;">bussiness</span></a>
+                      </li>
+
+
+
+                    
+                    <li class="dropdown-header"><span style="color: rgb(184, 121, 4);font-weight: bold;font-size: larger;">Sales</span> 
+    
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Sales by Customer</a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Sales by Item</a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Sales by Sales Person</a>
+        
+                    </li>
+                    <li class="dropdown-header"><span style="color: rgb(184, 121, 4);font-weight: bold;font-size: larger;">Inventory</span> 
+    
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Inventory Summary</a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Inventory Valuation Summary</a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">FIFO Cost Lot Tracking<span style="color: rgba(158, 156, 156, 0.932);display: none;">inventory</span></a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Product Sales Report<span style="color: rgba(158, 156, 156, 0.932);display: none;">inventory</span></a>
+        
+        
+                    </li>
+                    <li class="dropdown-header"><span style="color: rgb(184, 121, 4);font-weight: bold;font-size: larger;">Receivables</span> 
+    
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Customer Balences <span style="color: rgba(158, 156, 156, 0.932);display: none;">receivables</span></a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Aging Summary<span style="color: rgba(158, 156, 156, 0.932);display: none;">receivables</span></a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Aging Details<span style="color: rgba(158, 156, 156, 0.932);display: none;">receivables</span></a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Invoice Details<span style="color: rgba(158, 156, 156, 0.932);display: none;">receivables</span></a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Retainer Invoice Details<span style="color: rgba(158, 156, 156, 0.932);display: none;">receivables</span></a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Sales Order Details<span style="color: rgba(158, 156, 156, 0.932);display: none;">receivables</span></a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Delivery Cahallan Details <span style="color: rgba(158, 156, 156, 0.932);display: none;">receivables</span></a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Estimate Details <span style="color: rgba(158, 156, 156, 0.932);display: none;">receivables</span></a>
+        
+        
+        
+                    </li>
+                    <li class="dropdown-header"> <span style="color: rgb(184, 121, 4);font-weight: bold;font-size: larger;">Payment Received</span>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Payment Received<span style="color: rgba(158, 156, 156, 0.932);display: none;">payment received</span></a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Time to Get Paid<span style="color: rgba(158, 156, 156, 0.932);display: none;">payment received</span></a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Credit Note Details<span style="color: rgba(158, 156, 156, 0.932);display: none;">payment received</span></a>
+                        <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Refund History<span style="color: rgba(158, 156, 156, 0.932);display: none;">payment received</span></a>
+        
+
+                      </li> 
+                      <li class="dropdown-header"><span style="color: rgb(184, 121, 4);font-weight: bold;font-size: larger;">Recurring Invoices</span> 
+                        <a class="dropdown-item " href="{% url 'report_recurring_invoice' %}" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Recurring Invoice Details</a>
+
+                      
+                        </li>
+                        <li class="dropdown-header"><span style="color: rgb(184, 121, 4);font-weight: bold;font-size: larger;">Payables</span>
+                                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Vendor Balences<span style="color: rgba(158, 156, 156, 0.932);display: none;">payables</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Aging Summary<span style="color: rgba(158, 156, 156, 0.932);display: none;">payables</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Aging Details<span style="color: rgba(158, 156, 156, 0.932);display: none;">payables</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Bills Details<span style="color: rgba(158, 156, 156, 0.932);display: none;">payables</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Vendor Credits Details<span style="color: rgba(158, 156, 156, 0.932);display: none;">payables</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Payments Made<span style="color: rgba(158, 156, 156, 0.932);display: none;">payables</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Refund History <span style="color: rgba(158, 156, 156, 0.932);display: none;">payables</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Purchase Order Details <span style="color: rgba(158, 156, 156, 0.932);display: none;">payables</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Purchase Orders by Vendor <span style="color: rgba(158, 156, 156, 0.932);display: none;">payables</span></a>
+
+
+                        </li>
+                        
+                            <li class="dropdown-header"><span style="color: rgb(184, 121, 4);font-weight: bold;font-size: larger;" >Purchases & Expences</span>
+                                    <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Purchases by Vendor<span style="color: rgba(158, 156, 156, 0.932);display: none;">purchases and expenses</span></a>
+                                 <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Purchases by Item<span style="color: rgba(158, 156, 156, 0.932);display: none;">purchases and expenses</span></a>
+                                 <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Expense Details<span style="color: rgba(158, 156, 156, 0.932);display: none;">purchases and expenses</span></a>
+                                 <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Expenses by Category<span style="color: rgba(158, 156, 156, 0.932);display: none;">purchases and expenses</span></a>
+                                 <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Expenses by Customer<span style="color: rgba(158, 156, 156, 0.932);display: none;">purchases and expenses</span></a>
+                                 <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Expenses by Project<span style="color: rgba(158, 156, 156, 0.932);display: none;">purchases and expenses</span></a>
+                                 <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Expenses by Employee<span style="color: rgba(158, 156, 156, 0.932);display: none;">purchases and expenses</span></a>
+                 
+                                
+                             </li>
+
+
+
+                         <li class="dropdown-header"><span style="color: rgb(184, 121, 4);font-weight: bold;font-size: larger;">Taxes</span>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Tax Summary<span style="color: rgba(158, 156, 156, 0.932);display: none;">taxes</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">TDS Summary<span style="color: rgba(158, 156, 156, 0.932);display: none;">taxes</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">GSTR-3B Summary<span style="color: rgba(158, 156, 156, 0.932);display: none;">taxes</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Summary of Outward Supplies<span style="color: rgba(158, 156, 156, 0.932);display: none;">taxes</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Summary of Inward Supplies<span style="color: rgba(158, 156, 156, 0.932);display: none;">taxes</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Self Invoice Summary<span style="color: rgba(158, 156, 156, 0.932);display: none;">taxes</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Annual Summary(GSTR-9)<span style="color: rgba(158, 156, 156, 0.932);display: none;">taxes</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Overseas Digital Tax Summary<span style="color: rgba(158, 156, 156, 0.932);display: none;">taxes</span></a>
+            
+                        
+                        </li>
+                        <li class="dropdown-header"><span style="color: rgb(184, 121, 4);font-weight: bold;font-size: larger;">Projects & Timesheet</span>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Project Summary<span style="color: rgba(158, 156, 156, 0.932);display: none;">projects and timesheet</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Project Details<span style="color: rgba(158, 156, 156, 0.932);display: none;">projects and timesheet</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Timesheet Details<span style="color: rgba(158, 156, 156, 0.932);display: none;">projects and timesheet</span></a>
+
+
+                        </li>
+                        <li class="dropdown-header"><span style="color: rgb(184, 121, 4);font-weight: bold;font-size: larger;">Accountant</span>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Account Transactions<span style="color: rgba(158, 156, 156, 0.932);display: none;">accountant</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Account Type Summary<span style="color: rgba(158, 156, 156, 0.932);display: none;">accountant</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Account Type Transactions<span style="color: rgba(158, 156, 156, 0.932);display: none;">accountant</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Day Book<span style="color: rgba(158, 156, 156, 0.932);display: none;">accountant</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">General Ledger<span style="color: rgba(158, 156, 156, 0.932);display: none;">accountant</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Detailed General Ledger<span style="color: rgba(158, 156, 156, 0.932);display: none;">accountant</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Journel Report<span style="color: rgba(158, 156, 156, 0.932);display: none;">accountant</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Trial Balance<span style="color: rgba(158, 156, 156, 0.932);display: none;">accountant</span></a>
+
+                            
+                        </li>
+
+                        <li class="dropdown-header"><span style="color: rgb(184, 121, 4);font-weight: bold;font-size: larger;">Activity</span>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">System Mails<span style="color: rgba(158, 156, 156, 0.932);display: none;">activity</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Activity Logs<span style="color: rgba(158, 156, 156, 0.932);display: none;">activity</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Exception Report<span style="color: rgba(158, 156, 156, 0.932);display: none;">activity</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Portal Activities<span style="color: rgba(158, 156, 156, 0.932);display: none;">activity</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Client Reviews<span style="color: rgba(158, 156, 156, 0.932);display: none;">activity</span></a>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">API Usage<span style="color: rgba(158, 156, 156, 0.932);display: none;">activity</span></a>
+            
+                            
+                        </li>
+                        <li class="dropdown-header"><span style="color: rgb(184, 121, 4);font-weight: bold;font-size: larger;">Currency</span>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Realized Gain or Loss<span style="color: rgba(158, 156, 156, 0.932);display: none;">currency</span></a>
+                <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Unrealized Gain or Loss<span style="color: rgba(158, 156, 156, 0.932);display: none;">currency</span></a>
+
+                            
+                        </li>
+                        <li class="dropdown-header"><span style="color: rgb(184, 121, 4);font-weight: bold;font-size: larger;">Budgets</span>
+                            <a class="dropdown-item " href="#" style="font-size: medium;color: rgb(26, 25, 25);font-weight:500;">Budget vs Actuals</a>                          
+                        </li>
+ 
+
+                    
+                    
+                      
+                    </ul>
+                    
+                </div>
+            </div>
+           </div>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 300px;">
+                <center><h3 class="pt-3 pb-2" style="color: white;">
+                    <img width="48" height="48" src="https://img.icons8.com/fluency/48/company.png" alt="company"/>
+                    Business Overview
+                </h3></center>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Profit and Loss</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Profit and Loss (schedule lll)</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Horizontal Profit and Loss</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Cash Flow Statement</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Balance Sheet</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Horizontal Balance Sheet</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Balance Sheet (schedule lll)</a><br>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 300px;">
+                <center><h3 class="pt-3 pb-2" style="color: white;">
+                    <img width="48" height="48" src="https://img.icons8.com/fluency/48/shopping-cart.png" alt="shopping-cart"/>
+                    Sales
+                </h3></center>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Sales by Customer</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Sales by Item</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Sales by Sales Person</a><br>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 300px;">
+                <center><h3 class="pt-3 pb-2" style="color: white;">
+                    <img width="30" height="30" src="https://img.icons8.com/external-sbts2018-flat-sbts2018/58/external-inventory-basic-ui-elements-2.2-sbts2018-flat-sbts2018.png" alt="external-inventory-basic-ui-elements-2.2-sbts2018-flat-sbts2018"/>
+                    Inventory
+                </h3></center>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Inventory Summary</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Inventory Valuation Summary</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;FIFO Cost Lot Tracking</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Product Sales Report</a><br>
+            </div>
+        </div>  
+      </div>
+      <div class="row mt-5">
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 300px;">
+
+                <center><h3 class="pt-3 pb-2" style="color: white;">
+                    <img width="48" height="48" src="https://img.icons8.com/external-flatarticons-blue-flatarticons/65/external-Cash-in-Hand-accounting-and-finance-flatarticons-blue-flatarticons.png" alt="external-Cash-in-Hand-accounting-and-finance-flatarticons-blue-flatarticons"/>  
+                                                          Receivables
+                </h3></center>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Customer Balences</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Aging Summary</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Aging Details</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Invoice Details</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Retainer Invoice Details</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Sales Order Details</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Delivery Cahallan Details </a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Estimate Details </a><br>
+
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 300px;">
+                <center><h3 class="pt-3 pb-2" style="color: white;">
+                    <img width="48" height="48" src="https://img.icons8.com/avantgarde/100/bank-card-back-side.png" alt="bank-card-back-side"/>
+                                                            Payment Received
+                </h3></center>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Payment Received</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Time to Get Paid</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Credit Note Details</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Refund History</a><br>
+
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 300px;">
+                <center><h3 class="pt-3 pb-2" style="color: white;">
+                    <img width="48" height="48" src="https://img.icons8.com/avantgarde/100/check.png" alt="check"/>    
+                                                                                               Recurring Invoices
+                </h3></center>
+                <a id="a_over" href="{% url 'report_recurring_invoice' %}" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Recurring Invoice Details</a><br>
+            </div>
+        </div>  
+      </div>
+      <div class="row mt-5">
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 320px;">
+                <center><h3 id="sea" class="pt-3 pb-2" style="color: white;">
+                    <img width="48" height="48" src="https://img.icons8.com/fluency/48/buy-for-coins.png" alt="buy-for-coins"/>
+                                        Payables
+                </h3></center>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Vendor Balences</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Aging Summary</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Aging Details</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Bills Details</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Vendor Credits Details</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Payments Made</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Refund History </a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Purchase Order Details </a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Purchase Orders by Vendor </a><br>
+
+
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 320px;">
+                <center><h3  class="pt-3 pb-2" style="color: white;">
+                    <img width="48" height="48" src="https://img.icons8.com/fluency/48/shopping-bag.png" alt="shopping-bag"/>
+                                                           Purchases & Expences
+                </h3></center>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Purchases by Vendor</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Purchases by Item</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Expense Details</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Expenses by Category</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Expenses by Customer</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Expenses by Project</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Expenses by Employee</a><br>
+
+
+
+
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 320px;">
+                <center><h3 class="pt-3 pb-2" style="color: white;">
+                    <img width="44" height="44" src="https://img.icons8.com/external-beshi-flat-kerismaker/48/external-Tax-finance-beshi-flat-kerismaker.png" alt="external-Tax-finance-beshi-flat-kerismaker"/>
+                                                                                 Taxes
+                </h3></center>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Tax Summary</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;TDS Summary</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;GSTR-3B Summary</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Summary of Outward Supplies</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Summary of Inward Supplies</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Self Invoice Summary</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Annual Summary(GSTR-9)</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Overseas Digital Tax Summary</a><br>
+
+
+
+            </div>
+        </div>  
+      </div>
+      <div class="row mt-5">
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 320px;">
+                <center><h3 class="pt-3 pb-2" style="color: white;">
+                    <img width="48" height="48" src="https://img.icons8.com/avantgarde/100/briefcase.png" alt="briefcase"/> 
+                                                           Projects & Timesheet
+                </h3></center>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Project Summary</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Project Details</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Timesheet Details</a><br>
+
+
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 320px;">
+                <center><h3 class="pt-3 pb-2" style="color: white;">
+                    <img width="48" height="48" src="https://img.icons8.com/external-sbts2018-flat-sbts2018/58/external-04-accountant-finance-2-sbts2018-flat-sbts2018.png" alt="external-04-accountant-finance-2-sbts2018-flat-sbts2018"/>
+                                                                               Accountant
+                </h3></center>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Account Transactions</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Account Type Summary</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Account Type Transactions</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Day Book</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;General Ledger</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Detailed General Ledger</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Journel Report</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Trial Balance</a><br>
+
+
+
+
+
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 320px;">
+                <center><h3 class="pt-3 pb-2" style="color: white;">
+                    <img width="42" height="42" src="https://img.icons8.com/external-gradients-amoghdesign/72/external-clock-happy-new-year-gradients-amoghdesign-2.png" alt="external-clock-happy-new-year-gradients-amoghdesign-2"/>
+                                                       Activity
+                </h3></center>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;System Mails</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Activity Logs</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Exception Report</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Portal Activities</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Client Reviews</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;API Usage</a><br>
+
+
+
+
+
+            </div>
+        </div>  
+    </div>
+    <div class="row mt-5">
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 220px;">
+                <center><h3 class="pt-3 pb-2" style="color: white;">
+                    <img width="48" height="48" src="https://img.icons8.com/fluency/48/fund-accounting.png" alt="fund-accounting"/>
+                                                        Currency
+                </h3></center>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Realized Gain or Loss</a><br>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Unrealized Gain or Loss</a><br>
+
+
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4 ">
+            <div class="pb-5" style="width: 100%;background-color: rgba(43, 42, 42, 0.486);height: 220px;">
+                <center><h3 class="pt-3 pb-2" style="color: white;">
+                    <img width="48" height="48" src="https://img.icons8.com/avantgarde/100/accounting.png" alt="accounting"/>
+                         Budgets
+                </h3></center>
+                <a id="a_over" href="#" class="ps-4" style="text-decoration: none;"> <img width="10" height="10" src="https://img.icons8.com/color/48/starburst-shape.png" alt="starburst-shape"/>&nbsp;&nbsp;&nbsp;Budget vs Actuals</a><br>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function filterFunction() {
+   var input, filter, ul, li, a, i,b,j;
+   input = document.getElementById("myInput");
+   filter = input.value.toUpperCase();
+   div = document.getElementById("myDropdown");
+   a = div.getElementsByTagName('li');
+   b = div.getElementsByTagName('a');
+
+   for (i = 0; i < a.length; i++) {
+     txtValue = a[i].textContent||a[i].innerText;
+     if (txtValue.toUpperCase().indexOf(filter) > -1) {
+       a[i].style.display = "";
+     } 
+     else {
+       a[i].style.display = "none";
+     }     
+   }  
+   for (j = 0; j < b.length; j++) {
+         txtValue = b[j].textContent || b[j].innerText;
+         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+           b[j].style.display = "";
+          } 
+          else {
+            b[j].style.display = "none";
+          }
+    }
+       
+ }
+ </script>
+
+{% endblock %}

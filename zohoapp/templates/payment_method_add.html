@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+    
+  </style>
+    
+    <div id="dynamicForm" style="display: none; margin-bottom: 30px;">
+      <h4>Enter Option</h4>
+      <input type="text" class="form-control" style="width: 30%;" id="newOptionInput" placeholder="Enter option name" required>
+      <button id="submitButton" class="btn btn-success mt-3 ">Submit</button>
+    </div>
+<form action="{% url 'payment_add_details' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group row">
+                <label  class="col-sm-2 col-form-label">Vendor *</label>
+                <div class="col-sm-10 col-md-7 col-9 ml-5">
+                    <div class="input-group mb-2">
+                        <select name="select" id="vendor-select" class="form-control"  oninput="filterOptions()">
+                                  
+                            {% for p in vendors %}
+                            <option value="{{ p.id }}" data-email="{{ p.vendor_email }}" data-balance="{{ p.opening_bal }}">{{ p.first_name }}</option>
+
+                                      {% endfor %}
+
+                            </select>                              
+
+                    
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="input2"  class="col-sm-2 col-form-label">Payment Method *</label>
+                <div class="col-sm-10 col-md-7 col-9 ml-5">
+                    <div class="input-group mb-2">
+                        <select id="selectField1" name="select1" class="form-control">
+                            <option value="Cash">Cash</option>
+                            <option value="Cheque">Cheque</option>
+
+                          </select>
+                          <button class="addButton" data-target="selectField1" type="button">+</button>
+                          
+                        
+                          
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label  class="col-sm-2 col-form-label">Reference*</label>
+              <div class="col-sm-10 col-md-7 col-9">
+                <div class="input-group mb-2">
+                <input  type="text" name="reference" class="form-control"  >
+              </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label  class="col-sm-2 col-form-label">email*</label>
+
+            <div class="col-sm-10 col-md-7 col-9">
+              <div class="input-group mb-2">
+                <input type="email" name="email" class="form-control" id="email-input" placeholder="Enter Email Address" value="{{ user.vendor_email }}">
+
+
+            </div>
+            </div>
+          </div>
+
+        </div>
+   
+
+<div class="col-md-6">
+  
+    <div class="form-group row">
+        <label  class="col-sm-2 col-form-label">Payment Date*</label>
+        <div class="col-sm-10 col-md-7 col-9 ml-5">
+          <div class="input-group mb-2">
+        <input type="date" class="form-control" name="date">
+      </div>
+    </div>
+    </div>
+    <div class="form-group row">
+        <label  class="col-lg-2 col-form-label">Paid Through*</label>
+        <div class="col-sm-10 col-md-7 col-9 ml-5">
+         <div class="input-group mb-2">
+        <select id="selectField2" name="select2" class="form-control">
+            <option value="Bank">Bank</option>
+            <option value="In Cash">In Cash</option>
+        </select>
+        <button type="button"  data-target="selectField2"  class="addButton">+</button>
+          
+        </div>
+          </div>
+    </div>
+    <div class="form-group row">
+        
+      <label  class="col-sm-2 col-form-label">Openning Balance*</label>
+      <div class="col-sm-10 col-md-7 col-9 ml-5">
+      <div class="input-group mb-2">
+       <input type="number" id="balance" class="form-control" name="balance" placeholder="Opening Balance" value="{{ user.opening_bal }}">
+     </div>
+   </div>
+</div>
+    <div class="form-group row">
+        
+       <label  class="col-sm-2 col-form-label">Amount*</label>
+       <div class="col-sm-10 col-md-7 col-9 ml-5">
+       <div class="input-group mb-2">
+        <input type="number" id="amount" class="form-control" name="amount">
+      </div>
+    </div>
+</div>
+<div class="form-group row">
+        
+  <label  class="col-sm-2 col-form-label">Current Balance*</label>
+  <div class="col-sm-10 col-md-7 col-9 ml-5">
+  <div class="input-group mb-2">
+   <input type="number" id="difference" class="form-control" name="difference" placeholder="Current Balance">
+
+ </div>
+</div>
+</div>
+    </div>
+    
+</div>
+<button type="submit" class="btn btn-success mt-3 " style="width: 100px;">Submit</button>
+</form>
+<div class="container-fluid">
+  <div class="table">
+  <table class="table"style="width:100%; margin-left: auto; margin-right: auto; margin-top: 40px;">
+    <thead>
+      <tr style="color:white;">
+        <th>#</th>
+        <th>Date</th>
+        <th>Bill Number</th>
+        <th>Bill Ammount</th>
+        <th>Due Date</th>
+        <th>Ammount Due</th>
+        <th>Payment</th>
+
+      </tr>
+    </thead>
+  </table>
+  </div>
+</div>
+</div>
+
+<script>
+ 
+
+ function filterOptions() {
+    var input = document.getElementById("Select");
+    var filter = input.value.toUpperCase();
+    var options = input.getElementsByTagName("option");
+
+    for (var i = 0; i < options.length; i++) {
+      var option = options[i];
+      var text = option.text.toUpperCase();
+      if (text.includes(filter)) {
+        option.style.display = "";
+      } else {
+        option.style.display = "none";
+      }
+    }
+  }
+
+// Get the add buttons
+var addButtons = document.getElementsByClassName('addButton');
+
+// Add event listeners to the add buttons
+Array.from(addButtons).forEach(function (button) {
+  button.addEventListener('click', function () {
+    var dynamicForm = document.getElementById('dynamicForm');
+    var newOptionInput = document.getElementById('newOptionInput');
+    var selectFieldId = this.getAttribute('data-target');
+    var selectField = document.getElementById(selectFieldId);
+
+    // Clear input field on toggle
+    newOptionInput.value = '';
+
+    // Toggle visibility
+    dynamicForm.style.display = 'block';
+
+    // Add event listener to the form submission
+    document.getElementById('submitButton').addEventListener('click', function () {
+      var optionName = newOptionInput.value.trim();
+
+      if (optionName) {
+        // Check if the option already exists in the select field
+        var exists = Array.from(selectField.options).some(function (option) {
+          return option.value === optionName;
+        });
+
+        if (!exists) {
+          // Create a new option element and add it to the select field
+          var newOption = document.createElement('option');
+          newOption.value = optionName;
+          newOption.text = optionName;
+          selectField.add(newOption);
+        }
+
+        // Hide the dynamic form
+        dynamicForm.style.display = 'none';
+      }
+    });
+  });
+});
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+          var vendorSelect = document.getElementById('vendor-select');
+          var emailInput = document.getElementById('email-input');
+          var Balanceinput = document.getElementById('balance')
+
+          var initialEmail = emailInput.value;
+          var initialBalance = Balanceinput.value;
+
+          vendorSelect.addEventListener('change', function() {
+              var selectedOption = vendorSelect.options[vendorSelect.selectedIndex];
+              var email = selectedOption.getAttribute('data-email') || initialEmail;
+              var balance = selectedOption.getAttribute('data-balance') || initialBalance;
+
+         
+              
+              emailInput.value = email;
+              Balanceinput.value = balance;
+            });
+      });
+
+      $(document).ready(function() {
+    $('#amount').on('input', function() {
+        var balance = parseFloat($('#balance').val());
+        var amount = parseFloat($(this).val());
+        var difference = balance - amount;
+        
+        // Update the difference input field with the calculated value
+        $('#difference').val(difference);
+    });
+});
+
+  </script>
+
+
+
+{% endblock %}

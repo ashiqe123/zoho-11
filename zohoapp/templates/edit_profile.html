@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<style>
+tbody tr td{
+        border: none;
+        border-top: none;
+        border-style: none;
+        color:azure;
+        justify-content: center;
+    }
+    .containereditprof{
+        width: 900px; 
+        margin-left: 100px;
+        background-color: rgb(32, 35, 37);
+        border-radius: 20px;
+    }
+    .btn{
+        background-color: rgb(218, 164, 48);
+        color: azure; 
+        padding: 3; 
+        margin-left: 280px; 
+        width: 200px;
+        border-radius: 20px;
+        justify-content: center;
+    }
+    h3{
+        text-align: center;
+        text-transform: capitalize;
+        color: azure;
+        margin-left: 150px;
+    }
+    .profimg{
+        width :100px; height: 100px; margin-left: 295px; border-radius: 80%;
+    }
+    .panel-body{
+      justify-content: center;
+      margin-left: 50px;
+      width: 650px;
+    }
+    .profile_table{
+      width: 100%;
+    }
+    @media (min-width: 600px)and ( max-width:1000px) {
+        .containereditprof{
+        width: 590px; 
+        margin-left: 50px;
+        padding: 0;
+        justify-content: center;
+    }
+    .row{
+        width:100%
+    }
+    .btn{
+        padding: 1; 
+        margin-left: 50%; 
+        width: 100px;
+        justify-content: center;
+        height: auto;
+    }
+    h3{
+        margin-left: 28%;
+    }
+    .profimg{
+        margin-left: 50%;
+    }
+    .panel-body{
+      justify-content: center;
+      margin-left: 0px;
+      width: 500px;
+    }
+    .profile_table{
+      width: 500px;
+    }
+    } 
+
+ @media (min-width: 280px)and ( max-width:800px) {
+    .containereditprof{
+        width: 300px; 
+        margin: 0;
+        padding: 0;
+        justify-content: center;
+    }
+    .row{
+        width:100%
+    }
+    .btn{
+        padding: 1; 
+        margin-left: 25%; 
+        width: 100px;
+        justify-content: center;
+        height: auto;
+    }
+    h3{
+        margin-left: 25%;
+    }
+    .profimg{
+        margin-left: 25%;
+    }
+    .panel-body{
+      justify-content: center;
+      margin-left: 0px;
+      width: 275px;
+    }
+    .profile_table{
+      width: 275px;
+    }
+}
+
+@media (min-width: 400px)and ( max-width:900px) {
+    .containereditprof{
+        width: 390px; 
+        margin: 0;
+        padding: 0;
+        justify-content: center;
+    }
+    .row{
+        width:100%
+    }
+    .btn{
+        padding: 1; 
+        margin-left: 25%; 
+        width: 100px;
+        justify-content: center;
+        height: auto;
+    }
+    h3{
+        margin-left: 25%;
+    }
+    .profimg{
+        margin-left: 25%;
+    }
+    .panel-body{
+      justify-content: center;
+      margin-left: 0px;
+      width: 300px;
+    }
+    .profile_table{
+      width: fit-content;
+    }
+}
+
+</style>
+
+
+<!-- <div class="container-fluid p-5 mt-5 " > -->
+  <div class="row containereditprof">
+      <div class="col-md-offset-1 col-md-10 mt-0">
+        
+        <div class="main-panel  p-3 m-2 " >
+          
+          <div class="m-5">
+            {% if company.profile_pic %}
+            <img src="{{ company.profile_pic.url }}" class="rounded profimg" >
+            {% else %}
+            <img src="{% static 'images/default.png' %}"  class = 'rounded profimg' >
+            {% endif %}
+        </div>
+
+          <div class="panel-body content-wrapper table-responsive mt-5 ">
+            <form class=" 100vw" action="{% url 'edit_profile' company.id  %}" method="post" enctype="multipart/form-data">
+
+              {% csrf_token %}
+
+                <table class="table-responsive profile_table">
+                  <tbody class="p-2 m-2">
+                      <tr class="personal">
+                          <td>
+                          <h4>
+                              <em> Personal Details</em>
+                          </h4>
+                          </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="mb-3 mt-3 p-0" id ='fname'>
+                            <p style="color:azure ; margin-bottom: 0px;">First Name:</p>
+                            <input type="text" class="form-control " name="f_name"  
+                              style="width: 280px; text-transform: capitalize;" value="{{ user1.first_name }}"> 
+                          </div>
+                        </td>
+
+                        <td>
+                          <div class="mb-3 mt-3 p-0" >
+                          <p style=" color:azure ;margin-left: 12px; margin-bottom: 0px;">Last Name:</p>
+                          <input type="text" class="form-control " name="l_name"  
+                            style="width: 280px; margin-left :12px ; text-transform: capitalize;" value="{{ user1.last_name }}"> 
+                          </div>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                          <div class="mb-3 mt-3 p-0">
+                            <p style=" color:azure ; margin-bottom: 0px;">Email:</p>
+                            <input type="email" class="form-control" name = 'email' value="{{ user1.email }}" 
+                              style="width: 280px;">
+                          </div>
+                        </td>
+
+                        <td>
+                          <div class="mb-3 mt-3 p-0">
+                            <p style=" color:azure ;margin-left: 12px; margin-bottom: 0px;">Contact Number:</p>
+                            <input type="number" class="form-control" name="cnum" value="{{ company.contact_number }}" 
+                              style="width: 280px; margin-left :12px ;">
+                        </div>
+                        </td>
+                    </tr>
+
+                                      
+                  <tr class="companydet">
+                      <td>
+                      <h4>
+                         <em> Company Details </em>
+                      </h4>
+                      </td>
+                  </tr>
+                      <tr>
+                          <td>
+                            <div class="mb-3 mt-3 p-0">
+                              <p style=" color:azure ; margin-bottom: 0px;">Company Name:</p>
+                              <input type="text" class="form-control" name = 'comp_name' value="{{ company.company_name }}" 
+                                style="width: 280px;">
+                            </div>
+                          </td>
+                          <td>
+                            <div class="mb-3 mt-3 p-0">
+                              <p style=" color:azure ; margin-bottom: 0px;">Company Email:</p>
+                              <input type="text" class="form-control" name = 'comp_email' value="{{ company.company_email }}" 
+                                style="width: 280px;">
+                            </div>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                            <div class="mb-3 mt-3 p-0">
+                              <p style=" color:azure ; margin-bottom: 0px;">Address:</p>
+                              <input type="text" class="form-control" name = 'adrs' value="{{ company.address }}" 
+                                style="width: 280px;">
+                            </div>
+                          </td>
+                          <td>
+                            <div class="mb-3 mt-3 p-0">
+                              <p style=" color:azure ; margin-bottom: 0px;">City:</p>
+                              <input type="text" class="form-control" name = 'city' value="{{ company.city }}" 
+                                style="width: 280px;">
+                            </div>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td><div class="mb-3 mt-3 p-0">
+                            <p style=" color:azure ; margin-bottom: 0px;">State:</p>
+                            <input type="text" class="form-control" name = 'state' value="{{ company.state }}" 
+                              style="width: 280px;">
+                          </div></td>
+                          <td>
+                            <div class="mb-3 mt-3 p-0 ">
+                            <p style=" color:azure ; margin-bottom: 0px;">Country:</p>
+                            <input type="text" class="form-control" name = 'country' value='{{ company.country }}'
+                              style="width: 280px;">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <!-- <td><div class="mb-3 mt-3 p-0">
+                          <p style=" color:azure ; margin-bottom: 0px;">State:</p>
+                          <input type="text" class="form-control" name = 'state' value="{{ company.state }}" 
+                            style="width: 280px;">
+                        </div></td> -->
+                        <td>
+                          <div class="mb-3 mt-3 p-0 ">
+                          <p style=" color:azure ; margin-bottom: 0px;">Pincode:</p>
+                          <input type="text" class="form-control" name = 'pinc' {% if company.pincode  == "NULL" %} value=0 {% else %} value='{{ company.pincode }}' {% endif %} 
+                            style="width: 280px;">
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div class="mb-3 mt-3 p-0">
+                        <p style=" color:azure ; margin-bottom: 0px;">GST Number:</p>
+                        <input type="text" class="form-control" name = 'gst' value="{{ company.gst_num }}" 
+                          style="width: 280px;">
+                      </div></td>
+                      <td>
+                        <div class="mb-3 mt-3 p-0 ">
+                        <p style=" color:azure ; margin-bottom: 0px;">Pan Number:</p>
+                        <input type="text" class="form-control" name = 'pan' value='{{ company.pan_num }}'
+                          style="width: 280px;">
+                      </div>
+                    </td>
+                  </tr>
+                      <tr>
+                          <td><div class="mb-3 mt-3 p-0">
+                            <p style=" color:azure ; margin-bottom: 0px;">Business Name:</p>
+                            <input type="text" class="form-control" name = 'bname' value="{{ company.business_name }}" 
+                              style="width: 280px;">
+                          </div></td>
+                          <td><div class="mb-3 mt-3 p-0">
+                            <p style=" color:azure ; margin-bottom: 0px;">Company Type:</p>
+                            <input type="text" class="form-control" name = 'comp_type' value="{{ company.company_type }}" 
+                              style="width: 280px;">
+                          </div></td>
+                      </tr>
+                      
+                      <tr>
+                        <td>
+                          <div class="mb-3">
+                            {% if company.profile_pic %}
+                              <img src="{{ company.profile_pic.url }}" style=" width :50px;height: 50px;">
+                            {% endif %}
+                            <input type="file" name = 'file' class="form-control" >
+                          </div>
+                        </td>
+                      </tr>
+                  </tbody>
+                </table>
+                <button type="submit" class="btn btn-outline-dark  text-align-center font-weight-bold mt-2" > SAVE CHANGES</button>
+                       
+            </form>
+                
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+              </form>
+              </div>
+          </div>
+      </div>
+  </div>
+<!-- </div> -->
+
+
+{% endblock %}

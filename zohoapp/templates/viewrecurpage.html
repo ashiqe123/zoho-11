@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    
+<section >
+  <div class="row fixed-top  " style="top: 7rem; margin-left: 18rem;" >
+   
+    <div class="col-md-10 " style=" position: fixed;">
+        <div class="row">
+            <div class="col-md-3"><a class="text-white" style="font-size: 2rem;">Recurring Invoices</a></div>
+            <div class="col-md-6 form-inline" style="margin-left: 55rem;margin-top: -2rem;"><a style="color: #ccc;" class="btn btn-success mr-2" href="{% url 'create_recur' %}"><i class="fa-solid fa-plus "></i>New</a>
+            </div>
+          </div>   
+    
+        <table class="table  text-white">
+            <thead>
+              <tr>
+
+                <th>Profile Name</th>
+                <th>Type</th>
+                <th>Order_No</th>
+                <th>Repeat</th>
+                <th>Start_Date</th>
+                <th>End_Date</th>    
+                <th>Payment</th>
+
+
+
+              </tr>
+            </thead>
+             <tbody>
+              {% for v in recur %}
+     
+              <tr>
+     
+              <td onclick="location.href ='{% url 'viewrecur' v.id %}' ">{{v.name}}</td>
+
+                <td>{{v.entry_type}}</td>
+                <td>{{v.order_num}}</td>
+                <td>{{v.every}}</td>
+                <td>{{v.start}}</td> 
+                <td>{{v.end}}</td> 
+                <td>{{v.terms}}</td> 
+
+               
+               </tr> 
+               {% endfor %}
+            </tbody> 
+          </table>
+      
+          <div style="margin-left: 250px;padding-bottom: 10px;; margin-top: 20px;">
+            <img src="https://www.zoho.com/books/help/images/recurring-invoice/workflow-ri.png">
+          </div>
+           
+           </div>
+           
+    </div>
+    
+  </div>
+  
+ 
+</section>
+
+   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+ 
+{% endblock %}

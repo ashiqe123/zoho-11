@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .table-container {
+        height: 600px;
+        overflow-y: scroll;
+        margin-left:90px;
+    }
+    .button-container {
+        top: 0;
+        margin-bottom:-30px;
+        margin-left: 930px;
+    }
+</style>
+
+<h1>Payment Made</h1>
+
+
+<div class="button-container">
+    <a type="button" class="btn btn-success ml-auto" style="width: 100px;" href="{% url 'paymentadd_method' %}">+new</a>
+</div>
+
+
+<div class="table-container" style="margin-top: 50px;">
+    <input type="text" id="vendorSearchInput" class="form-control" placeholder="Search vendors..." style="margin-top: 10px; width: 30%;">
+
+    <table id="vendorTable" class="table" style="width:70%;  margin-top: 40px;">
+        <thead>
+            <tr style="color:white;">
+                <!--<th>#</th>-->
+                <th>Payment</th>
+                <th>Reference</th>
+                <th>Payment Date</th>
+                <th>Vendor</th>
+                <th>Payment Method</th>
+                <th>Ammount Received</th>
+                <th>Payment View</th>
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in paymnt %}
+                                <tr>
+                                   <!--- <td>{{ p.id}}</td>-->
+                                    <td>{{ p.payment}}</td>
+                                    <td>{{ p.reference}}</td>
+                                    <td>{{ p.date}}</td>
+                                    <td>{{ p.vendor.first_name}}</td>  
+                                    <td>{{ p.cash }}</td>  
+                                    <td>{{ p.amount }}</td> 
+                                    <td><a href="{% url 'payment_details' p.pk %}">View</a></td> 
+                                    </tr>
+                                    {% endfor %}
+
+            </tbody>
+            </table>
+        </div>
+
+<script>
+
+        var vendorSearchInput = document.getElementById('vendorSearchInput');
+        var vendorRows = document.querySelectorAll('#vendorTable tbody tr');
+      
+        // Add event listener to the search input
+        vendorSearchInput.addEventListener('input', function () {
+          var searchValue = vendorSearchInput.value.toLowerCase();
+      
+          // Loop through vendor rows and show/hide based on search value
+          vendorRows.forEach(function (row) {
+            var vendorName = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+            if (vendorName.includes(searchValue)) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        });
+    </script>
+
+{% endblock %}

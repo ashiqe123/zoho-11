@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+    .arrow {
+   border: solid white;
+   border-width: 0 3px 3px 0;
+   display: inline-block;
+   padding: 3px;
+   position: static;
+ }
+ 
+ .down {
+   transform: rotate(45deg);
+   -webkit-transform: rotate(45deg);
+ } 
+</style>
+<section>
+
+
+    <div class="row fixed-top  " style="top: 7rem; margin-left: 18rem;" >
+
+        <div class="col-md-12">
+
+            <div style="height: 640px;width: 1215px;overflow-y: scroll;">
+
+                <div class="row" style="margin-left: auto;">
+                  
+                    <h3 style="color: aliceblue;color:white;position: fixed;"><b>All Customers</b></h3><br>
+                    <div class="col-md-6 form-inline" style="margin-left: 15rem;position: fixed;">
+                      <a style="color: #ccc;" class="btn btn-success mr-2" href="{% url 'add_customer' %}"><i class="fa-solid fa-plus "></i></a>
+                            
+                        <div class="menu-items dropdown" style="background-color: rgb(43, 166, 43);color:white;border-radius: 4px;">
+                          <a class="nav-link dropdown-toggle" style="color: #ccc;" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                          </a>
+                        <ul class="dropdown-menu" style="color: black;">
+                          <div class="dropdown-item"><a href="{% url 'view_customr_sname' %}" >Name</a></div>
+                            <div class="dropdown-item"><a href="{% url 'view_customr_scpname' %}" >Company Name</a></div>
+                            <div class="dropdown-item"><a>Receivables</a></div>
+                              <div class="dropdown-item"><a>Import Customer</a></div>
+                                <div class="dropdown-item"><a>Export Customer</a></div>
+                          
+                        </ul></div>
+                     </div><br><br>
+                    
+                        <table class="table  text-white table-borderless" style="color:white;font-size: 18px;padding: 1px;width: 50%;position: fixed;margin-top: 3rem;">
+                          
+          
+                          <tbody>
+        
+                              {% for v in vc %}
+                               
+                                 
+                          <tr><td><a href="{% url 'view_one_customer' v.id %}" style="color: rgb(220, 225, 66);">{{v.customerName}}</a>
+                         <br><br>{{v.customerEmail}}
+                          <br>{{v.OpeningBalance}}</td></tr>
+                          
+                          
+                          {% endfor %} 
+                          </tbody>
+                  </table>
+              </div><div class="row">
+               <fieldset style="margin-left:20rem ;width:82%;background-color: black;">
+            <h3 style="color: white;width: 25%;margin-left: 2rem;"><b>{{cu.customerName}}</b>
+            </h3>
+            
+            <div class="col-md-6 form-inline" style="margin-left: 22rem;">
+              <a style="color: #ccc;background-color:rgb(43, 166, 43) ;" class="btn btn-success mr-2" href="{% url 'editcustomer' cu.id %}">Edit</a>
+              <div class="menu-items dropdown" style="background-color: rgb(43, 166, 43);color:white;border-radius: 4px;">
+                <a class="nav-link dropdown-toggle" style="color: #ccc;" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                  <i class="fa fa-paperclip" style="font-size:20px"></i></a>
+              <ul class="dropdown-menu" style="color: black;">
+                <input type="file" id="file_upload_id" style="display:none">
+                <div class="dropdown-item"><div> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16"
+                  id="icon_upload" class="fa fa-upload" onclick="_upload()">
+                  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                  <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                </svg>&nbsp; Drag& Drop</div><br></div>
+              </ul></div>&nbsp; 
+              
+              
+              <a style="color: #ccc;background-color:rgb(43, 166, 43) ;" class="btn btn-success mr-2" href="{% url 'delete_customr' cu.id %}">Delete</a>
+    <div class="menu-items dropdown" style="background-color: rgb(43, 166, 43);color:white;border-radius: 4px;">
+      <a class="nav-link dropdown-toggle" style="color: #ccc;" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+       More</a>
+    <ul class="dropdown-menu" style="color: black;">
+      
+      <div class="dropdown-item"><a href="{% url 'add_email_customer' %}">Email Customer</a></div>
+    </ul></div></div>
+    
+    <span class="input-group mb-3 mt-3">
+      <div class="toggle2"
+        style="color: rgb(230, 171, 45);font-size:16px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Overview </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="toggle3"
+        style="color: rgb(230, 171, 45);font-size:16px;">
+        Comments</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      
+     
+      <div class="toggle7"
+        style="color: rgb(230, 171, 45);font-size:16px;">
+        Mails</div>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </span>
+  
+    
+<hr style="color: rgb(255, 255, 255);">
+<fieldset2 class="overview">
+            <table class="table  text-white table-borderless" style="margin-left:auto;margin-top: 1.5rem;background-color: black;">
+              <tr><td>
+              <table class="table  text-white table-borderless" style="background-color:black;width:16%;">
+                  <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;CompanyName:&nbsp;{{cu.companyName}}<hr style="color: white;"></td></tr><br>
+        
+
+        <tr><td class="menu-items dropdown">
+          <a class="nav-link dropdown-toggle" style="color: #ccc;margin-left: auto;" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Primary Contact Information</a>
+          <br><ul class="dropdown-menu" style="background-color:black;color:white;width:22%"> 
+            <div class="dropdown-item" style="background-color: black;color: white;"> Name:{{cu.CPsalutation}} {{cu.Firstname}}{{cu.Lastname}}
+            <br><br>Email:{{cu.CPemail}}
+            <br><br>Phone :{{cu.CPphone}};
+            <br><br>Mobile:{{cu.CPmobile}}
+            <br><br>Skype :{{cu.CPskype}}
+            <br>  <br>Designation:{{cu.CPdesignation}}
+            <br><br>Department:{{cu.CPdepartment}}
+        </div></ul></td></tr>
+
+                 <tr><td>&nbsp;&nbsp;&nbsp;Address<hr style="color: white;"></td></tr>
+                 
+                  <tr><td class="menu-items dropdown">
+                    <a class="nav-link dropdown-toggle" style="color: #ccc;margin-left: auto;" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Billing Address</a>
+                    <br><ul class="dropdown-menu" style="background-color:black;color:white">
+                       <div class="dropdown-item" style="background-color:black;color:white"> <br>Address1 :{{cu.Address1}}
+                    <br><br> Address2 :{{cu.Address2}}
+                    <br><br>City :{{cu.city}}
+                    <br><br>State :{{cu.state}}
+                    <br><br>Zipcode :{{cu.zipcode}}
+                    <br><br>Phone :{{cu.phone1}}
+                    <br>  <br>Fax :{{cu.fax}}
+                <br></div></ul></td></tr>
+                  
+                <tr><td class="menu-items dropdown"> 
+                  <a class="nav-link dropdown-toggle" style="color: #ccc;margin-left: auto;" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                    Shipping Address</a>
+                  <br><ul class="dropdown-menu" style="background-color:black;color:white">
+                     <div class="dropdown-item" style="background-color:black;color:white"><br>Address1 :{{cu.Address1}}
+                   <br><br> Address2 :{{cu.Address2}}
+                  <br><br>City :{{cu.city}}
+                <br><br>State :{{cu.state}}
+              <br><br>Zipcode :{{cu.zipcode}}
+              <br><br>Phone :{{cu.phone1}}
+                  <br><br>Fax :{{cu.fax}}
+                <br></div></ul></td></tr>
+                
+                <tr><td>Other Details<hr style="color: white;"></td></tr>
+                <tr><td class="menu-items dropdown"> 
+                  <a class="nav-link dropdown-toggle" style="color: #ccc;margin-left: auto;" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                    Other Details  </a>
+                    
+                <br><ul class="dropdown-menu" style="background-color:black;color:white">
+                   <div class="dropdown-item" style="background-color:black;color:white"><br>Currency code :
+                    <br><br> Website :{{cu.Address2}}
+                   <br><br>Portal Status :{{cu.city}}
+                 <br><br>Portal Language :{{cu.state}}
+               <br><br>Facebook :{{cu.zipcode}}
+               <br><br>skype :{{cu.phone1}}
+                   <br><br>Price List :{{cu.fax}}
+                   <br><br>GST Treatment :{{cu.fax}}
+                 <br></div></ul></td></tr>
+                 
+              <h3></h3></table>
+                      </td>
+                    <td><table class="table  text-white table-borderless" 
+                      style="margin-left:auto;margin-top:auto;background-color: black;">
+                     
+                       <tr><td><h3 style="color: white;">Outstanding Receivables</h3></td><td></td><td>Unused Credits</td></tr>
+                       <tr><td>0.00</td><td></td><td>Payment due period</td></tr>
+                       <tr><td><h3 style="color: white;">Outstanding Payables</h3></td><td></td><td>Unused Credits</td></tr>
+                       <tr><td>0.00</td><td></td><td>Associated with Vendor</td></tr>
+                     </table><br><br>
+                     <h3 style="color: white;">Income</h3>
+                     <canvas id="myChart" style="width:100%;max-width:600px"></canvas></td></tr>
+                       
+                
+                  
+                    </table>
+                  </fieldset2>
+                
+                <fieldset3 class="comments">
+                  <form action="" method="post">
+                    <div>
+                    <textarea name="comments" id="comments">
+                    
+                    </textarea>
+                    </div>
+                    <input type="submit" value="Submit">
+                    </form>
+                </fieldset3>
+                <fieldset7 ></fieldset7>
+              </div>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+
+
+
+
+
+
+
+            
+            
+            </div>
+
+        </div>
+    
+    </div>
+
+</section>
+
+
+<script></script>
+<script>
+  function _upload(){
+      document.getElementById('file_upload_id').click();
+  }
+  </script><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script>
+  var xValues = ["Jan-2023", "Feb-2023", "March-2023", "Apr-2023", "May-2023","Jun-2023","Jul-2023","Aug-2023","Sept-2023","Oct-2023","Nov-2023","Dec-2023"];
+  var yValues = [1200, 4900, 4400, 2400, 1500];
+  var y1Values = [2500, 4000, 1400, 4400, 4500];
+  var barColors = "grey";
+  var barColors1 = "yellow";
+  new Chart("myChart", {
+    type: "bar",
+    data: {
+      labels: xValues,
+      datasets: [{
+        backgroundColor: barColors,
+        data: yValues
+      },{backgroundColor: barColors1,
+        data: y1Values
+      }]
+    },
+    options: {
+      legend: {display: false},
+      title: {
+        display: true,
+        text: "Total Income ( Last 6 Months ):"
+      }
+    }
+  });
+  $(document).ready(function () {
+ $(".toggle2").click(function (e) {
+   e.preventDefault();
+   $("fieldset2").toggle();
+ })
+})
+$(document).ready(function () {
+ $(".toggle3").click(function (e) {
+   e.preventDefault();
+   $("fieldset3").toggle();
+ })
+})
+$(document).ready(function () {
+ $(".toggle7").click(function (e) {
+   e.preventDefault();
+   $("fieldset7").toggle();
+ })
+})
+  </script>
+                <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
+  
+
+
+
+
+{% endblock %}

@@ -1,0 +1,1005 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/print-js/1.6.0/print.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"> -->
+
+
+
+</body>
+
+<style>
+    .containerprof {
+        min-height: 450px;
+        background-size: contain;
+        display: flex;
+    }
+
+    #details-list {
+        float: left;
+        width: 30%;
+        flex: 1;
+        height: 100%;
+        overflow: auto;
+    }
+
+    #quick-template {
+        float: left;
+        width: 70%;
+        border-left: 0.5px solid;
+        color: dimgray;
+        background-color: rgb(25, 26, 27);
+        
+    }
+
+    @media (max-width: 650px) {
+        #details-list {
+            /* float: left; */
+            width: 100%;
+            /* flex: 1; */
+            height: 100%;
+            overflow: auto;
+            display: none;
+        }
+
+        #quick-template {
+            /* float: left; */
+            width: 100%;
+            border-left: 0.5px solid;
+            color: dimgray;
+            background-color: rgb(25, 26, 27);
+        }
+    }
+
+    a {
+        list-style: none;
+        color: azure;
+    }
+
+    a:hover {
+        color: rgb(218, 164, 48);
+        text-decoration: none;
+    }
+
+    .card {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: auto;
+        background-color: transparent;
+
+    }
+
+    .tab {
+        overflow: hidden;
+        /* border: 1px solid ; */
+        background-color: transparent;
+        width: 300px;
+    }
+
+    .tab a {
+
+        font-family: inherit;
+        background-color: inherit;
+        float: left;
+        outline: none;
+        cursor: pointer;
+        padding: 10px 5px;
+        transition: 0.3s;
+        color: azure;
+        border: none;
+    }
+
+    .tab a:hover {
+        background-color: #ddd;
+        color: rgb(56, 54, 54);
+    }
+
+    .tab a.active {
+        background-color: #ccc;
+        color: rgb(56, 54, 54);
+
+    }
+
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border-top: none;
+    }
+
+    .page {
+        background: azure;
+        display: block;
+        margin: 0 auto;
+        position: relative;
+        box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+    }
+
+    .page[size="A4"] {
+        width: 17cm;
+        height: 23cm;
+        overflow: hidden;
+    }
+
+    td {
+        color: rgba(0, 0, 0, 0.5);
+    }
+
+    .card-registration .select-input.form-control[readonly]{
+        font-size: 1rem;
+        /* line-height: 2.15; */
+        color: azure;
+        /* padding-left: .75em;
+        padding-right: .75em; */
+    }
+
+    .card-registration .select-arrow {
+        top: 13px;
+    }
+
+    .bg-grey {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    @media (min-width: 992px) {
+        .card-registration-2 .bg-grey {
+            border-top-right-radius: 16px;
+            border-bottom-right-radius: 16px;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .card-registration-2 .bg-grey {
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+        }
+    }
+
+    .amnt {
+        border: none;
+        color: #fff;
+        text-align: left;
+        font-size: 20px;
+        background-color: rgba(0, 0, 0, 0.001);
+        /* background-color: darkgrey; */
+    }
+
+    .tx {
+        border: none;
+        width: 21px;
+        color: rgba(255, 255, 255, 0.8);
+        text-align: left;
+        background-color: rgba(0, 0, 0, 0.01);
+    }
+
+    ::-webkit-scrollbar {
+        width: 0.5px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    .print-only {
+        display: none;
+        height: auto;
+        width: auto;
+        overflow-y: auto;
+        border: none;
+        box-shadow: 5px 2px 5px 2px  grey;
+    }
+
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        header {
+            display: none;
+        }
+
+        .print-only * {
+            visibility: visible;
+        }
+
+        .print-only {
+            /* position: absolute; */
+            position: fixed;
+            left: 0;
+            top: 0;
+            right: 0;
+            height: auto;
+            page-break-before: always;
+            page-break-inside: avoid;
+        }
+
+        @page {
+            size:100%;
+            margin: 0;
+            height: auto;
+        }
+    }
+
+    .modal{
+      z-index: 9999;
+      overflow: scroll;
+    }
+    .print-only p{
+        color: black;
+        font-weight:700;
+        font-family:Georgia, 'Times New Roman', Times, serif
+    }
+    .print-only thead td{
+        color: black;
+        font-weight:700;
+        /* font-family:Georgia, 'Times New Roman', Times, serif; */
+        font-style: italic;
+    }
+    .print-only tbody td {
+        color: black;
+    }
+    .print-only tfoot td{
+        color: black;
+        font-size: 17px;
+
+    }
+</style>
+
+<div class="container-fulid containerprof">
+    <div id="details-list" class="vh-100 col-lg-6">
+        <div class="card radius-5 p-2">
+            <div class="card-body">
+                <div class="card-title">
+                    <div class="row p-1">
+                        <div class="col-md-10">
+                            <h6 class="mb-1 text-uppercase text-left">Recurring Bills</h6>
+                        </div>
+                    </div>
+                    <div class="row p-0">
+                        <div class="col-md-6">
+
+                        </div>
+                        <div class="col-md-2 mr-4">
+                            <a href="{% url 'add_recurring_bills' %}" class="btn btn-primary fa fa-plus px-3 py-0"
+                                role="button"></a>
+                        </div>
+
+                        <div class="col-md-2 ">
+                            <a class="btn text-center btn-primary bi bi-funnel px-3 py-0" data-bs-toggle="dropdown"
+                                role="button"></a>
+                            <div class="dropdown-menu " style="z-index: 1;">
+                                <!-- <a class="dropdown-item" href="{% url 'recurring_bill' %}">All</a> -->
+                                <a class="dropdown-item" href="{% url 'view_custasc' recur_bill.id  %}">Customer A-Z</a>
+                                <a class="dropdown-item" href="{% url 'view_custdesc' recur_bill.id %}">Customer Z-A</a>
+                                <a class="dropdown-item" href="{% url 'view_vendorasc' recur_bill.id %}">Vendor A-Z</a>
+                                <a class="dropdown-item" href="{% url 'view_vendordesc' recur_bill.id %}">Vendor Z-A</a>
+                                <a class="dropdown-item" href="{% url 'view_profileasc' recur_bill.id %}">Profile A-Z</a>
+                                <a class="dropdown-item" href="{% url 'view_profiledesc' recur_bill.id %}">Profile Z-A</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="border-bottom"></div>
+
+                <div class="row mt-5">
+                    {% for b in recur_bills %}
+                        <a href="{% url 'view_recurring_bills' b.id %}" class="my-3">
+                            <div class="px-0 my-2 mx-1 input-group ">
+                                <label style="color: azure; font-size: 18px;" class="mx-3 text-capitalize">{{b.profile_name}} </label>
+                                <label style="color: rgb(129, 126, 126); font-size: 15px;">₹ {{ b.grand_total|floatformat:2 }} </label>
+                            </div>
+                            <div class="px-3 my-4 mx-1 input-group ">
+                                <label style="color: rgb(129, 126, 126); font-size: 15px;" class="mx-4"># {{ b.id }} </label>
+                                <span  style="color: rgb(129, 126, 126);">|</span>
+                                <label style="color: rgb(129, 126, 126); font-size: 15px; "class="mx-2"> {{ b.start_date }} </label>
+                            </div>
+                        </a><hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="quick-template" class="quick-template">
+        <div class="card radius-15 " style="border-bottom: 0.5px solid; color: dimgray;">
+            <div class="card-body">
+                <div class="card-title">
+                    <h3 class="mb-0" id="prof_name">{{recur_bill.profile_name}}</h3>
+                </div>
+
+                <div class="btn-group" style="float: right; ">
+                    <a href="" class=" far fa-comment-alt" style="padding: 10px; cursor: pointer;" title="ADD COMMENTS"
+                        data-toggle="modal" data-target="#cmnts"> </a>
+
+                    <div class=" input-group mx-4">
+                        <a href="{% url 'edit_recurring_bills' recur_bill.id %}" class=" fa fa-pencil"
+                            style="padding: 10px; cursor: pointer;" data-toggle="tooltip" title="EDIT"> </a>
+                        <a href="{% url 'delete_recurring_bills' recur_bill.id %} " class="delete fa fa-trash"
+                            style="padding: 10px; cursor: pointer;" data-toggle="tooltip" title="DELETE"
+                            onclick="return confirm('Do you want to Delete this Recurring Bill?');"> </a>
+                    </div>
+
+                    <a href="{% url 'export_pdf' recur_bill.id %}" class="fa fa-file-pdf"
+                        style="padding: 10px; cursor: pointer;" data-toggle="tooltip" title="PDF"></a>
+
+                    <a href="" class=" fa fa-print" style="padding: 10px; cursor: pointer;" data-toggle="tooltip"
+                        title="PRINT" onclick="window.print()"> </a>
+
+                    <a href="" class="fa fa-envelope" style="padding: 10px; cursor: pointer;"
+                        title="MAIL" data-toggle="modal" data-target="#emails" > </a>
+
+                    <div class="dropdown m-0 p-0">
+                        <a href=" " class=" fas fa-paperclip dropdown-toggle" style="padding: 10px; cursor: pointer;"
+                            data-bs-toggle="dropdown" id="attachmentDropdown" aria-haspopup="true"
+                            aria-expanded="false"> </a>
+
+                        <div class="dropdown-menu" aria-labelledby="attachmentDropdown">
+                            <a class="dropdown-item" style="cursor: pointer;" data-toggle="modal"
+                                data-target="#files"><i class="fa fa-paperclip"></i> Attach File</a>
+                            {% if recur_bill.document != "" %}
+                            <a class="dropdown-item" download href="{{recur_bill.document.url }}"><i
+                                    class="fa fa-download"></i> Download File</a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="tab">
+                    <a class="tablinks p-1  mx-2" onclick="openTab(event, 'Template')" role="button"><i
+                            class="fa fa-file-word"></i> Template</a>
+                    <a class="tablinks p-1" onclick="openTab(event, 'Overview')" role="button"><i class="fa fa-eye"></i>
+                        Overview</a>
+                </div>
+            </div>
+            <hr class="hr">
+
+
+            <div id="Template" class=" print-only page tabcontent p-5 m-3" style="display: block; background-color:azure">
+                <div class="row extra-info pt-2">
+                    <div class="col-1 "></div>
+                    <div class="col-5 ">
+                        <h3 class="text-uppercase" style="color: black;"><b>{{company.company_name }}</b></h3>
+                        <p class="address mx-2 p-2"> {{company.address}}<br>
+                            {{company.city}} <br>
+                            {{company.state}}<br>
+                            {{company.pincode}}<br>
+                        </p>                    
+                    </div>
+                    <div class="col-6">
+                        <h1 class="text-uppercase">recurring bills</h1>
+                        <section class="d-flex justify-content-between">
+                            <div class="top-right">
+                                <div class="graphic-path">
+                                    <h5 style="color: black;">{{recur_bill.profile_name}}</h5>
+                                </div>
+                                <div class="position-relative">
+                                    <p style="color: black;">Bill No.#  <span>{{recur_bill.id }}</span></p>
+                                </div>
+                            </div>
+                        </section>
+
+                    </div>
+                </div>
+
+
+                <section class="store-user mt-0">
+                    <div class="col-12">
+                        <div class="row pb-3">
+
+                            <div class="col-1 "></div>
+                            <div class="col-5">
+                                <p style=" font-size: 18px; font-style: italic; font-weight: 700;">Bill To,</p>
+                                <h5  class="mx-2" style="color: black;">{{customer.customerName}}</h5>
+                                <p class="address col-6 mx-3 p-2" style="margin-left: -14px;"> {{customer.Address1}}
+                                    <br>
+                                    {{customer.Address2}}<br>
+                                    {{customer.city}}<br>
+
+                                </p>
+
+                            </div>
+                            <div class="col-1"></div>
+                            <div class="col-5 mt-5">
+                                <p>Bill Date : &nbsp <span style="color: black;">{{recur_bill.start_date|date:'d-m-Y'}}</span></p>
+                                <p>Due Date : &nbsp <span style="color: black;">{{recur_bill.end_date|date:'d-m-Y'}}</span></p>
+                                <p>Term : &nbsp <span style="color: black;">NET {{recur_bill.payment_terms}}</span></p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="product-area mt-0">
+                    <table class="table ">
+                        <thead style="background-color:burlywood; color: black;">
+                            <tr>
+                                <td>#</td>
+                                <td>Item</td>
+                                <td>Account</td>
+                                <td>Rate</td>
+                                <td>Quantity</td>
+                                <td>Discount</td>
+                                <td>Tax</td>
+                                <td>Total</td>
+                            </tr>
+                        </thead>
+                        <tbody style=":hover{color: #ddd; background-color: transparent;}">
+
+                            {% for b in bill_item %}
+                            <tr >
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{b.item}}</td>
+                                <td>{{b.account}} </td>
+                                <td>{{b.rate}}</td>
+                                <td>{{b.quantity}}</td>
+                                <td>{{b.discount}}</td>
+                                <td>{{b.tax}} %</td>
+                                <td>{{b.amount|floatformat:2}}</td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="balance-info p-5">
+                    <div class="row">
+                        <div class="col-8 btn-group">
+                            <!-- <p class="m-0 font-weight-bold" style="color: black;"> Note: </p>
+                            <p class="py-0 px-5" style="color: black;">{{recur_bill.note}}</p> -->
+                        </div>
+                        <div class="col-4">
+                            <table class="table border-0 table-hover">
+                                <tr>
+                                    <td style="font-weight:bold">Sub Total :</td>
+                                    <td style="font-weight:bold">{{recur_bill.sub_total|floatformat:2}}</td>
+                                </tr>
+                                {% if recur_bill.igst != "" %}
+                                <tr>
+                                    <td style="font-weight:bold">IGST :</td>
+                                    <td style="font-weight:bold">{{recur_bill.igst|floatformat:2}}</td>
+                                </tr>
+                                {% endif %}
+                                {% if recur_bill.cgst != "" %}
+                                <tr>
+                                    <td style="font-weight:bold">CGST :</td>
+                                    <td style="font-weight:bold">{{recur_bill.cgst|floatformat:2}}</td>
+                                </tr>
+                                {% endif %}
+                                {% if recur_bill.sgst != "" %}
+                                <tr>
+                                    <td style="font-weight:bold">SGST:</td>
+                                    <td style="font-weight:bold">{{recur_bill.sgst|floatformat:2}}</td>
+                                </tr>
+                                {% endif %}
+                                {% if recur_bill.shipping_charge != "" %}
+                                <tr>
+                                    <td style="font-weight:bold">Shipping Charge:</td>
+                                    <td style="font-weight:bold">{{recur_bill.shipping_charge|floatformat:2}}</td>
+                                </tr>
+                                {% endif %}
+                                <tfoot>
+                                    <tr>
+                                        <td style="font-weight:bold">Total:</td>
+                                        <td style="font-weight:bold ;">{{recur_bill.grand_total|floatformat:2}}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+
+            <!-- overview -->
+            <div id="Overview" class="tabcontent mt-5 border-0 p-0 mx-0" style="overflow-x: hidden; border-top: #ccc double 2px;">
+
+                <h6 class="mb-0 mx-5 text-light">{{ company.company_name }}</h6>
+                <center>
+                    <h3 class="mb-4">RECURRING BILLS</h3>
+                </center>
+
+                <div class="row g-0">
+                    <div class="col-md-7">
+                        <div class="p-5">
+                            <p class="text-muted">Bill Amount</p>
+                            <div class="d-flex justify-content-between align-items-center mb-5">
+                                <b>
+                                    <span class="text-muted" style="font-size: 20px;">
+                                        ₹ <input type="text" value="{{ recur_bill.grand_total|floatformat:2 }}"
+                                            class="amnt ">
+                                    </span>
+                                </b>
+                            </div>
+                            <hr class="my-4">
+
+
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-6 mt-3">
+                                    <h6 class="mb-0 text-muted">Profile Name :</h6>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <p class="mb-0">{{ recur_bill.profile_name }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-6 mt-3">
+                                    <h6 class="mb-0 text-muted">Repeat Every :</h6>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <p class="mb-0">{{ recur_bill.repeat_every }}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-6 mt-3">
+                                    <h6 class="mb-0 text-muted">Start Date :</h6>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <p class="mb-0">{{ recur_bill.start_date |date:'d-m-Y' }}</p>
+                                </div>
+
+                            </div>
+
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+
+                                <div class="col-md-6 mt-3">
+                                    <h6 class="mb-0 text-muted">End Date :</h6>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <p class="mb-0">{{ recur_bill.end_date |date:'d-m-Y' }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-6 mt-3">
+                                    <h6 class="mb-0 text-muted">Payment Terms:</h6>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <p class="mb-0"> NET {{ recur_bill.payment_terms }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-6 mt-3">
+                                    <h6 class="mb-0 text-muted">Tax :</h6>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <span>{{ gst_or_igst }}</span>&nbsp;&nbsp;<input type="text" value="{{ tax }}"
+                                        class="tax 1 tx"><span>%</span>
+                                </div>
+                            </div>
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-6 mt-3">
+                                    <h6 class="mb-0 text-muted">Source of Supply :</h6>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <p class="mb-0 text-capitalize">{{ recur_bill.source_supply }}</p>
+                                </div>
+
+                            </div>
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-6 mt-3">
+                                    <h6 class="mb-0 text-muted">Note :</h6>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <p class="mb-0 text-capitalize">{{ recur_bill.note }}</p>
+                                </div>
+
+                            </div>
+                            <!-- <hr class="my-4"> -->
+                        </div>
+                    </div>
+                    <div class="col-md-5 bg-grey">
+                        <div class="p-5">
+                            <div class="d-block justify-content-between mb-5">
+                                <div class="col-md-12 mt-3">
+                                    <h5 class="text-muted">Vendor :</h5>
+                                </div><br>
+                                <div class="col-md-12 my-0 mx-5">
+                                    <h6 class="text-capitalize" style="color: azure;">{{ recur_bill.vendor_name }}</h6>
+                                </div>
+                            </div>
+                            <div class="d-block justify-content-between mb-5">
+                                <div class="col-md-12 mt-3">
+                                    <h5 class="text-muted">Customer :</h5>
+                                </div><br>
+                                <div class="col-md-12 my-0 mx-5">
+                                    <h6 class="text-capitalize " style="color: azure;">{{ recur_bill.customer_name }}
+                                    </h6>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="d-flex justify-content-between mb-5">
+                                <div class="col-md-5 mt-3">
+                                    <h6 class="text-muted">Subtotal :</h5><br>
+                                </div>
+                                <div class="col-md-7 mt-3 mx-3">
+                                    <input type="text" value="{{ recur_bill.sub_total|floatformat:2 }} INR" class="amnt"
+                                        style="font-size: 16px; color: azure;" readonly>
+                                </div>
+                            </div>
+                            <div class="justify-content-between mb-5 d-none" id="igst">
+                                <div class="col-md-4 mt-3">
+                                    <h6 class="text-muted">IGST :</h5><br>
+                                </div>
+                                <div class="col-md-8 mt-3 mx-3">
+                                    <input type="text" value="{{ recur_bill.igst|floatformat:2 }} INR" class="amnt"
+                                        style="font-size: 16px; color: azure;" readonly>
+                                </div>
+                            </div>
+                            <div class=" justify-content-between mb-5 d-none" id="cgst">
+                                <div class="col-md-4 mt-3">
+                                    <h6 class="text-muted">CGST :</h5><br>
+                                </div>
+                                <div class="col-md-8 mt-3 mx-3">
+                                    <input type="text" value="{{ recur_bill.cgst|floatformat:2 }} INR" class="amnt"
+                                        style="font-size: 16px; color: azure;" readonly>
+                                </div>
+                            </div>
+                            <div class=" justify-content-between mb-5  d-none" id="sgst">
+                                <div class="col-md-4 mt-3">
+                                    <h6 class="text-muted">SGST :</h5><br>
+                                </div>
+                                <div class="col-md-8 mt-3 mx-3">
+                                    <input type="text" value="{{ recur_bill.sgst|floatformat:2 }} INR" class="amnt"
+                                        style="font-size: 16px; color: azure;" readonly>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between mb-5">
+                                <div class="col-md-8 mt-3">
+                                    <h6 class="text-muted">Shipping Charge :</h5><br>
+                                </div>
+                                <div class="col-md-4 mt-3 mx-3">
+                                    <input type="text" value="{{ recur_bill.shipping_charge }} INR" class="amnt"
+                                        style="font-size: 16px; color: azure;" readonly>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-5">
+                                <div class="col-md-6 mt-3">
+                                    <h6 class="text-muted">Grand Total :</h5><br>
+                                </div>
+                                <div class="col-md-6 mt-3 mx-3">
+                                    <input type="text" value="{{ recur_bill.grand_total|floatformat:2 }} INR"
+                                        class="amnt " style="font-size: 16px; color: azure;" readonly>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- comment modal -->
+
+    <div class="modal fade " id="cmnts"
+        style="width: 750px; margin-left: 350px; justify-content: center; overflow: hidden;">
+        <div class="modal-dialog modal-xl m-5 p-5">
+            <div class="modal-content" style="background: rgb(32, 35, 37);border-radius: 20px;">
+                <div class="modal-header " style="background: rgb(32, 35, 37);">
+                    <h5 class="m-3 text-uppercase text-light">Enter Comment</h5>
+                    <button type="button" class="close text-dark bg-none" data-dismiss="modal"
+                        aria-label="Close">&times;</button>
+
+                </div>
+                <div class="modal-body" style="background: rgb(32, 35, 37); justify-content: center; overflow: hidden;">
+                    <div class="card p-0 m-0">
+                        <form action="" method="post" class="needs-validation" novalidate autocomplete="off"
+                            id="modalComment">
+                            <div class="row mt-2">
+                                <input type="hidden" value="{{recur_bill.id}}" id="com_id">
+                                <div class="col-md-6 mt-2">
+                                    {% if recur_bill.comments %}
+                                    <textarea class="form-control text-dark bg-light" id="comment" name="comment" required
+                                        style="height: 200px; width: 550px;">{{recur_bill.comments}}</textarea>
+                                    {% else %}
+                                    <textarea class="form-control text-dark bg-light" id="comment" name="comment" required
+                                        style="height: 200px; width: 550px;"></textarea>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row mt-5">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <div class="d-flex">
+                                        <button class="btn save_btn rounded-pill text-grey w-50 my-4 mx-3" type="submit"
+                                            data-dismiss="modal" id="commentSave">Save </button>
+
+
+                                        <button type="button"
+                                            class="close btn save_btn rounded-pill text-grey w-50 my-4"
+                                            data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">Cancel</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- attach file modal -->
+
+    <div class="modal fade" id="files" style="width: 750px; margin-left: 350px;">
+        <div class="modal-dialog modal-xl m-5 p-5">
+            <div class="modal-content" style="background: rgb(32, 35, 37);border-radius: 20px;">
+                <div class="modal-header " style="background: rgb(32, 35, 37);">
+                    <h5 class="m-3 text-uppercase text-light" id="exampleModalLabel">Add File</h5>
+                    <button type="button" class="close text-dark bg-none" data-dismiss="modal"
+                        aria-label="Close">&times;</button>
+                </div>
+                <div class="modal-body" style="background: rgb(32, 35, 37); justify-content: center; overflow: hidden;">
+                    <div class="card p-0 m-0">
+                        <form action="" id="modalAddfile">
+                            <div class="row mt-2 mx-5 text-center">
+                                <input type="hidden" value="{{recur_bill.id}}" id="file_id">
+                                <input type="file" class="form-control text-dark bg-light" name="file" id="filess" style="width: 400px;">
+
+                            </div>
+
+                            <div class="row mt-5">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <div class="d-flex">
+                                        <button
+                                            class=" font-weight-bold save_btn rounded-pill text-light w-50 my-4 mx-2"
+                                            type="submit" data-dismiss="modal" id="fileSave">Save </button>
+
+
+                                        <button type="button"
+                                            class="font-weight-bold save_btn rounded-pill text-light w-50 my-4"
+                                            data-dismiss="modal" aria-label="Close"> Cancel</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- email modal -->
+
+    <div class="modal fade p-3" id="emails" style="width: 800px; margin-left: 350px; overflow-x: hidden;">
+        <div class="modal-dialog modal-xl m-5 p-5">
+            <div class="modal-content" style="background: rgb(32, 35, 37);border-radius: 20px;">
+                <div class="modal-header " style="background: rgb(32, 35, 37);">
+                    <h5 class="m-3 text-uppercase text-light" id="exampleModalLabel">Send Email</h5>
+                    <button type="button" class="close text-dark bg-none" data-dismiss="modal"
+                        aria-label="Close">&times;</button>
+                </div>
+                <div class="modal-body" style="background: rgb(32, 35, 37); justify-content: center; overflow: hidden;">
+                    <div class="card p-0 m-0">
+                        <form action="" id="modalEmail">
+                            <!-- <input type="hidden" value="{{recur_bill.id}}" id="email_id"> -->
+                            <div class="row mt-2">
+                                <div class="col-md-3 mt-2">
+                                  <label for="">To : </label><br>
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                  <input type="text" class="form-control text-dark bg-light" id="to" name="to" required style="width: 350px;">
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 mt-2">
+                                  <label for="">From : </label><br>
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                  <input type="text" class="form-control text-dark bg-light" id="from" name="from" required style="width: 350px;">
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 mt-2">
+                                  <label for="">Subject : </label><br>
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                  <input type="text" class="form-control text-dark bg-light" id="sub" name="sub" required style="width:350px;">
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3 mt-2">
+                                  <label for="">Message : </label><br>
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                    <textarea class="form-control text-dark bg-light" id="msg" name="msg" required
+                                    style="height: 200px; width: 350px;"> </textarea>
+                                </div>
+                            </div>
+
+                            <div class="row mt-5">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <div class="d-flex">
+                                        <button
+                                            class=" font-weight-bold save_btn rounded-pill text-light w-50 my-4 mx-2"
+                                            type="submit" data-dismiss="modal" id="emailSave">Send </button>
+
+
+                                        <button type="button"
+                                            class="font-weight-bold save_btn rounded-pill text-light w-50 my-4"
+                                            data-dismiss="modal" aria-label="Close"> Cancel</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- </div> -->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script>
+
+
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        tablinks = document.getElementsByClassName("tablinks");
+
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    function showTax() {
+        if ('{{gst_or_igst}}' == "GST") {
+            $("#sgst").removeClass('d-none')
+            $('#sgst').addClass('d-flex')
+            $("#cgst").removeClass('d-none')
+            $('#cgst').addClass('d-flex')
+        }
+        else {
+            $("#igst").removeClass('d-none')
+            $('#igst').addClass('d-flex')
+        }
+    }
+    window.onload = showTax;
+
+
+
+    // function attachSectionToEmail() {
+    //     var section = document.getElementById("Template");
+    //     console.log(section)
+    //     var content = section.innerHTML;
+    //     console.log(content)
+    //     var subject = "Attached Section";
+    //     var body = content;
+    //     var mailtoLink = "mailto:?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+
+    //     window.location.href = mailtoLink;
+    // }
+
+    $(document).ready(function () {
+        $("#commentSave").click(function () {
+
+            $.ajax({
+
+                type: 'POST',
+                url: "{% url 'recurbill_comment' %}",
+
+                data: {
+                    id: $("#com_id").val(),
+                    comment: $("#comment").val(),
+
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+
+                },
+
+                success: function (response) {
+                    document.getElementById("modalComment").reset();
+                },
+            });
+        });
+    });
+
+
+    $(document).ready(function () {
+        $("#fileSave").click(function () {
+
+            $.ajax({
+
+                type: 'POST',
+                url: "{% url 'recurbill_add_file' recur_bill.id %}",
+
+                data: {
+                    id: $("#file_id").val(),
+                    file: $("#filess").val(),
+
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+
+                },
+
+                success: function (response) {
+                    document.getElementById("modalAddfile").reset();
+                },
+            });
+        });
+    });
+
+
+    $(document).ready(function () {
+        $("#emailSave").click(function () {
+
+            $.ajax({
+
+                type: 'POST',
+                url: "{% url 'recurbill_email' recur_bill.id %}",
+
+                data: {
+                    // id: $("#email_id").val(),
+                    recipient: $("#to").val(),
+                    sender: $("#from").val(),
+                    subject : $("#sub").val(),
+                    message : $("#msg").val(),
+
+
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+
+                },
+
+                success: function (response) {
+                    document.getElementById("modalEmail").reset();
+                },
+            });
+        });
+    });
+
+
+
+
+</script>
+
+{% endblock %}

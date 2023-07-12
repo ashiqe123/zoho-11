@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+  <title>Zoho</title>
+  <style>
+    body {
+      font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      height: 200vh;
+          
+    }
+    body:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      -webkit-transition: .3s all ease;
+      -o-transition: .3s all ease;
+      transition: .3s all ease;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 1; }
+    body.offcanvas-menu:before {
+      opacity: 1;
+      visibility: visible; }
+
+    p {
+      color: #b3b3b3;
+      font-weight: 300; }
+
+    h1, h2, h3, h4, h5, h6,
+    .h1, .h2, .h3, .h4, .h5, .h6 {
+      font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; 
+      color: azure;
+    }
+
+    body{
+      background-image: url("{% static 'images/wallpaper1.jpg'%}");
+      background-position: center;
+      background-repeat: repeat;
+      background-size: 100%;
+      background-attachment: fixed;
+    }
+
+
+    .header {
+    transition: all 0.5s;
+    z-index: 997;
+    height: 90px;
+    background-color: var(--color-primary);
+    }
+
+    .header.sticked {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 70px;
+      box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .header .logo img {
+      max-height: 40px;
+      margin-right: 6px;
+    }
+
+    .header .logo h1 {
+      font-size: 30px;
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      color: #fff;
+      font-family: var(--font-primary);
+    }
+
+    .header .logo h1 span {
+      color: rgb(218, 164, 48);
+    }
+
+    .sticked-header-offset {
+      margin-top: 70px;
+    }
+
+
+    @media (min-width: 1280px) {
+      .navbar {
+        padding: 0;
+      }
+
+      .navbar ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        list-style: none;
+        align-items: center;
+      }
+
+      .navbar li {
+        position: relative;
+      }
+
+      .navbar>ul>li {
+        white-space: nowrap;
+        padding: 10px 0 10px 28px;
+      }
+
+      .navbar a,
+      .navbar a:focus {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 3px;
+        font-family: var(--font-secondary);
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.6);
+        white-space: nowrap;
+        transition: 0.3s;
+        position: relative;
+      }
+
+      .navbar a i,
+      .navbar a:focus i {
+        font-size: 12px;
+        line-height: 0;
+        margin-left: 5px;
+      }
+
+      .navbar>ul>li>a:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: -6px;
+        left: 0;
+        background-color: var(--color-secondary);
+        visibility: hidden;
+        width: 0px;
+        transition: all 0.3s ease-in-out 0s;
+      }
+
+      .navbar a:hover:before,
+      .navbar li:hover>a:before,
+      .navbar .active:before {
+        visibility: visible;
+        width: 100%;
+      }
+
+      .navbar a:hover,
+      .navbar .active,
+      .navbar .active:focus,
+      .navbar li:hover>a {
+        color: #fff;
+      }
+
+      .navbar .dropdown ul {
+        display: block;
+        position: absolute;
+        left: 28px;
+        top: calc(100% + 30px);
+        margin: 0;
+        padding: 10px 0;
+        z-index: 99;
+        opacity: 0;
+        visibility: hidden;
+        background: #fff;
+        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+        transition: 0.3s;
+        border-radius: 4px;
+      }
+
+      .navbar .dropdown ul li {
+        min-width: 200px;
+      }
+
+      .navbar .dropdown ul a {
+        padding: 10px 20px;
+        font-size: 15px;
+        text-transform: none;
+        font-weight: 600;
+        color: #006a5d;
+      }
+
+      .navbar .dropdown ul a i {
+        font-size: 12px;
+      }
+
+      .navbar .dropdown ul a:hover,
+      .navbar .dropdown ul .active:hover,
+      .navbar .dropdown ul li:hover>a {
+        color: var(--color-secondary);
+      }
+
+      .navbar .dropdown:hover>ul {
+        opacity: 1;
+        top: 100%;
+        visibility: visible;
+      }
+
+      .navbar .dropdown .dropdown ul {
+        top: 0;
+        left: calc(100% - 30px);
+        visibility: hidden;
+      }
+
+      .navbar .dropdown .dropdown:hover>ul {
+        opacity: 1;
+        top: 0;
+        left: 100%;
+        visibility: visible;
+      }
+    }
+
+    @media (min-width: 1280px) and (max-width: 1366px) {
+      .navbar .dropdown .dropdown ul {
+        left: -90%;
+      }
+
+      .navbar .dropdown .dropdown:hover>ul {
+        left: -100%;
+      }
+    }
+
+    @media (min-width: 1280px) {
+
+      .mobile-nav-show,
+      .mobile-nav-hide {
+        display: none;
+      }
+    }
+
+    /*--------------------------------------------------------------
+    # Mobile Navigation
+    --------------------------------------------------------------*/
+    @media (max-width: 1279px) {
+      .navbar {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        max-width: 400px;
+        bottom: 0;
+        transition: 0.3s;
+        z-index: 9997;
+      }
+
+      .navbar ul {
+        position: absolute;
+        inset: 0;
+        padding: 50px 0 10px 0;
+        margin: 0;
+        background: rgba(218, 164, 47, 0.8);
+        overflow-y: auto;
+        transition: 0.3s;
+        z-index: 9998;
+      }
+
+      .navbar a,
+      .navbar a:focus {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        font-family: var(--font-primary);
+        font-size: 15px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.7);
+        white-space: nowrap;
+        transition: 0.3s;
+      }
+
+      .navbar a i,
+      .navbar a:focus i {
+        font-size: 12px;
+        line-height: 0;
+        margin-left: 5px;
+      }
+
+      .navbar a:hover,
+      .navbar .active,
+      .navbar .active:focus,
+      .navbar li:hover>a {
+        color: #fff;
+      }
+
+      .navbar .getstarted,
+      .navbar .getstarted:focus {
+        background: var(--color-primary);
+        padding: 8px 20px;
+        border-radius: 4px;
+        margin: 15px;
+        color: #fff;
+      }
+
+      .navbar .getstarted:hover,
+      .navbar .getstarted:focus:hover {
+        color: #fff;
+        background: rgba(218, 164, 47, 0.8);
+      }
+
+      .navbar .dropdown ul,
+      .navbar .dropdown .dropdown ul {
+        position: static;
+        display: none;
+        padding: 10px 0;
+        margin: 10px 20px;
+        transition: all 0.5s ease-in-out;
+        background-color: rgb(218, 164, 47);
+        border: 1px solid rgb(218, 164, 47);
+      }
+
+      .navbar .dropdown>.dropdown-active,
+      .navbar .dropdown .dropdown>.dropdown-active {
+        display: block;
+      }
+
+      .mobile-nav-show {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 28px;
+        cursor: pointer;
+        line-height: 0;
+        transition: 0.5s;
+        z-index: 9999;
+        margin-right: 10px;
+      }
+
+      .mobile-nav-hide {
+        color: #fff;
+        font-size: 32px;
+        cursor: pointer;
+        line-height: 0;
+        transition: 0.5s;
+        position: fixed;
+        right: 20px;
+        top: 20px;
+        z-index: 9999;
+      }
+
+      .mobile-nav-active {
+        overflow: hidden;
+      }
+
+      .mobile-nav-active .navbar {
+        right: 0;
+      }
+
+      .mobile-nav-active .navbar:before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:rgba(218, 164, 47,0.2);
+        z-index: 9996;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+	  <header id="header" class="header d-flex align-items-center">
+		
+		<div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+		  <a href="{% url 'index' %}" class="logo d-flex align-items-center">
+			<h1>Zoho</h1>
+		  </a>
+		  <nav id="navbar" class="navbar">
+			<ul >
+				<li class=" nav-item {% if request.path == '/' %}active{% endif %}">
+				  <a href="{% url 'index' %}"><span>Home</span></a></li>
+			  
+				<li class=" nav-item {% if request.path == '#' %}active{% endif %}">
+				  <a href="#" class="nav-link"><span>About</span></a>
+				</li>
+				<li class="nav-item{% if request.path == '#' %}active{% endif %}">
+				  <a href="#" class="nav-link"><span>Contact</span></a>
+				</li>
+				<li class="nav-item {% if request.path == '/register' %}active{% endif %}">
+				  <a href="{% url 'register' %}" class="nav-link"><span>Register/Login</span></a>
+				</li>
+			  </ul>
+		  </nav><!-- .navbar -->
+	
+		  <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+		  <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+	
+		</div>
+	  </header><!-- End Header -->
+	  <!-- End Header -->
+
+      {% block content %}
+      {% endblock %}
+      
+    </body>
+	  <script>
+		/**
+   * Sticky Header on Scroll
+   */
+   const selectHeader = document.querySelector('#header');
+  if (selectHeader) {
+    let headerOffset = selectHeader.offsetTop;
+    let nextElement = selectHeader.nextElementSibling;
+
+    const headerFixed = () => {
+      if ((headerOffset - window.scrollY) <= 0) {
+        selectHeader.classList.add('sticked');
+        if (nextElement) nextElement.classList.add('sticked-header-offset');
+      } else {
+        selectHeader.classList.remove('sticked');
+        if (nextElement) nextElement.classList.remove('sticked-header-offset');
+      }
+    }
+    window.addEventListener('load', headerFixed);
+    document.addEventListener('scroll', headerFixed);
+  }
+
+  /**
+   * Navbar links active state on scroll
+   */
+  let navbarlinks = document.querySelectorAll('#navbar a');
+
+  function navbarlinksActive() {
+    navbarlinks.forEach(navbarlink => {
+
+      if (!navbarlink.hash) return;
+
+      let section = document.querySelector(navbarlink.hash);
+      if (!section) return;
+
+      let position = window.scrollY + 200;
+
+      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
+        navbarlink.classList.add('active');
+      } else {
+        navbarlink.classList.remove('active');
+      }
+    })
+  }
+  window.addEventListener('load', navbarlinksActive);
+  document.addEventListener('scroll', navbarlinksActive);
+
+  /**
+   * Mobile nav toggle
+   */
+  const mobileNavShow = document.querySelector('.mobile-nav-show');
+  const mobileNavHide = document.querySelector('.mobile-nav-hide');
+
+  document.querySelectorAll('.mobile-nav-toggle').forEach(el => {
+    el.addEventListener('click', function(event) {
+      event.preventDefault();
+      mobileNavToogle();
+    })
+  });
+
+  function mobileNavToogle() {
+    document.querySelector('body').classList.toggle('mobile-nav-active');
+    mobileNavShow.classList.toggle('d-none');
+    mobileNavHide.classList.toggle('d-none');
+  }
+
+  /**
+   * Hide mobile nav on same-page/hash links
+   */
+  document.querySelectorAll('#navbar a').forEach(navbarlink => {
+
+    if (!navbarlink.hash) return;
+
+    let section = document.querySelector(navbarlink.hash);
+    if (!section) return;
+
+    navbarlink.addEventListener('click', () => {
+      if (document.querySelector('.mobile-nav-active')) {
+        mobileNavToogle();
+      }
+    });
+
+  });
+
+  /**
+   * Toggle mobile nav dropdowns
+   */
+  const navDropdowns = document.querySelectorAll('.navbar .dropdown > a');
+
+  navDropdowns.forEach(el => {
+    el.addEventListener('click', function(event) {
+      if (document.querySelector('.mobile-nav-active')) {
+        event.preventDefault();
+        this.classList.toggle('active');
+        this.nextElementSibling.classList.toggle('dropdown-active');
+
+        let dropDownIndicator = this.querySelector('.dropdown-indicator');
+        dropDownIndicator.classList.toggle('bi-chevron-up');
+        dropDownIndicator.classList.toggle('bi-chevron-down');
+      }
+    })
+  });
+	  </script>
+     <script>
+  
+      const menuItems = document.querySelectorAll('.nav-item');
+      
+      menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+          menuItems.forEach(item => item.classList.remove('active'));
+          item.classList.add('active');
+        });
+      });
+
+      $(function() {
+
+var siteSticky = function() {
+  $(".js-sticky-header").sticky({topSpacing:0});
+};
+siteSticky();
+
+var siteMenuClone = function() {
+
+  $('.js-clone-nav').each(function() {
+    var $this = $(this);
+    $this.clone().attr('class', 'site-nav-wrap').appendTo('.site-mobile-menu-body');
+  });
+
+
+  setTimeout(function() {
+    
+    var counter = 0;
+    $('.site-mobile-menu .has-children').each(function(){
+      var $this = $(this);
+      
+      $this.prepend('<span class="arrow-collapse collapsed">');
+
+      $this.find('.arrow-collapse').attr({
+        'data-toggle' : 'collapse',
+        'data-target' : '#collapseItem' + counter,
+      });
+
+      $this.find('> ul').attr({
+        'class' : 'collapse',
+        'id' : 'collapseItem' + counter,
+      });
+
+      counter++;
+
+    });
+
+  }, 1000);
+
+  $('body').on('click', '.arrow-collapse', function(e) {
+    var $this = $(this);
+    if ( $this.closest('li').find('.collapse').hasClass('show') ) {
+      $this.removeClass('active');
+    } else {
+      $this.addClass('active');
+    }
+    e.preventDefault();  
+    
+  });
+
+  $(window).resize(function() {
+    var $this = $(this),
+      w = $this.width();
+
+    if ( w > 768 ) {
+      if ( $('body').hasClass('offcanvas-menu') ) {
+        $('body').removeClass('offcanvas-menu');
+      }
+    }
+  })
+
+  $('body').on('click', '.js-menu-toggle', function(e) {
+    var $this = $(this);
+    console.log("$this");
+    e.preventDefault();
+
+    if ( $('body').hasClass('offcanvas-menu') ) {
+      $('body').removeClass('offcanvas-menu');
+      $this.removeClass('active');
+    } else {
+      $('body').addClass('offcanvas-menu');
+      $this.addClass('active');
+    }
+  }) 
+
+  // click outside offcanvas
+  $(document).mouseup(function(e) {
+    var container = $(".site-mobile-menu");
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+      if ( $('body').hasClass('offcanvas-menu') ) {
+        $('body').removeClass('offcanvas-menu');
+      }
+    }
+  });
+}; 
+siteMenuClone();
+
+});
+    </script>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.sticky.js"></script>
+<script src="js/main.js"></script>
+</body>
+
+</html>

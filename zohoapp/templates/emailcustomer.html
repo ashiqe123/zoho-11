@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section>
+
+
+    <div class="row fixed-top  " style="top: 7rem; margin-left: 18rem;" >
+
+        <div class="col-md-12">
+
+            <div style="height: 640px;width: 1215px;overflow-y: scroll;">
+
+                <div class="row" style="margin-left: auto;">
+
+                    
+                    <form action="{% url 'sendmail' %}" method="POST" enctype="multipart/form-data"
+                    style="color: azure ; font-size:16px;margin-left: auto;">
+                    {% csrf_token %} 
+                    <h2 >Email To Customer</h2><br>
+                
+                      <label for="name" >Send To</label>&nbsp;&nbsp;&nbsp;<br>
+                      <input type="text" name="sendto"><br>
+    
+                      <label for="name" >Cc</label><br>
+                      
+                      <input type="text" name="cc"><br>
+    
+                      <label  >Bcc</label><br>
+                      
+                        <input type="text" name="bcc"><br>
+                      
+                      <label  >Subject</label><br>
+                      <input type="text" name="subject"><br>
+                        <textarea id="messag" name="messag" placeholder="Write something.." style="height:200px"></textarea><br>
+                       
+                      <label  class="col-sm-2 col-form-label"></label><br>
+                      
+                        <input type="file" id="myfile" name="myfile" multiple><br><br>
+                    
+                      <input type="submit" value="Submit">&nbsp;&nbsp;&nbsp;
+                      <input type="reset" value="Cancel">
+                    </div>
+                 
+    
+                    </form>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+
+
+
+
+
+
+
+            
+            
+            
+
+        </div>
+    
+    </div>
+
+</section>
+
+<script>
+
+
+</script>
+
+
+
+
+
+{% endblock %}

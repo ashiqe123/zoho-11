@@ -1,0 +1,219 @@
+
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+    tbody tr td{
+        border: none;
+        border-top: none;
+        border-bottom: none;
+        border-style: none;
+        color:azure;
+        justify-content: center;
+    }
+    tr{
+        border: none;
+        border-top: none;
+        border-bottom: none;
+    }
+    .containerprof{
+        
+        width: 900px; 
+        margin-left: 100px;
+        background-color: rgb(32, 35, 37);
+        border-radius: 20px;
+        z-index: 2 !important;
+    }
+    .editbtn{
+        background-color: rgb(218, 164, 48);
+        color: azure; 
+        padding: 3; 
+        margin-left: 250px; 
+        width: 200px;
+        border-radius: 20px;
+        justify-content: center;
+        /* z-index: 1 !important; */
+    }
+    h3{
+        text-align: center;
+        text-transform: capitalize;
+        color: azure;
+        margin-left: 150px;
+    }
+    .profimg{
+        width :100px; height: 100px; margin-left: 295px; border-radius: 80%;
+    }
+    @media (min-width: 600px)and ( max-width:1000px) {
+        .containerprof{
+        width: 100%; 
+        margin-left: 50px;
+        padding: 0;
+        justify-content: center;
+    }
+    .row{
+        width:100%
+    }
+    .btn{
+        padding: 1; 
+        margin-left: 50%; 
+        width: 100px;
+        justify-content: center;
+        height: auto;
+    }
+    h3{
+        margin-left: 30%;
+    }
+    .profimg{
+        margin-left: 50%;
+    }
+    } 
+
+ @media (min-width: 300px)and ( max-width:800px) {
+    .containerprof{
+        width: 375px; 
+        margin: 0;
+        padding: 0;
+        justify-content: center;
+    }
+    .row{
+        width:100%
+    }
+    .editbtn{
+        padding: 1; 
+        margin-left: 25%; 
+        width: 100px;
+        justify-content: center;
+        height: auto;
+    }
+    h3{
+        margin-left: 25%;
+    }
+    .profimg{
+        margin-left: 25%;
+    }
+}
+    
+.panel-body{
+  justify-content: center;
+  margin-left: 50px;
+  width: 650px;
+}
+  
+</style>
+
+<!-- <div class="container p-5 mt-5 containerprof" > -->
+    <div class="row containerprof">
+        <div class="col-md-offset-1 col-md-10 mt-0">
+            
+                <div class="panel p-3">
+
+                <h3 class="text-center mt-3">
+                    <b>{{ user.first_name }} {{user.last_name }} </b>
+                    
+                </h3>
+                <div class="m-5">
+                    {% if company.profile_pic %}
+                    <img src="{{ company.profile_pic.url }}" class="rounded profimg" >
+                    {% else %}
+                    <img src="{% static 'images/default.png' %}"  class = 'rounded profimg' >
+                    {% endif %}
+                </div>
+
+                <div class="panel-body table-responsive mt-5">
+                  
+                  <table class="table">
+                    <tbody style="border: none;">
+                        <tr class="personal">
+                            <td style="border-bottom: none; border-top: none; border-color: none;">
+                            <h4>
+                                <em> <u>Personal Details</u> </em>
+                            </h4>
+                            </td>
+                        </tr>
+                        <tr >
+                            <td style="border-bottom: none; border-top: none; border-color: none;">Username</td>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">: {{ user.username }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">Email</td>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">: {{ user.email }}</td>
+                        </tr>
+                        <tr >
+                            <td style="border-bottom: none; border-top: none; border-color: none;">Contact Number</td>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">: {{ company.contact_number }}</td>
+                        </tr>
+                    <tr><td style="border-bottom: none; border-top: none; border-color: none;"></td></tr>
+                    <tr class="companydet mt-5">
+                        <td style="border-bottom: none; border-top: none; border-color: none;">
+                        <h4>
+                           <em> <u>Company Details</u>  </em>
+                        </h4>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">Company Name</td>
+                            <td style="border-bottom: none; border-top: none;  border-color: none;">: {{ company.company_name }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">Company Email</td>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">: {{ company.company_email }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">Address</td>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">: {{ company.address }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">City</td>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">: {{ company.city }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">State</td>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">: {{ company.state }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">Country</td>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">: {{ company.country }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">Pincode</td>
+                           <td style="border-bottom: none; border-top: none; border-color: none;">: {{ company.pincode }}</td>
+                        </tr>
+                       
+                        <tr>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">GST Number</td>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">: {{ company.gst_num }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">Pan Number</td>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">: {{ company.pan_num }}</td>
+                        </tr>
+
+                        <tr>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">Business Name</td>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">: {{ company.business_name }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">Company Type</td>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">: {{ company.company_type }}</td>               
+                        </tr>
+                        <tr>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">Industry Type</td>
+                            <td style="border-bottom: none; border-top: none; border-color: none;">: {{ company.industry_type }}</td>  
+                        </tr>
+                        
+                    
+
+                    </tbody>
+                   
+                  </table>
+                
+                  <a href="{% url 'edit_profile' company.id %}" role = "button" class = "editbtn btn btn-outline-dark mt-3">
+                  Edit profile</a>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- </div> -->
+
+{% endblock %}

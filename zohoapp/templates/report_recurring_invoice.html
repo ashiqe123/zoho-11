@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<style>
+    #over:hover{
+          background-color: rgba(110, 110, 110, 0.616);
+          
+      }
+
+      
+
+
+
+  </style>
+  
+    <div  style="top: 7rem; " >
+       
+  
+          <div class="row">
+            <div class="col-sm-12 col-md-3 col-lg-3"></div>
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <center>
+                    <h4>Altos Technologies</h4>
+                <h2>Recurring Invoice Details</h2>
+                <h6>From 01 Apr 2017 To 30 Jun 2017</h6>
+                </center>
+            </div>
+            <div class="col-sm-12 col-md-3 col-lg-3"></div>
+          </div>   
+      
+          <div class="row">
+              <div class="col-sm-12 col-md-11 col-lg-11">
+                  <table class="table  text-white" id="myTable" style="width: 100%;">
+                      <thead>
+                        <tr>
+                          <th>STATUS</th>
+                          <th>PROFILE NAME</th>
+                          <th>CUSTOMER NAME</th>
+                          <th>FREQUENCY</th>
+  
+                          <th>LAST INVOICE DATE</th>
+                          <th>NEXT INVOICE DATE</th>
+                          <th>EXPIRY DATE</th>
+                          <th>AMOUNT(BCY)</th>
+
+
+  
+                        </tr>
+                      </thead>
+                      <tbody>
+               
+                        <tr id="over">
+               
+                          <td style="color: rgb(3, 139, 3);">Active</td>
+                          <td><a href="" style="text-decoration: none;color: rgb(204, 134, 5);">Cloned RI</a></td>
+                          <td><a href="" style="text-decoration: none;color: rgb(204, 134, 5);">Customer Eu Vat</a></td>
+
+                          <td>Weekly</td>
+                          <td>08-May-2017</td>
+                          <td>15-May-2017</td>
+                          <td></td>
+                          <td>$5000</td>
+
+
+  
+          
+                         
+                        </tr>
+                        <tr id="over">
+               
+                            <td style="color: green;">Active</td>
+                            <td><a href="" style="text-decoration: none;color: rgb(204, 134, 5);">Cloned RI</a></td>
+                            <td><a href="" style="text-decoration: none;color: rgb(204, 134, 5);">Customer Eu Vat</a></td>
+                              <td>Weekly</td>
+                            <td>08-May-2017</td>
+                            <td>15-May-2017</td>
+                            <td></td>
+                            <td>$5000</td>
+  
+  
+    
+            
+                           
+                          </tr>
+                          <tr id="over">
+               
+                            <td>Total</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>$5000</td>
+  
+  
+    
+            
+                           
+                          </tr>
+                      </tbody>
+                  </table>
+                  <br><br><br><br><br>
+              </div>
+              <div class="col-sm-12 col-md-1 col-lg-1"></div>
+  
+          </div>
+        
+  
+             
+          
+  
+      <!-- </div> -->
+  
+  </div>
+  
+
+
+
+
+{% endblock %}

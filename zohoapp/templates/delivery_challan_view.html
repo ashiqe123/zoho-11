@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: rgb(252, 236, 217)";
+
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    #selected-area{
+        font-size: 20px;
+    }
+  
+    
+</style>
+
+
+
+<script>
+function printForm() {
+ 
+    var selectedArea = document.getElementById("selected-area");
+    
+
+    var printWindow = window.open('', 'PrintWindow', 'height=800,width=800');
+    
+
+    printWindow.document.write('<html><head><title>Print Selected Area</title></head><body>' + selectedArea.innerHTML + '</body></html>');
+    
+
+    printWindow.print();
+    
+    
+    printWindow.close();
+    }
+
+
+</script>
+
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="row  mx-2">
+            <div class="col-md-10"><a class="text-white" style="font-size: 1.3rem;"> All Delivery Challan</a></div>
+            <div class="col-md-2 form-inline justify-content-end py-2">
+                <a style="color: white; background-color: rgb(210, 132, 30);" class="btn mr-1"
+                    href="{% url 'create_delivery_chellan' %}"><i class="fa-solid fa-plus "></i>New</a>
+                
+            </div>
+        </div>
+        <div class="pt-3" >
+            <table class="text-white" style="width: 100%;">
+                {% for estimate in all_estimates %}
+                <tr class="clickable-row" data-href="{% url 'delivery_challan_view' estimate.id %}">
+                    <td>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>{{estimate.customer_name}}</h5>
+                            </div>
+                            <div class="col-md-6 text-right">&#x20B9;{{estimate.total}}.00</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="clickable-row" data-href="{% url 'delivery_challan_view' estimate.id %}">
+                    <td>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <p>DC-{{estimate.chellan_no}}</p>
+                            </div>
+                            <div class="col-md-3 text-left">
+                                <p>{{estimate.chellan_date}}</p>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <p>{{estimate.status}}</p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td ><hr style="border-top: 1px solid white;"></td>
+                </tr>
+
+                {% endfor %}
+            </table>
+            
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="row  mx-1 py-3" style="background-color: rgba(252, 236, 217, 0.8)">
+            <div class="col-sm-5 text-dark" style="font-size: 2.5rem;">
+                DC-{{estimate.chellan_no }}</div>
+            <div class="col-sm-7 text-white text-right my-auto">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="{% url 'delivery_challan_edit' estimate.id %}"  class="btn btn-dark m-1 text-white"
+                         data-toggle="tooltip" title="Edit">
+                        <i class="mdi mdi-pencil"></i></a>
+                    <a href="{% url 'render_challan_pdf' estimate.id %}" class="btn btn-dark m-1 text-white " 
+                        data-toggle="tooltip" title="PDF" id="pdf">
+                        <i class="mdi mdi-file-pdf-box"></i></a>
+                    <a href="" onclick="printForm()" class="btn btn-dark m-1 text-white btn_print" 
+                        data-toggle="tooltip" title="Print">
+                        <i class="mdi mdi-printer"></i></a>
+                    <a href="{% url 'emailattachment' %}" class="btn btn-dark m-1 text-white"
+                         data-toggle="tooltip" title="Email">
+                        <i class="mdi mdi-email"></i></a>
+                    
+                    {% if estimate.attachment != ""%}
+                    <a href="{{estimate.attachment.url}}" class="btn btn-dark m-1 text-white"
+                        data-toggle="tooltip" title="Download Attached File">
+                        <span class="mdi mdi-download"></span></a>
+                    {%endif%}
+                    
+                </div>
+        
+                <a href="{% url 'deletechallan' estimate.id %}" class="btn btn-dark text-white"  
+                onclick="return confirm('Do you want to Delete this Estimate?');"><i class="mdi mdi-delete"></i></a>
+            </div>
+        </div>
+
+        
+            <div class="slip p-5 mx-1 convert_to_pdf bg-light" id="selected-area"
+                style="box-shadow: 5px 5px 10px rgb(45, 45, 45);">
+               
+                
+
+                <div class="row ">
+                    <div class="col-sm-6 ">
+                        <h4 class="text-dark" style="text-transform: uppercase;">{{ company.company_name }}</h4>
+                        <h6 class="text-dark">{{ company.address }}</h6>
+                        <h6 class="text-dark">{{ company.city }},{{ company.state }}</h6>
+                    </div>
+                    <div class="col-sm-6" style="text-align: right;">
+                        <h1 class="text-dark" style="font-size: 1.2rem; ">Delivery Challan</h1>
+                        <h6 class="text-dark">DC-{{estimate.chellan_no }}</h6>
+                    </div>
+                </div>
+                <hr>
+                <div class="row ">
+                    <div class="col-sm-6 mt-auto">
+                        <h6 class="text-dark">Bill To</h6>
+                        <h6 class="text-dark">{{ estimate.customer_name }}</h6>
+                    </div>
+                    <div class="col-sm-6  mt-auto" style="text-align: right;">
+                        <h6 class="text-dark ">Date : {{ estimate.chellan_date }}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table mt-2" style="border-color: black; color: black;">
+                            <thead class="bg-secondary text-white">
+                                <tr>
+                                    <th class="text-center text-dark" style="width: 200px;">#</th>
+                                    <th class="text-center text-dark" style="width: 200px;">Item</th>
+                                    <th class="text-center text-dark" style="width: 200px;">Quantity</th>
+                                    <th class="text-center text-dark" style="width: 200px;">Rate</th>
+                                    <th class="text-center text-dark" style="width: 200px;">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr> 
+                                    
+                                    <td  class="text-center" style="text-align: center">{{ forloop.counter }}</td>
+                                    <td class="text-center" style="text-align: center">{{ item.item_name }}</td>
+                                    <td class="text-center" style="text-align: center">{{ item.quantity }}</td>
+                                    <td class="text-center" style="text-align: center">{{ item.rate|floatformat:3 }}</td>
+                                    <td class="text-center" style="text-align: center">{{ item.amount|floatformat:3 }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                
+                <div class="row" >
+                    <div class="col-sm-6" style="padding-left: 75%;  margin-top: 1%;">
+                        <table class="table" style="color: black">
+                            <tr>
+        
+                                <td class="text-right">Sub-Total:</td>
+                                <td class="text-right">{{ estimate.sub_total|floatformat:3}}</td>
+                            </tr>
+                            {% if estimate.cgst != 0 %}
+                            <tr>
+                                <td class="text-right">CGST:</td>
+                                <td class="text-right">{{ estimate.cgst|floatformat:3}}</td>
+                            </tr>
+                            {% endif %}
+                            {% if estimate.sgst != 0 %}
+                            <tr>
+                                <td class="text-right">SGST:</td>
+                                <td class="text-right">{{ estimate.sgst|floatformat:3}}</td>
+                            </tr>
+                            {% endif %}
+                            {% if estimate.igst != 0 %}
+                            <tr>
+        
+                                <td class="text-right">IGST:</td>
+                                <td class="text-right">{{ estimate.igst|floatformat:3}}</td>
+                            </tr>
+                            {% endif %}
+                            {% if estimate.shipping_charge != 0 %}
+                            <tr>
+        
+                                <td class="text-right">Shipping Charge:</td>
+                                <td class="text-right">{{ estimate.shipping_charge|floatformat:3}}</td>
+                            </tr>
+                            {% endif %}
+                            {% if estimate.adjustment != 0 %}
+                            <tr>
+        
+                                <td class="text-right">Adjustment:</td>
+                                <td class="text-right">{{ estimate.adjustment|floatformat:3}}</td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+        
+                                <td class="text-right">Total:</td>
+                                <td class="text-right">{{ estimate.total|floatformat:3}}</td>
+                            </tr>
+        
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="row mt-3">
+                    <div class="col-sm-6" style="text-align: justify;">
+                        <p class="m-0 font-weight-bold" style="color:black">Customer Note : </p>
+                        <p style="color:black">{{estimate.customer_notes}}</p>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-6" style="text-align: justify;">
+                        <p class="m-0 font-weight-bold" style="color:black">Customer Note : </p>
+                        <p style="color:black">{{estimate.customer_notes}}</p>
+                    </div>
+                </div>
+
+
+            </div>
+         
+     
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+<script>
+    // Add click event listener to all rows with class "clickable-row"
+    const rows = document.querySelectorAll('.clickable-row');
+    rows.forEach(row => {
+        row.addEventListener('click', () => {
+            // Get the URL from the "data-href" attribute
+            const url = row.getAttribute('data-href');
+            // Navigate to the URL
+            window.location.href = url;
+        });
+    });
+</script>
+
+
+
+
+{% endblock %}

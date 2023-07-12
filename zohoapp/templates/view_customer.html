@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .arrow {
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      display: inline-block;
+      padding: 3px;
+    }
+    
+    .down {
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+    } 
+    tr:hover{
+    cursor: pointer;
+    background-color: #474141;
+  }
+    </style>
+<section>
+
+
+    <div class="row fixed-top  " style="top: 7rem; margin-left: 18rem;" >
+
+        <div class="col-md-12">
+
+            <div style="height: 640px;width: 1215px;overflow-y: scroll;">
+
+                <div class="row">
+
+                    <div class="col-md-3"><a class="text-white" style="font-size: 2rem;">All Customers</a></div>
+         <div class="col-md-6 form-inline" style="margin-left: 65rem;margin-top: -2rem;">
+          <a style="color: #ccc;" class="btn btn-success mr-2" href="{% url 'add_customer' %}"><i class="fa-solid fa-plus "></i>New</a>
+                
+            <div class="menu-items dropdown" style="background-color: rgb(43, 166, 43);color:white;border-radius: 4px;">
+              <a class="nav-link dropdown-toggle" style="color: #ccc;" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+               
+                <span class="menu-title" style="color:white">---</span>
+                
+              </a>
+            <ul class="dropdown-menu" style="color: black;">
+              <div class="dropdown-item"><a href="{% url 'view_customr_sname' %}" >Name</a></div>
+                <div class="dropdown-item"><a href="{% url 'view_customr_scpname' %}" >Company Name</a></div>
+                <div class="dropdown-item"><a>Receivables</a></div>
+                  <div class="dropdown-item"><a>Import Customer</a></div>
+                    <div class="dropdown-item"><a>Export Customer</a></div>
+              
+            </ul></div>
+         </div><br><br>
+       </div>
+       
+       <table class="table  text-white" id="myTable">
+         <thead>
+           <tr>
+             <th>Name</th>
+             <th>CompanyName</th>
+             <th>Email</th>
+             <th>Work Phone</th>
+             <th>Opening Balance</th>
+             <th>Receivables</th>
+             <th></th>
+           </tr>
+         </thead>
+         <tbody>
+          
+          {% for v in vc %}
+           <tr>
+  
+            
+             <td><a href="{% url 'view_one_customer' v.id %}" style="color: white;">{{v.customerName}}</a></td>
+             <td><a href="{% url 'view_one_customer' v.id %}" style="color: white;">{{v.companyName}}</a></td>
+             <td><a href="{% url 'view_one_customer' v.id %}" style="color: white;">{{v.customerEmail}}</a></td>
+             <td><a href="{% url 'view_one_customer' v.id  %}" style="color: white;" >{{v.customerWorkPhone}}</a></td>
+             <td><a href="{% url 'view_one_customer' v.id  %}" style="color: white;" >{{v.OpeningBalance}}</a></td>
+             
+             <td></td>
+             <td class="menu-items dropdown"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" style="color: aliceblue;">
+               
+                <span class="menu-title" style="color:white"></span>
+                
+              </a>
+              <ul class="dropdown-menu" style="background-color:rgb(74, 69, 69);color:white;">
+                <div class="dropdown-item"><a href="{% url 'editcustomer' v.id %}">Edit</a></div>
+                <div class="dropdown-item"><a href="{% url 'add_email_customer' %}">Email customer</a></div>
+              </ul>
+            </td>
+           </tr>
+           {% endfor %}
+         </tbody>
+       </table>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+
+
+
+
+
+
+
+            
+            
+            </div>
+
+        </div>
+    
+    </div>
+
+</section>
+
+<script>
+    function sortTable() {
+      var table, rows, switching, i, x, y, shouldSwitch;
+      table = document.getElementById("myTable");
+      switching = true;
+      while (switching) {
+     
+        switching = false;
+        rows = table.rows;
+       for (i = 1; i < (rows.length - 1); i++) {
+           shouldSwitch = false;
+          x = rows[i].getElementsByTagName("TD")[0];
+          y = rows[i + 1].getElementsByTagName("TD")[0];
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
+      }
+    }
+    </script>
+    
+     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+   
+
+{% endblock %}

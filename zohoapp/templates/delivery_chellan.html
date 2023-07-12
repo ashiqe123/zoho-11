@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  a{
+    color: rgb(210, 132, 30);
+  }
+</style>
+
+  <div class="row">
+    <div class="col-sm-12 " >
+      <h1>
+        Delivery Challan
+      </h1>
+
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-12" style="text-align: right;">
+      <a class="btn btn-dark mr-2" style="width: 100px;background-color: rgb(210, 132, 30);" href="{% url 'create_delivery_chellan' %}" >New</a>
+    </div>
+
+  </div>
+  <div class="row mt-4">
+    <div class="col-sm-12">
+
+      <form action="{% url 'filter_chellan_type'%}" method="POST" style="text-align: left;">
+        {% csrf_token %}
+        <input type="text" name="usr_in" placeholder="search here...">
+        <select name="flter_tp" id="" style="width: 100px; height: 28px">
+          <option value="Customer">Customer</option>
+          <option value="Date">Date</option>
+          <option value="Amount">Amount</option>
+        </select>
+        <button class="btn btn-light text-light" style="background-color: rgb(210, 132, 30);"><i class="mdi mdi-magnify"></i></button>
+        
+      
+      </form>
+
+      <form action="{% url 'filter_chellan'%}" method="POST" style="text-align: right;">
+        {% csrf_token %}
+        <select name="flter_drop" id="" style="width: 100px; height: 28px">
+          <option value="All">All</option>
+          <option value="Draft">Draft</option>
+          <option value="Send">Send</option>
+        </select>
+        <button class="btn btn-light text-light" style="background-color: rgb(210, 132, 30);"><i class="mdi mdi-magnify"></i></button>
+        
+      
+      </form>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-sm-12">
+      <table class="table table-responsive " id="myTable" style="text-align: center;">
+        <thead>
+          <tr>
+            <th class="text-light">Customer Name</th>
+            <th class="text-light">Customer Mail id</th>
+            <th class="text-light">Delivery Challan#</th>
+            <th class="text-light">Date</th>
+            <th class="text-light">Refferernce#</th>
+            <th class="text-light">Status</th>
+            <th class="text-light">Amount</th>
+          
+          </tr>
+        </thead>
+        <tbody>
+          {% for v in view %}
+ 
+          <tr>
+            <td class="text-light"><a href="{% url 'delivery_challan_view' v.id%}">{{v.customer_name}}</a> </td>
+            <td class="text-light">{{v.customer_mailid}}</td>
+            <td class="text-light">DC-{{v.chellan_no}}</td>
+            <td class="text-light"> {{v.chellan_date | date:'d-m-Y'}}</td>
+            
+            <td class="text-light">{{v.reference}}</td>
+            <td class="text-light">{{v.status}}</td>
+            
+            <td class="text-light">{{v.total}}</td>
+
+           
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $("#search").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+  </script>
+ 
+{% endblock %}
