@@ -347,12 +347,12 @@
                 <th class="text-center text-uppercase">quantity</th>
                 <th class="text-center text-uppercase">rate</th>
                 <th class="text-center text-uppercase">tax(%)</th>
-                <th class="text-center text-uppercase">discount</th>
+                <th class="text-center text-uppercase">discount(%)</th>
                 <th class="text-center text-uppercase">amount</th>
               </tr>
             </thead>
             <tbody id="items-table-body">
-              <tr id = 'addr0' class = 'addr'>
+              <tr>
                 <td style="width: 20%;">
                   <div class="d-flex">
                     <select name='item[]' id="item0" class="form-control item text-dark bg-light" >
@@ -528,18 +528,7 @@
                 </td>
 
                 <td style="width: 11%;">
-                  <input type="text" name='amount[]' id="amount0" placeholder='Amount' class="form-control amount text-dark bg-light" step="0.00" min="0"  />
-                </td>
-                <td>
-                  <button type="button" id="0" class="btn btn-outline-primary clone_row text-center mb-1 p-1 " data-toggle= "tooltip" data-placement="bottom" tooltip="Clone"
-                      style = "width:25px; height: 25px; border-radius: 90% " >
-                    <i class="fa-solid fa-clone"></i>
-                  </button> 
-                    <!--<br>
-                  <button type="button" id="0" class="btn btn-outline-danger remove_row text-center p-1" data-toggle= "tooltip" data-placement="bottom" tooltip="Remove"
-                      style = "width:25px; height: 25px; border-radius: 90% " >
-                    <i class="fa fa-window-close"></i> -->
-                  </button>
+                  <input type="text" name='amount[]' id="amount0" placeholder='Amount' class="form-control amount1 text-dark bg-light" step="0.00" min="0"  />
                 </td>
 
               </tr>
@@ -2327,15 +2316,12 @@ $(document).ready(function() {
 
 
   $(document).ready(function(){
-
-
+    var roinc = 0
     $('#add').click(function(){
-      var table = document.getElementById("items-table-body");
-      var roinc = table.rows.length;
-
+      roinc++
       $('#items-table-body').append(
         
-        `<tr id='addr${roinc}' class = 'addr'>
+        `<tr id='addr0${roinc}'>
           <td style="width: 20%;">
             <div class="d-flex">
               <select name='item[]' id="item${roinc}" class="form-control item text-dark bg-light" onchange = "showRate(this.id,this.value);">
@@ -2509,7 +2495,7 @@ $(document).ready(function() {
             <input type="text" name='discount[]' id="disc${roinc}" placeholder='Discount' class="form-control disc text-dark bg-light" step="0.00" min="0"/>
           </td>
           <td style="width: 11%;">
-            <input type="text" name='amount[]' id="amount${roinc}" placeholder='Amount' class="form-control amount text-dark bg-light" step="0.00" min="0"  />
+            <input type="text" name='amount[]' id="amount${roinc}" placeholder='Amount' class="form-control amount1 text-dark bg-light" step="0.00" min="0"  />
           </td>
             
           <td>
@@ -2530,157 +2516,23 @@ $(document).ready(function() {
     });
   });
 
-  $(document).on('click','.clone_row',function(){
-
-    var table = document.getElementById("items-table-body");
-    var roinc = table.rows.length;
-
-    var row = $(this).closest('#items-table-body tr'); 
-    var newRow = row.clone();  
-
-    var inputs = row.find('input');
-    var item = row.find('.item');
-    var accnt = row.find('.acnt');
-    var qnty = row.find('.qty');
-    var rt = row.find('.rate');
-    var amnt  = row.find('.amount');
-    var disc = row.find(".disc");
-    var intra = row.find(".tax1");
-    var inter = row.find(".tax2");
-
-
-    newRow.each(function(index) {
-        var idPrefix = 'addr';
-        var newId = idPrefix + roinc ;
-        newRow.attr('id' , newId);
-        
-    });
-    item.each(function(index) {
-        var value1 = $(this).val();
-        var idPrefix = 'item';
-        var newId = idPrefix + roinc ;
-        newRow.find('.item').eq(index).val(value1).attr('id' , newId);
-        
-    });
-    qnty.each(function(index) {
-        var value2 = $(this).val();
-        var idPrefix = 'qty';
-        var newId = idPrefix + roinc ;
-        newRow.find('.qty').eq(index).val(value2).attr('id' , newId);
-        
-    });
-    rt.each(function(index) {
-        var value3 = $(this).val();
-        var idPrefix = 'rate';
-        var newId = idPrefix + roinc ;
-        newRow.find('.rate').eq(index).val(value3).attr('id' , newId);
-        
-    });
-    amnt.each(function(index) {
-        var value4 = $(this).val();
-        var idPrefix = 'amount';
-        var newId = idPrefix + roinc ;
-        newRow.find('.amount').eq(index).val(value4).attr('id' , newId);
-        
-    });
-
-    disc.each(function(index) {
-        var value5 = $(this).val();
-        var idPrefix = 'disc';
-        var newId = idPrefix + roinc ;
-        newRow.find('.disc').eq(index).val(value5).attr('id' , newId);
-        
-    });
-    accnt.each(function(index) {
-      var value6 = $(this).val();
-      var idPrefix = 'account';
-      var newId = idPrefix + roinc ;
-      newRow.find('.acnt').eq(index).val(value6).attr('id' , newId);
-        
-    });
-
-    intra.each(function(index){
-      var value7 = $(this).val();
-      var idPrefix = 'intra_tax';
-      var newId = idPrefix + roinc ;
-      newRow.find('.tax1').eq(index).val(value7).attr('id' , newId);
-    });
-    
-    inter.each(function(index){
-      var value8 = $(this).val();
-      var idPrefix = 'inter_tax';
-      var newId = idPrefix + roinc ;
-      newRow.find('.tax2').eq(index).val(value8).attr('id' , newId);
-    });
-    var buttonCell = $('<td>').append(`
-            <button type="button" id="${roinc}" class="btn btn-outline-primary clone_row text-center mb-1 p-1 " data-toggle= "tooltip" data-placement="bottom" tooltip="Clone"
-                style = "width:25px; height: 25px; border-radius: 90% " >
-              <i class="fa-solid fa-clone"></i>
-            </button> <br>
-            <button type="button" id="${roinc}" class="btn btn-outline-danger remove_row text-center p-1" data-toggle= "tooltip" data-placement="bottom" tooltip="Remove"
-                style = "width:25px; height: 25px; border-radius: 90% " >
-              <i class="fa fa-window-close"></i>
-            </button>
-          `);
-    newRow.find('td:last-child').replaceWith(buttonCell);
-
-    row.after(newRow);
-
-    //recalculate after new row added
-
-    var row_c = $("#items-table-body tr").length;
-    var amount_t = 0;
-    var tax = 0;
-    var tax_tot = 0;
-    var ship = parseFloat( $("#addcharge").val());
-    for(var i=0; i<row_c;i++){
-      amount_t += parseFloat($("#amount"+i).val());
-
-      $("#subtotal").val(amount_t);
-
-      var tax1 = $("#intra_tax" +i).val();
-      var tax2 = $("#inter_tax" +i).val();
-
-      console.log(tax1);
-      console.log(tax2);
-      console.log($("#amount"+i).val());
-
-      if (tax1 == 0){
-        if(tax2 == 0){
-          tax = 0;
-          tax_tot += tax;
-        }
-        else{
-          tax = ($("#amount"+i).val()*(tax2/100));
-          
-          tax_tot += tax;
-          // console.log(tax_tot);
-          $("#igst").val(tax_tot);
-        }
-      }
-      else{
-
-        tax = ($("#amount"+i).val()*(tax1/100));
-        tax_tot += tax;
-        $("#sgst").val(tax_tot/2);
-        $("#cgst").val(tax_tot/2);
-      }
-      if(ship){
-        $("#grandtotal").val(amount_t+tax_tot+ship)
-      }
-      else{
-        $("#grandtotal").val(amount_t+tax_tot)
-      }
-    }
-  });
-  
   $(document).on('click','.remove_row',function(){
-    
     var row_id = $(this).attr("id");
-
-    $('#addr'+row_id+'').remove();
-
+    $('#addr0'+row_id+'').remove();
   });
+
+
+
+  $(document).on('click','.clone_row',function(){
+      var row_id = $(this);
+      var clickedRow = row_id.parentNode.parentNode;
+
+    var newRow = clickedRow.cloneNode(true);
+
+    clickedRow.parentNode.insertBefore(newRow, clickedRow.nextSibling);
+  });
+
+
 
   $(document).ready(function() {
     $("#fname, #lname").change(function() {
@@ -2895,6 +2747,10 @@ $(document).on("click","#customerSave",function(){
     url:"{% url 'recurbills_customer' %}",
 
     data:{
+        // title : $("#title").val(),
+        // firstname : $("#fname").val(),
+        // lastname : $("#lname").val(),
+        // company_name : $("#vcompany").val(),
         customer_type : custType,
         display_name : $('#cdisplayname').text(),
         company_name : $('#ccompany').val(),
@@ -2908,6 +2764,8 @@ $(document).on("click","#customerSave",function(){
         desg :$("#c_desg").val(),
         dpt :$("#c_dpt").val(),
         gsttype :$("#c_gsttype").val(),
+        // gstin :$("#v_gstin").val(),
+        // panno : $("#v_pan").val(),
         placeofsupply :$("#placesupply").val(),
         tax_preference :cust_tax,
         currency : $("#c_curn").val(),
@@ -2921,6 +2779,14 @@ $(document).on("click","#customerSave",function(){
         fax : $("#cfax").val(),
         phone : $("#cphone").val(),
         country : $("ccountry").val(),
+        // shipstreet1 : $("#csstreet1").val(),
+        // shipstreet2 : $("#csstreet2").val(),
+        // shipcity : $("#cscity").val(),
+        // shipstate : $("#csstate").val(),
+        // shippincode : $("#cspincode").val(),
+        // shipcountry : $("#cscountry").val(),
+        // shipfax : $("#csfax").val(),
+        // shipphone : $("#csphone").val(),
         csrfmiddlewaretoken: '{{ csrf_token }}'
         
       },
@@ -3340,7 +3206,25 @@ $(document).ready(function() {
       success: function(response) {
         $("#rate0").val(response.rate);
 
-
+        var qnty = $("#qty0").val();
+        // console.log(qnty);
+        var amount = response.rate*qnty;
+        var disc = $("#disc0").val();
+        // console.log(amount);
+        if(disc){
+          amount_disc = amount*(disc/100);
+          // console.log(amount_disc);
+          $("#amount0").val(amount_disc);
+          $("#subtotal").val(amount_disc);
+          $("#grandtotal").val(amount_disc);
+        }
+        else{
+          
+          $("#amount0").val(amount);
+          // console.log(amount);
+          $("#subtotal").val(amount);
+          $("#grandtotal").val(amount);
+        }
       },
     });
   });
@@ -3361,6 +3245,20 @@ $(document).ready(function() {
       success: function(response) {
         $("#rate" +n).val(response.rate);
 
+        var qnty = $("#qty" +n).val();
+        var amount = response.rate*qnty;
+        var disc = $("#disc" + n).val();
+
+        if(disc){
+          amount_disc = amount*(disc/100)
+          $("#amount" +n).val(amount_disc);
+          $("#subtotal").val(amount_disc);
+        }
+        else{
+          
+          $("#amount" +n).val(amount);
+          $("#subtotal").val(amount);
+        }
       },
     });
 
@@ -3386,232 +3284,196 @@ $(document).ready(function() {
 
   });
 
+  // change amount while change in quatity
 
 
+    $(document).on('change','.qty',function(){
 
+      var q = $(this).attr('id').slice(3)
     
-  $(document).on('change','.qty',function(){
-
-    var row_count = $("#items-table-body tr").length;
-    var tax_tot = 0
-
-    var amount_total = 0;
-    var ship = parseFloat($("#addcharge").val());
-
-    for(var i=0; i<row_count;i++){
-      var rate = $("#rate"+i).val();
-      var qnty = $("#qty" +i).val();
+      var rate = $("#rate"+q).val();
+      var qnty = $("#qty" +q).val();
       var amount = rate*qnty;
-      var disc = $("#disc" + i).val();
+      var disc = $("#disc" + q).val();
 
-      var tax1 = $("#intra_tax" +i).val();
-      var tax2 = $("#inter_tax" +i).val();
+      var tax1 = $("#intra_tax" +q).val();
+      var tax2 = $("#inter_tax" +q).val();
+
+      var ship = parseFloat($("#addcharge").val());
+      // console.log($("#addcharge").val());
 
       if (tax1 == 0){
         if(tax2 == 0){
-          tax = 0;
-          tax_tot += tax;
+          tax = 0
         }
         else{
-          tax =(amount*(tax2/100));
-          tax_tot += tax;
-          $("#igst").val(tax_tot);
+          tax = (amount*(tax2/100));
+          $("#igst").val(tax);
+          $("#sgst").val(0);
+          $("#cgst").val(0);
         }
       }
       else{
-
-        tax = (amount*(tax1/100));
-        tax_tot += tax;
-        $("#sgst").val(tax_tot/2);
-        $("#cgst").val(tax_tot/2);
+          tax = (amount*(tax1/100));
+          $("#sgst").val(tax/2);
+          $("#cgst").val(tax/2);
+          $("#igst").val(0);
       }
-
       if(ship){
         // console.log('yea');
         if (disc){
-          amount_disc =  amount - disc;
-          $("#amount" + i).val(amount_disc);
-          amount_total += amount_disc;
-          $("#subtotal").val(amount_total);
+          amount_disc =  amount - (amount*(disc/100));
+          $("#amount" +q).val(amount_disc);
+          $("#subtotal").val(amount_disc);
           
-          $("#grandtotal").val(amount_total+ ship +tax_tot);
+          $("#grandtotal").val(amount_disc+tax+ship);
         }
 
         else{
-          $("#amount" +i).val(amount);
-          amount_total += amount;
-          $("#subtotal").val(amount_total);
-          $("#grandtotal").val(amount_total+ ship +tax_tot);
+          $("#amount" +q).val(amount);
+          $("#subtotal").val(amount);
+          $("#grandtotal").val(amount+tax);
+          $("#grandtotal").val(amount+tax+ship);
         }
       }
       else{
 
         if (disc){
-          amount_disc =  amount - disc;
-          $("#amount" +i).val(amount_disc);
-          amount_total += amount_disc;
-          $("#subtotal").val(amount_total);
+          amount_disc =  amount - (amount*(disc/100));
+          $("#amount" +q).val(amount_disc);
+          $("#subtotal").val(amount_disc);
+          
+          $("#grandtotal").val(amount_disc+tax);
+        }
+
+        else{
+          $("#amount" +q).val(amount);
+          $("#subtotal").val(amount);
+          $("#grandtotal").val(amount+tax);
+        }
         
-          $("#grandtotal").val(amount_total+tax_tot);
-        }
 
-        else{
-          $("#amount" +i).val(amount);
-          amount_total += amount;
-          $("#subtotal").val(amount_total);
-          $("#grandtotal").val(amount_total+tax_tot);
-        }
       }
-      
-    }  
-  });
+    });
+  
 
+    $(document).on('change','.disc',function(){
 
-$(document).on('change','.disc',function(){
+      var q = $(this).attr('id').slice(4)
 
-  var row_count1 = $("#items-table-body tr").length;
-  var amount_tot = 0;
-  var amount_disc,tax_tot1= 0;
-  var i,rate,qnty,amount;
-  var ship = parseFloat($("#addcharge").val());
+      var rate = $("#rate"+q).val();
+      var qnty = $("#qty" +q).val();
+      var t = rate*qnty;
 
-  for(i = 0;i<row_count1 ; i++){
+      var amount =t-(t*($("#disc" + q).val()/100));
 
-      rate = $("#rate"+ i).val();
-      qnty = $("#qty" + i).val();
-      amount = rate*qnty;
-      
-      amount_disc =amount - $("#disc" + i).val();
-      $("#amount" + i).val(amount_disc);
+      $("#amount" +q).val(amount);
+      $("#subtotal").val(amount);
 
-      amount_tot += amount_disc;
+      var tax1 = $("#intra_tax" +q).val();
+      var tax2 = $("#inter_tax" +q).val();
 
-      $("#subtotal").val(amount_tot);
-
-      var tax1 = $("#intra_tax" +i).val();
-      var tax2 = $("#inter_tax" +i).val();
-
-      if (tax1 == 0){
-        if(tax2 == 0){
-          tax = 0;
-          tax_tot1 += tax;
-        }
-        else{
-          tax = amount*(tax2/100);
-          tax_tot1 += tax;
-        }
-      }
-      else{
-          tax = amount*(tax1/100);
-          tax_tot1 += tax;
-      }
-      console.log(tax)
-      console.log(tax_tot1)
-
+      var ship = parseFloat($("#addcharge").val());
       if(ship){
-        $("#grandtotal").val(amount_tot+tax_tot1+ship);
-      }
-
-      else{
-         $("#grandtotal").val(amount_tot+tax_tot1);
-      }
-  }
-
-});
-
-
-  $(document).on("change",".tax1",function(){
-
-    var row_count2 = $("#items-table-body tr").length;
-    var amount_tot1 = 0;
-    var ship = parseFloat($("#addcharge").val());
-    var tot_tax,tax_tot3 = 0;
-    var i;
-
-    for(i = 0;i<row_count2 ; i++){
-
-      var rate = $("#rate"+i).val();
-      var qnty = $("#qty" +i).val();
-      var amount = rate*qnty;
-      var disc = $("#disc" + i).val();
-      var tax = $("#intra_tax"+i).val();
-
-      tot_tax = amount * (tax/100);
-      tax_tot3 += tot_tax;
-
-      $("#sgst").val(tax_tot3/2);
-      $("#cgst").val(tax_tot3/2);
-
-
-      if(disc){
-        if(ship){
-          amount_disc = amount - disc;
-          amount_tot1 += amount_disc
-          $("#subtotal").val(amount_tot1);
-          $("#grandtotal").val(amount_tot1+tax_tot3+ship);
+        if (tax1 == 0){
+          if(tax2 == 0){
+            tax = 0
+          }
+          else{
+            tax = (t*($("#inter_tax" +q).val()/100));
+          }
         }
         else{
-          amount_disc = amount - disc;
-          amount_tot1 += amount_disc
-          $("#subtotal").val(amount_tot1);
-          $("#grandtotal").val(amount_tot1+tax_tot3);
+          console.log('gst');
+            tax = (t*($("#intra_tax" +q).val()/100));
+            console.log(tax);
         }
-        
+
+        $("#grandtotal").val(amount+tax+ship);
       }
+
       else{
-        if(ship){
-          amount_tot1 += amount; 
-          $("#subtotal").val(amount_tot1);
-          $("#grandtotal").val(amount_tot1+tax_tot3+ship);
+        if (tax1 == 0){
+          if(tax2 == 0){
+            tax = 0
+          }
+          else{
+            tax = (t*($("#inter_tax" +q).val()/100));
+          }
         }
         else{
-          amount_tot1 += amount; 
-          $("#subtotal").val(amount_tot1);
-          $("#grandtotal").val(amount_tot1+tax_tot3);
+          console.log('gst');
+            tax = (t*($("#intra_tax" +q).val()/100));
+            console.log(tax);
         }
+
+        $("#grandtotal").val(amount+tax);
       }
-    }
 
-  });
+    });
 
-  $(document).on("change",".tax2",function(){
 
-    var row_count2 = $("#items-table-body tr").length;
-    var amount_to = 0;
-    var tax_tot4= 0;
-    var ship = parseFloat($("#addcharge").val());
-    var i;
+    $(document).on("change",".tax1",function(){
 
-    for(i = 0;i<row_count2 ; i++){
-      console.log(i);
-      var rate = $("#rate"+i).val();
-      var qnty = $("#qty" +i).val();
+      var n = $(this).attr("id").slice(9);
+      var rate = $("#rate"+n).val();
+      var qnty = $("#qty" +n).val();
       var amount = rate*qnty;
-      var disc = $("#disc" + i).val();
-      var tax = $("#inter_tax"+i).val();
-
-
-      tax_tot4 += amount * (tax/100);
-
-      $("#igst").val(tax_tot4);
+      var disc = $("#disc" + n).val();
+      var tax = $("#intra_tax"+n).val();
 
       if(disc){
-        amount_disc = amount - disc;
-        amount_to += amount_disc;
-
-        $("#subtotal").val(amount_to);
-        $("#grandtotal").val(amount_to+tax_tot4);
-      
+        amount_disc = amount-(amount*(disc/100));
+        var tot_tax = (amount*(tax/100));
+        $("#sgst").val(tot_tax/2);
+        $("#cgst").val(tot_tax/2);
+        $("#igst").val(0);
+        $("#subtotal").val(amount_disc);
+        $("#grandtotal").val(amount_disc+tot_tax);
       }
       else{
-        amount_to += amount;
-        $("#subtotal").val(amount_to);
-        $("#grandtotal").val(amount_to+tax_tot4)
+        var tot_tax =( amount * (tax/100));
+        $("#sgst").val(tot_tax/2);
+        $("#cgst").val(tot_tax/2);
+        $("#igst").val(0);
+        $("#subtotal").val(amount);
+        $("#grandtotal").val(amount+tot_tax);
+      }
+
+    });
+
+    $(document).on("change",".tax2",function(){
+
+      var n = $(this).attr("id").slice(9);
+      var rate = $("#rate"+n).val();
+      var qnty = $("#qty" +n).val();
+      var amount = rate*qnty;
+      var disc = $("#disc" + n).val();
+      var tax = $("#inter_tax"+n).val();
+
+      if(disc){
+        amount_disc = amount-(amount*(disc/100));
+        var tot_tax = (amount * (tax/100));
+        console.log(tot_tax);
+        $("#igst").val(tot_tax);
+        $("#sgst").val(0);
+        $("#cgst").val(0);
+        $("#subtotal").val(amount_disc);
+        $("#grandtotal").val(amount_disc+tot_tax)
+       
+      }
+      else{
+        var tot_tax =( amount * (tax/100));
+        // console.log(tot_tax);
+        $("#igst").val(tot_tax);
+        $("#sgst").val(0);
+        $("#cgst").val(0);
+        $("#subtotal").val(amount);
+        $("#grandtotal").val(amount+tot_tax)
         
       }
-   }
-  });
 
+    });
 
     $(document).on("change","#addcharge",function(){
 
@@ -3623,10 +3485,7 @@ $(document).on('change','.disc',function(){
         var total = parseFloat($("#subtotal").val())+  parseFloat($("#igst").val())+ parseFloat($("#addcharge").val());
         $("#grandtotal").val(total);
       }
-      else{
-        var total = parseFloat($("#subtotal").val())+  parseFloat($("#addcharge").val());
-        $("#grandtotal").val(total);
-      }
+      
 
     });
 
