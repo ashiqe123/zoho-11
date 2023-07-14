@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
 .modal-content {
   background-color: #fefefe;
@@ -145,12 +147,12 @@ function submitComment() {
     
         <div class="col-md-4" style="border-right: 0px solid rgb(250, 250, 250);overflow-y:scroll;height: 600px;">
           <div class="row">
-            <div class="col-md-3 d-flex">
+            <div class="col-md-4 d-flex">
               <input type="text" id="search" class="form-control bg-light text-dark" placeholder="Search.." autocomplete="off">
             </div>
             
             <div class="dropdown col-md-2  mt-1">
-              <a class="dropdown-toggle btn btn-primary" href="" data-toggle="dropdown">
+              <a class="dropdown-toggle btn btn-secondary text-dark" href="" data-toggle="dropdown">
                 <i class="fa fa-filter"></i> Filter
               </a>
               <div class="dropdown-menu m-1">
@@ -183,8 +185,11 @@ function submitComment() {
                   <br>
                   <br>
                   {{v.Pur_no}}
+                  <br><br>
+                  {{v.Ord_date}}
                 </td>
                 <td class="text-right">
+                  {{v.grand_total}} <br><br>
                   {{v.status}}
                 </td>
               </tr>
@@ -195,14 +200,14 @@ function submitComment() {
        <br><br><br><br><br><br>
         </div> 
         
-        <div class="col-md-8 " style="margin-left: -.5rem;" >
+        <div class="col-md-8 " style="margin-left: -.7rem;" >
           <div class="row" >
             
             <div class="col-md-10 p-2 bg-light form-inline d-flex justify-content-end" style="width: 100%;margin-left: .4rem;">
-              <a href="{% url 'edit' po_item.id %}" class="text-dark m-1"><i class="fa fa-pencil-alt">EDIT</i></a>
-                <a href="{% url 'purchase_delet' po_item.id %}" class="text-dark m-1"><i class="fas fa-trash-alt"></i>Delete</a>
+              <a href="{% url 'edit' po_item.id %}" class="text-dark m-1"><i class="fa fa-pencil">EDIT</i></a>
+                <a href="{% url 'purchase_delet' po_item.id %}" class="text-dark m-1"><i class="fas fa-trash"></i>Delete</a>
 
-                <a href="#" class="text-dark m-1" onclick="openModal()"><i class="fa fa-comment-alt"></i> Comment</a>
+                <a href="#" class="text-dark m-1" onclick="openModal()"><i class="fas fa-comment"></i> Comment</a>
 
 <!-- Modal -->
 <div id="commentModal" class="modal">
@@ -215,7 +220,7 @@ function submitComment() {
 </table>
     <form method="post" action="{% url 'add_comment' po_item.id %}">
       {% csrf_token %}
-      <textarea name="comment" id="commentTextarea" >{{po_item.comments}}</textarea>
+      <textarea name="comment" id="commentTextarea" ></textarea>
       <input type="submit" class="btn btn-success">
 
     </form>   

@@ -623,7 +623,7 @@
                           class='form-control bg-light text-dark  text-right border-0 tax'>
                           <optgroup class="text-center" label="GST">
                             <option value="0">0% GST(0%)</option>
-                            <option value="3">3.0% GST(5%)</option>
+                            <option value="3">3.0% GST(3%)</option>
                             <option value="5">5.0% GST(5%)</option>
                             <option value="12">12.0% GST(12%)</option>
                             <option value="18">18.0% GST(18%)</option>
@@ -631,7 +631,7 @@
                           </optgroup>
                           <optgroup  class="text-center" label="IGST">
                             <option value="0">0% IGST(0%)</option>
-                            <option value="3">3.0% IGST(5%)</option>
+                            <option value="3">3.0% IGST(3%)</option>
                             <option value="5">5.0% IGST(5%)</option>
                             <option value="12">12.0% IGST(12%)</option>
                             <option value="18">18.0% IGST(18%)</option>
@@ -3165,7 +3165,7 @@ function calculateGrandTotal() {
           <select name='tax[]'  id='tax${rowCount}' class='form-control bg-light text-dark text-right border-0 tax'>
             <optgroup class="text-center" label="GST">
                             <option value="0">0% GST(0%)</option>
-                            <option value="3">3.0% GST(5%)</option>
+                            <option value="3">3.0% GST(3%)</option>
                             <option value="5">5.0% GST(5%)</option>
                             <option value="12">12.0% GST(12%)</option>
                             <option value="18">18.0% GST(18%)</option>
@@ -3174,7 +3174,7 @@ function calculateGrandTotal() {
                           <optgroup  class="text-center" label="IGST">
                            
                             <option value="0">0% IGST(0%)</option>
-                            <option value="3">3.0% IGST(5%)</option>
+                            <option value="3">3.0% IGST(3%)</option>
                             <option value="5">5.0% IGST(5%)</option>
                             <option value="12">12.0% IGST(12%)</option>
                             <option value="18">18.0% IGST(18%)</option>
@@ -3234,7 +3234,7 @@ $('#item_table').on('click', '.clone-row', function() {
   var newRowId = 'row' + (rowCount + 1);
   
   // Update IDs of cloned elements
-  clonedRow.attr('id', newRowId);
+  clonedRow.attr('id', {rowCount}+1);
   clonedRow.find('[id^="item"]').attr('id', 'item' + (rowCount + 1));
   clonedRow.find('[id^="account"]').attr('id', 'account' + (rowCount + 1));
   clonedRow.find('[id^="tax"]').attr('id', 'tax' + (rowCount + 1));

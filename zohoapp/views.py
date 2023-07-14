@@ -5611,29 +5611,24 @@ def create_Purchase_order(request):
                 p_bill.document=request.FILES['file'] 
                 p_bill.save()
                 print('save')
-
-        
-            item = request.POST.getlist("item[]")
-            accounts = request.POST.getlist("account[]")
-            quantity = request.POST.getlist("quantity[]")
-            rate = request.POST.getlist("rate[]")
-            tax = request.POST.getlist("tax[]")
-            discount = request.POST.getlist("discount[]")
-            amount = request.POST.getlist("amount[]")
-            print(item)
-            print('tax')
-            print(tax)
-            if len(item)== len(accounts) == len(quantity) == len(rate) == len(tax)  == len(discount)== len(amount):
-                mapped = zip(item,accounts,quantity,rate,tax,discount, amount)
-                mapped = list(mapped)
-                for ele in mapped:
-                    print(ele)
-
-                    created = Purchase_Order_items.objects.get_or_create(item = ele[0],account = ele[1],quantity=ele[2],rate=ele[3],tax=ele[4],discount = ele[5],amount=ele[6],user = u,company = company, PO = p_bill)
+        item = request.POST.getlist("item[]")
+        accounts = request.POST.getlist("account[]")
+        quantity = request.POST.getlist("quantity[]")
+        rate = request.POST.getlist("rate[]")
+        tax = request.POST.getlist("tax[]")
+        discount = request.POST.getlist("discount[]")
+        amount = request.POST.getlist("amount[]")
+        if len(item)== len(accounts) == len(quantity) == len(rate) == len(discount) == len(tax) == len(amount):
+            mapped = zip(item,accounts, quantity, rate,  tax,discount, amount)
+            mapped = list(mapped)
+            for ele in mapped:
                 
-                print('Done')
+
+                created = Purchase_Order_items.objects.get_or_create(item = ele[0],account = ele[1],quantity=ele[2],rate=ele[3],tax=ele[4],discount = ele[5],amount=ele[6],user = u,company = company, PO = p_bill,)
+            
+            print('Done')
             return redirect('purchaseView')
-    return redirect('purchase_order')
+    return redirect('purchas_order')
 
 def purchase_delet(request,id):
     po=Purchase_Order.objects.get(id=id)

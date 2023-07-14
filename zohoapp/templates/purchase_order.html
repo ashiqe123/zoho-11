@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
     .modal{
       z-index: 9999;
@@ -133,7 +134,10 @@
                             <td>{{v.status}}</td>
                             <td>{{v.grand_total}}</td>
                             <td>
-                                <a style="border-radius: 50%;"  href="{% url 'purchase_delet' v.id %}"><i class="fas fa-trash-alt"></i></a>
+                                <a style="border-radius: 50%;"  href="{% url 'purchase_delet' v.id %}"><i class="fa fa-trash-o" style="font-size:24px"></i>
+
+
+                                </a>
                             </td>
                         </tr>
                         {% endfor %}
