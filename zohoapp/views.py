@@ -5521,6 +5521,7 @@ def create_Purchase_order(request):
         grand_total=request.POST['grandtotal']
         note=request.POST['customer_note']
         terms_con = request.POST['tearms_conditions']
+        orgMail=request.POST.get('orgMail')
         u = User.objects.get(id = request.user.id)
         print('yes')
         print(typ)
@@ -5537,6 +5538,7 @@ def create_Purchase_order(request):
                                     Org_street=org_street,
                                     Org_city=org_city,
                                     Org_state=org_state,
+                                    Org_mail=orgMail,
                                     Pur_no=po,
                                     ref=ref,
                                     customer_name = '',
@@ -5586,6 +5588,7 @@ def create_Purchase_order(request):
                                     Org_street='',
                                     Org_city='',
                                     Org_state='',
+                                    Org_mail='',
                                     customer_address=caddress,
                                     source_supply=src_supply,
                                     payment_terms = terms,
@@ -5770,6 +5773,7 @@ def edit_Purchase_order(request,id):
             po_id.Org_street=request.POST.get('orgstreet')
             po_id.Org_city=request.POST.get('orgcity')
             po_id.Org_state=request.POST.get('orgstate')
+            po_id.Org_mail=request.POST.get('orgMail')
 
             po_id.customer_name = ''
             po_id.customer_mail = ''
@@ -5818,7 +5822,7 @@ def edit_Purchase_order(request,id):
             po_id.Org_street=''
             po_id.Org_city=''
             po_id.Org_state=''
-
+            po_id.Org_mail=''
             po_id.customer_name = request.POST.get('custom')
             po_id.customer_mail = request.POST.get('custMail')
             po_id.customer_address = request.POST.get('custAddress')

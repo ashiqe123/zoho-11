@@ -483,9 +483,9 @@ class recurring_bills(models.Model):
     end_date=models.DateField(null=True,blank=True)
     payment_terms = models.CharField(max_length=100,null=True,blank=True)
     sub_total = models.FloatField(null=True,blank=True)
-    igst = models.FloatField(null=True,blank=True)
-    cgst = models.FloatField(null=True,blank=True)
-    sgst = models.FloatField(null=True,blank=True)
+    igst = models.TextField(max_length=255,null=True,blank=True)
+    cgst = models.TextField(max_length=255,null=True,blank=True)
+    sgst = models.TextField(max_length=255,null=True,blank=True)
     tax_amount =  models.FloatField(null=True,blank=True)
     shipping_charge = models.FloatField(null=True,blank=True)
     adjustment = models.FloatField(null=True,blank=True)
@@ -552,7 +552,7 @@ class Purchase_Order(models.Model):
     Org_state = models.CharField(max_length=100,null=True,blank=True)
     Org_city = models.CharField(max_length=100,null=True,blank=True)
     typ=   models.CharField(max_length=100,null=True,blank=True)
-     
+    Org_mail=models.CharField(max_length=100,null=True,blank=True)
 
 
     customer_name = models.CharField(max_length=100,null=True,blank=True)

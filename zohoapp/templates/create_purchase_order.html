@@ -92,14 +92,14 @@
 
 <div class="container-fulid containerprof">
 
-  <div class="card radius-15" style="width: 103%;">
+  <div class="card radius-15" style="width: 100%;">
     <div class="card-body">
         <div class="card-title">
           <h2 class="mb-0 text-uppercase text-right"> New Purchase Order</h2>
         </div>
     </div>
   </div>
-  <div style="overflow-y: scroll; height: 700px;width: 103%;">
+  <div >
   <div class="card radius-15 p-5">
     <form action="{% url 'create_Purchase_order' %}" class="mt-2 mb-4" method="post" enctype="multipart/form-data">
       {% csrf_token %}
@@ -190,7 +190,16 @@
     <input type="text" class="form-control bg-light text-dark" id="gstNumber" name="gstNumber">
   </div> 
 </div>     
-
+<div class="row mt-2">
+  <div class="col-md-3">
+    <label for="orgAddress">E-Mail:</label>
+  
+  </div>       
+  <div class="col-md-6">
+    <input type="email" placeholder="sample@gmail.com" class="form-control bg-light text-dark" id="orgMail" name="orgMail">
+  </div>
+</div>
+<br>
 <div class="row mt-2">
   <div class="col-md-3">
     <label for="orgAddress">Address:</label>

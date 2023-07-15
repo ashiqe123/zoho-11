@@ -91,26 +91,41 @@
     <div class="row fixed-top" style="top: 7rem; margin-left: 13rem;position: fixed;">
         <div class="col-md-10" style="width: 100%;">
             <div class="row mx-2">
-                <div class="col-md-3">
+                <div class="col-md-10">
                     <a class="text-white" style="font-size: 2rem;">All Purchases</a>
-                </div>
-                <div class="col-md-3 d-flex">
-                    <input type="text" id="search" class="form-control bg-light text-dark" placeholder="Search.." autocomplete="off">
-                </div>
-                <div class="col-md-3"></div>
-                <div class="col-md-1 form-inline justify-content-end py-2">
-                    <a style="color: #ccc;background-color: chocolate;" class="btn btn-success" href="{% url 'purchase_order' %}">
-                        <i class="fa-solid fa-plus"></i>New
-                    </a>
-                </div>
+                </div>  
             </div>
-            <div style="overflow-y: scroll; height: 525px;width: 100%;">
-                <table class="table text-white" style="width: 100%;" id="table">
+            <div class="row mb-3">
+              <div class="col-md-5">
+                <input type="text" id="search" class="form-control bg-light text-dark" placeholder="Search.." autocomplete="off">
+
+              </div>
+              <div class="col-md-5"></div>
+              <div class="col-md-2 d-flex">
+                <div class="dropdown mt-2 ">
+                  <a class="dropdown-toggle btn btn-secondary text-dark m-2" href="" data-toggle="dropdown">
+                    <i style="color: chocolate;" class="fa fa-filter"></i>
+                  </a>
+                  <div class="dropdown-menu m-1">
+                    <a class="dropdown-item" href="">All</a>
+    
+                    <a class="dropdown-item" href="">Draft</a>
+                    <a class="dropdown-item" href="">Approved</a>
+                  </div>
+                </div>
+    
+                <a style="color: #ccc;background-color: chocolate;" class="btn btn-success m-3 mt-3" href="{% url 'purchase_order' %}">
+                  <i class="fa-solid fa-plus"></i>New
+              </a>
+              </div>
+            </div>
+            <div style="overflow-y: scroll;overflow-x: scroll; height: 525px;width: 100%;">
+                <table class="table text-white" style="width: 100%;" >
                     <thead>
                         <tr>
                             <th class="text-white">DATE</th>
-                            <th class="text-white">ORDER NUMBER</th>
-                            <th class="text-white">EXPECTED DELIVERY</th>
+                            <th class="text-white">ORD NUMBER</th>
+                            <th class="text-white">ORD DATE</th>
                             <th class="text-white">CLIENT</th>
                             <th class="text-white">E-MAIL</th>
                             <th class="text-white">DELIVERY DATE</th>
@@ -118,7 +133,7 @@
                             <th class="text-white">AMOUNT</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="table">
                         {% for v in pt %}
                         <tr class="text-white">
                             <td onclick="location.href='{% url 'purchase_bill_view' v.id %}'">{{v.Ord_date}}</td>
@@ -129,7 +144,7 @@
                             {% else %}
                             <td>{{v.customer_name}} </td>
                             {% endif %}
-                            <td>{{v.customer_mail}}</td>
+                            <td>{{v.customer_mail}} {{v.Org_mail}}</td>
                             <td>{{v.exp_date}}</td>
                             <td>{{v.status}}</td>
                             <td>{{v.grand_total}}</td>
@@ -151,7 +166,7 @@
     
 </section>
 <script>
-  var $rows = $('#table tr');
+  var $rows = $('#table tr ');
   $('#search').keyup(function() {
       var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
       
