@@ -2202,6 +2202,7 @@ $(document).ready(function() {
     $('#vendor').change(function() {
         var name = $("#vendor").val();
         var na = name.split(' ')
+        console.log(na)
         $.ajax({
 
             url: "{% url 'get_vendordet' %}", 
@@ -2238,13 +2239,17 @@ $(document).ready(function() {
 
         var name = $("#customer").val();
         var na = name.split(' ')
+        console.log(na)
         $.ajax({
 
             url: "{% url 'get_customerdet' %}", 
 
             data: { 
-                    name : na[1]+ " " + na[2] + " "+ na[3],
-                    id : na[0],
+                 id:[0],
+                    title : na[1],
+                    fname :na[2],
+                    lname : na[3],
+                    
                     csrfmiddlewaretoken: '{{ csrf_token }}' 
                 },
 
@@ -2945,7 +2950,7 @@ function reloadCustomer() {
       var dropdown = $('#customer');
       dropdown.empty();
       $.each(data, function(key, value) {
-          dropdown.append($('<option></option>').attr('value', key).text(value[1]).val(value[0] + ' ' + value[1]));
+          dropdown.append($('<option></option>').attr('value', key).text(value[0]).val(value[1] + ' ' + value[2]));
       });
     },
     error: function(xhr, status, error) {

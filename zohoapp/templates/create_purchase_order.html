@@ -99,7 +99,7 @@
         </div>
     </div>
   </div>
-  <div >
+  <div>
   <div class="card radius-15 p-5">
     <form action="{% url 'create_Purchase_order' %}" class="mt-2 mb-4" method="post" enctype="multipart/form-data">
       {% csrf_token %}
@@ -196,7 +196,7 @@
   
   </div>       
   <div class="col-md-6">
-    <input type="email" placeholder="sample@gmail.com" class="form-control bg-light text-dark" id="orgMail" name="orgMail">
+    <input type="text" placeholder="sample@gmail.com" class="form-control bg-light text-dark" id="orgMail" name="orgMail">
   </div>
 </div>
 <br>
@@ -258,7 +258,7 @@
             <select name="custom" id="custom" class="form-control bg-light text-dark" >
               <option value=""></option>
               {% for c in customer %}
-              <option value="{{c.id}} {{ c.customerName }} ">{{ c.customerName }}</option>
+              <option value="{{ c.customerName }} ">{{ c.customerName }}</option>
               {% endfor %}
             </select>
             <a href="" data-toggle="modal" data-target="#newcustomer">+ Add New Customer</a>
@@ -275,7 +275,7 @@
 
           </div>
           <div class="col-md-6">
-            <input type="email" id="cemail_inp" class="form-control bg-light text-dark" name="custMail">
+            <input type="text" id="cemail_inp" class="form-control bg-light text-dark" name="custMail">
           </div>
         </div>
         <div class="row">
@@ -436,7 +436,7 @@
               
               {% for p in payment %}
               
-                <option selected value="{{p.id}} {{p.Terms}} {{ p.Days}}">{{p.Terms}} {{p.Days}}</option>
+                <option selected value="{{p.id}} {{p.Terms}} {{ p.Days}}">{{p.Terms}}</option>
               {% endfor %}
               <option value="" selected></option>
             </select>
@@ -631,6 +631,7 @@
                   <td style="width: 15%;" class='text-right '> <select name='tax[]' id='tax1'
                           class='form-control bg-light text-dark  text-right border-0 tax'>
                           <optgroup class="text-center" label="GST">
+                            <option value="0" selected></option>
                             <option value="0">0% GST(0%)</option>
                             <option value="3">3.0% GST(3%)</option>
                             <option value="5">5.0% GST(5%)</option>
@@ -750,7 +751,7 @@
     
      
         <input style="width: 150px;margin-right: 2rem;" type="submit" class="btn btn-success mt-2" value="Save">
-            <a href="{% url 'purchaseView' %}" class="btn btn-danger mt-2" style="width: 150px;">Cancel</a>
+           <input style="width: 150px;margin-right: 2rem;" class="btn btn-danger mt-2" type="reset" value="Cancel">
      
         
        
@@ -987,7 +988,7 @@
                     <div class="d-flex">
                       <select class="form-control bg-light text-dark" id="v_terms" name="v_terms" required>
                         {% for p in payment %}
-                        <option value="{{p.Terms}} {{p.id}}">{{p.Terms}} {{p.Days}}</option>
+                        <option value="{{p.Terms}} {{p.id}}">{{p.Terms}}</option>
                         {% endfor %}
                       </select>                
                       <a href="#" class="btn btn-outline-secondary py-2 my-1" data-target="#newpayment" data-toggle="modal">+</a>   
@@ -1653,7 +1654,7 @@
                       <select class="form-control bg-light text-dark" id="c_terms" name="c_terms" required>
     
                         {% for p in payment %}
-                        <option value="{{p.Terms}} {{p.id}}">{{p.Terms}} {{p.Days}}</option>
+                        <option value="{{p.Terms}} {{p.id}}">{{p.Terms}}</option>
                         {% endfor %}
                       </select>                
                     </div>
@@ -2325,11 +2326,11 @@ $(document).ready(function() {
   $('#custom').change(function() {
     var name = $("#custom").val();
     var na = name.split(' ');
-    
+    console.log(name)
     $.ajax({
       url: "{% url 'customer_det' %}",
       data: {
-        name: na[1] + " " + na[2] + " " + na[3]+ " " + na[4],
+        name:name,
         csrfmiddlewaretoken: '{{ csrf_token }}'
       },
       type: 'POST',
@@ -2680,7 +2681,6 @@ $(document).on("click","#vendorSave",function(){
 });
 
 function reloadVendor() {
-
   $.ajax({
     url: "{% url 'vendor_dropdown' %}",
     type: "GET",
@@ -2692,7 +2692,7 @@ function reloadVendor() {
       var dropdown = $('#vendor');
       dropdown.empty();
       $.each(data, function(key, value) {
-          dropdown.append($('<option></option>').attr('value', key).text(value).val(value));
+          dropdown.append($('<option></option>').attr('value', key).text(value[0]+" " +value[1] + ' ' + value[2]).val(value[1] + ' ' + value[2]+ ' ' +value[3]));
       });
     },
     error: function(xhr, status, error) {

@@ -202,35 +202,44 @@
                       </div>
                   </header>
                   <div class="invoice-box">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <th><p class="text-dark">Order No#: {{po_item.Pur_no}}</p></th>
+                          <th><p class="text-dark">Reference #: {{po_item.ref}}</p></th>
+                        </tr>
+                        <tr>
+                          <th> <p class="text-dark">Purchase Date: {{po_item.Ord_date}}</p></th>
+                          <th> <p class="text-dark">Expect Delivery Date: {{po_item.exp_date}}</p></th>
+                        </tr>
+                      </tbody>
+                    </table>
+                   
                       <div class="invoice-header">
                           <div class="row">
                             <div class="col-sm-4">
-                              <div class="invoice-details text-dark">
-                                <p class="text-dark">Order No#: {{po_item.Pur_no}}</p>
-    
-                                  <p class="text-dark">Reference #: {{po_item.ref}}</p>
-                                  <p class="text-dark">Purchase Date: {{po_item.Ord_date}}</p>
-                                  <p class="text-dark">Expect Delivery Date: {{po_item.exp_date}}</p>
-                              </div>
+                              
                             </div>
                             <div class="col-sm-4">
-                                <p class="text-dark">Vendor Name : {{po_item.vendor_name}}</p>
-                                <p class="text-dark">Vendor Mail :{{po_item.vendor_mail}}</p>
-                                <p class="text-dark">Vendor Gst_treart : {{po_item.vendor_gst_traet}}</p>
-                                <p class="text-dark">Vendor Gst_No :{{po_item.vendor_gst_no}}</p>
+                              <h4 class="text-dark">TO,</h4>
+                                <p class="text-dark"> {{po_item.vendor_name}}</p>
+                                <p class="text-dark">{{po_item.vendor_mail}}</p>
+                                <p class="text-dark"> {{po_item.vendor_gst_traet}}</p>
+                                <p class="text-dark">{{po_item.vendor_gst_no}}</p>
                             </div>
                             <div class="col-sm-4">
                               <div class="client-details">
+                                <h4 class="text-dark">Deliver TO,</h4>
                                 {% if po_item.customer_name == '' %}
-                                   <p class="text-dark">Client Name: {{po_item.Org_name}} </p>
+                                   <p class="text-dark">{{po_item.Org_name}} </p>
      
-                                   <p class="text-dark">Address: {{po_item.Org_address}}</p>
-                                   <p class="text-dark">Gst: {{po_item.Org_gst}}</p>
+                                   <p class="text-dark"> {{po_item.Org_address}}</p>
+                                   <p class="text-dark"> {{po_item.Org_gst}}</p>
                                    {% else %}
-                                   <p class="text-dark">Client Name: {{po_item.customer_name}} </p>
-                                   <p class="text-dark">Client Mail: {{po_item.customer_mail}} </p>
+                                   <p class="text-dark"> {{po_item.customer_name}} </p>
+                                   <p class="text-dark">{{po_item.customer_mail}} </p>
      
-                                   <p class="text-dark">Address: {{po_item.customer_address}}<br></p>
+                                   <p class="text-dark"> {{po_item.customer_address}}<br></p>
                                    {% endif %}
                                </div>
                             </div>

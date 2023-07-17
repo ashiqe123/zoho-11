@@ -4239,9 +4239,10 @@ def get_customerdet(request):
 
     name = request.POST.get('name')
     id = request.POST.get('id')
-    # print(name)
+    print(name)
+    print(id)
 
-    cust = customer.objects.get(user=company.user_id,id = id, customerName=name.strip())
+    cust = customer.objects.get(customerName=name)
     email = cust.customerEmail
     gstin = 0
     gsttr = cust.GSTTreatment
@@ -4770,7 +4771,7 @@ def customer_dropdown(request):
     options = {}
     option_objects = customer.objects.filter(user = user)
     for option in option_objects:
-        options[option.id] = option.customerName
+        options[option.id] = [option.customerName,option.customerEmail,option.GSTTreatment]
 
     return JsonResponse(options)
     
@@ -5285,8 +5286,7 @@ def customer_dropdown(request):
     options = {}
     option_objects = customer.objects.filter(user = user)
     for option in option_objects:
-        options[option.id] = option.customerName
-
+        options[option.id] = [option.customerName]
     return JsonResponse(options)
 @login_required(login_url='login')
 def purchase_pay(request):
@@ -5916,3 +5916,11 @@ def Approved(request,id):
         'po_item':po_item,
     }
     return render(request,"purchase_bill_view.html",context)
+
+
+def apr(request):
+    pt=Purchase_Order.objects.filter(status='Approved')
+    return render(request,'purchase_order.html',{'pt':pt})
+def drf(request):
+    pt=Purchase_Order.objects.filter(status='Draft')
+    return render(request,'purchase_order.html',{'pt':pt})

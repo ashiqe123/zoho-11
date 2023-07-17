@@ -226,6 +226,118 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #555; 
     }
+    .form-inline {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.form-inline .form-check {
+  width: 100%;
+}
+
+@media (min-width: 576px) {
+  .form-inline label {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+  .form-inline .form-group {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 0;
+  }
+  .form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+  }
+  .form-inline .form-control-plaintext {
+    display: inline-block;
+  }
+  .form-inline .input-group,
+  .form-inline .custom-select {
+    width: auto;
+  }
+  .form-inline .form-check {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: auto;
+    padding-left: 0;
+  }
+  .form-inline .form-check-input {
+    position: relative;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin-top: 0;
+    margin-right: 0.25rem;
+    margin-left: 0;
+  }
+  .form-inline .custom-control {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+  .form-inline .custom-control-label {
+    margin-bottom: 0;
+  }
+}
+.hidden {
+  display: none;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+}
+
+.form-row label {
+  width: 100px;
+  padding-right: 10px;
+}
+
+.form-row input[type="text"],
+.form-row input[type="email"] {
+  flex: 1;
+}
+.item{
+  height:1200px;
+}
 </style>
 
 <section class="sectionhtml">
@@ -260,7 +372,7 @@
         
 
         <li class="nav-item menu-items">
-          <a class="nav-link"  href="">
+          <a class="nav-link"  href="{% url 'base' %}">
             <span class="menu-icon">
               <i class="mdi mdi-home"></i>
             </span>
@@ -398,8 +510,8 @@
                 </a>
               </div> 
               <div class="dropdown-item">
-                <a class="d-inline-block" style="color: #3f6391" href="">Recurring Invoice</a>
-                <a class="d-inline-block" style="color: #3f6391;margin-left: 3px;" href="">
+                <a class="d-inline-block" style="color: #3f6391" href="{% url 'view_recurpage' %}">Recurring Invoice</a>
+                <a class="d-inline-block" style="color: #3f6391;margin-left: 3px;" href="{% url 'create_recur' %}">
                   <span class="icon bg-light rounded-circle" style="text-align: right; width: 25px;">
                     <i class="mdi mdi-plus"></i>
                   </span>
@@ -501,7 +613,14 @@
           </a>
           <ul class="dropdown-menu">
             <li>              
-
+<div class="dropdown-item">
+                <a class="d-inline-block" style="color: #3f6391" href="">Projects</a>
+                <a class="d-inline-block" style="color: #3f6391;margin-left: 3px;" href="">
+                  <span class="icon bg-light rounded-circle" style="text-align: right; width: 25px;">
+                    <i class="mdi mdi-plus"></i>
+                  </span>
+                </a>
+              </div>   
                                                          
             </li>               
           </ul>
