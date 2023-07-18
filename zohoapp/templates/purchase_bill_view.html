@@ -501,7 +501,11 @@ function submitComment() {
                                <td>{{i.quantity}}</td>
                                <td>{{i.rate}}</td>
                                <td>{{i.discount}}</td>
-                               <td>{{i.tax}}</td>
+                               {% if i.PO.source_supply == "[KL] Kerala" %}
+                               <td>{{i.tax}} GST</td>
+                               {% else %}
+                               <td>{{i.tax}} IGST</td>
+                               {% endif %}
                                <td>{{i.amount}}</td>
                              </tr>
                              {% endfor %}
@@ -686,8 +690,7 @@ function submitComment() {
         }).appendTo('#table-body');
       });
     </script>
-    n
-*******************************************************************************************************************************************************************************************************************    
+    
 
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
 integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"

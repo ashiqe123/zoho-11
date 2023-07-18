@@ -3261,7 +3261,7 @@ $('#item_table').on('click', '.clone-row', function() {
   clonedRow.find('.tax').val(selectedTax);
   
   // Append the cloned row to the table
-  $('#item_table tbody').append(clonedRow);
+  $('#item_table').append(clonedRow);
   
   rowCount++; // Increment row counter for the new cloned row
   

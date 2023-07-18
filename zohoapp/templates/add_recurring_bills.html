@@ -3,8 +3,6 @@
 {% load static %}
 {% load tz %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<!-- <link rel="stylesheet" href="{% static 'assets/css/style.css' %}"> -->
-
 
 <style>
 
@@ -84,6 +82,9 @@
       z-index: 9999;
       overflow: scroll;
     }
+    .item{
+      height: auto;
+    }
     </style>
 
 
@@ -108,7 +109,7 @@
           <select name="vendor" id="vendor" class="form-control text-dark bg-light" >
             <option value="" class="text-dark bg-light"></option>
             {% for v in vendor %}
-            <option value="{{ v.first_name }} {{ v.last_name }} {{v.id}}" class="text-dark bg-light">{{ v.first_name }} {{ v.last_name }}</option>
+            <option value="{{v.id}} {{ v.first_name }} {{ v.last_name }}" class="text-dark bg-light">{{ v.first_name }} {{ v.last_name }}</option>
             {% endfor %}
           </select>
           <a href="" data-toggle="modal" data-target="#newvendor">+ Add New Vendor</a>
@@ -148,8 +149,9 @@
         </div>
 
         <div class="col-md-6">
-            <select name="srcofsupply" id="" class="form-control text-dark bg-light">
-                <option value="[AN] Andaman and Nicobar Islads">[AN] Andaman and Nicobar Islads</option>
+            <select name="srcofsupply" id="srcofsupply" class="form-control text-dark bg-light">
+                <option value=" " disabled selected>Select Source of Supply</option>
+                <option value="[AN] Andaman and Nicobar Islads">[AN] Andaman and Nicobar Islands</option>
                 <option value="[AD] Andhra Predhesh">[AD] Andhra Predhesh</option>
                 <option value="[AR] Arunachal Predesh">[AR] Arunachal Predesh</option>
                 <option value="[AS] Assam">[AS] Assam</option>
@@ -166,7 +168,7 @@
                 <option value="[JK] Jammu and Kashmir">[JK] Jammu and Kashmir</option>
                 <option value="[JH] Jharkhand">[JH] Jharkhand</option>
                 <option value="[KA] Karnataka">[KA] Karnataka</option>
-                <option selected="selected" value="[KL] Kerala">[KL] Kerala</option>
+                <option value="[KL] Kerala">[KL] Kerala</option>
                 <option value="[LA] Ladakh">[LA] Ladakh</option>
                 <option value="[LD] Lakshadweep">[LD] Lakshadweep</option>
                 <option value="[MP] Madhya Predesh">[MP] Madhya Predesh</option>
@@ -192,8 +194,6 @@
         </div>
       </div>
       
-      
-
       <div class="row mt-2">
         <div class="col-md-3">
           <label for="prof_name" style="color: rgb(190, 88, 88);">Profile Name *</label>
@@ -294,7 +294,7 @@
           <select name="customer" id="customer" class="form-control text-dark bg-light" >
             <option value=""></option>
             {% for c in customer %}
-            <option value="{{c.id}} {{ c.customerName }}">{{ c.customerName }}</option>
+            <option value="{{c.id}} {{c.customerName}}">{{ c.customerName }}</option>
             {% endfor %}
           </select>
           <a href="" data-toggle="modal" data-target="#newcustomer">+ Add New Customer</a>
@@ -353,20 +353,22 @@
             </thead>
             <tbody id="items-table-body">
               <tr id = 'addr0' class = 'addr'>
-                <td style="width: 20%;">
+                <td  style="width: 20%;">
                   <div class="d-flex">
-                    <select name='item[]' id="item0" class="form-control item text-dark bg-light" >
+                    <select name='item[]' id="item0" class="form-control item text-dark bg-light">
                       <option value=" " selected disabled>Select Item</option>
                       {% for i in item %}
                         <option value="{{i.id}}">{{ i.Name }} </option>
                       {% endfor %}
-                    </select>
                     
+                    </select>
                   </div>  
                 </td>
+                
                 <td  style="width: 20%;">
                   <div class="d-flex">
-                    <select name='account[]' id="account" class="form-control acnt text-dark bg-light">
+                    <select name='account[]' id="account0" class="form-control acnt text-dark bg-light">
+                      <option value=" " selected disabled>Select Account</option>
                       <optgroup class=""label="Accounts Payable">
                         <option value='Accounts Payable'>Accounts Payable</option>
                       </optgroup>
@@ -485,12 +487,15 @@
                         <option value='Mortgages'>Mortgages</option>
                       </optgroup>
 
-                      <optgroup class="" label="Others">
+                      {% for ty in account_type %}
+                      <optgroup class="" label="{{ty.account_type}}">
                         {% for i in account %}
-                          <option value="{{ i.id }}">{{ i.accountName }} </option>
+                          {% if ty.account_type == i.account_type %}
+                          <option value="{{ i.id }}">{{ i.account_name }} </option>
+                          {% endif %}
                         {% endfor %}
                       </optgroup>
-                      
+                      {% endfor %}
                     </select>
                   </div>  
                 </td>
@@ -503,7 +508,7 @@
                 <td style="width: 15%;">
                   <input type="hidden" id="tax_total0" class="form-control mb-2 d-none">
                   <input type="text" placeholder="Select TAX" class="form-control selecttax text-dark bg-light" id="selecttax0">
-                  <select name="tax[]" id="intra_tax0" class="form-control tax1 d-none mb-2 text-dark bg-light">
+                  <select name="tax1[]" id="intra_tax0" class="form-control tax1 d-none mb-2 text-dark bg-light">
                     <option id="ta1" value=0 text=' '>Choose GST</option>
                     <option value=28 text={{ cmp1.state }}>28.0% GST(28%)</option>
                     <option value=18 text={{ cmp1.state }}>18.0% GST(18%)</option>
@@ -513,7 +518,7 @@
                     <option value=0 text={{ cmp1.state }}>0.0% GST(0%)</option>
                   </select>
 
-                  <select name="tax[]" id="inter_tax0" class="form-control tax2 d-none mb-2 text-dark bg-light">
+                  <select name="tax2[]" id="inter_tax0" class="form-control tax2 d-none mb-2 text-dark bg-light">
                     <option id="ta5" value=0 text=" "  >Choose IGST</option>
                     <option value=28 text=" ">28.0% IGST(28%)</option>
                     <option value=18 text=" ">18.0% IGST(18%)</option>
@@ -535,10 +540,10 @@
                       style = "width:25px; height: 25px; border-radius: 90% " >
                     <i class="fa-solid fa-clone"></i>
                   </button> 
-                    <!--<br>
-                  <button type="button" id="0" class="btn btn-outline-danger remove_row text-center p-1" data-toggle= "tooltip" data-placement="bottom" tooltip="Remove"
+                    <br>
+                  <button disabled type="button" id="0" class="btn remove_row text-center p-1" data-toggle= "tooltip" data-placement="bottom" tooltip="Remove"
                       style = "width:25px; height: 25px; border-radius: 90% " >
-                    <i class="fa fa-window-close"></i> -->
+                    <i class="fa fa-window-close bg-dark text-dark"></i>
                   </button>
                 </td>
 
@@ -571,7 +576,7 @@
             </div>
             <div class="col-sm-3 mt-2"></div>
             <div class="col-sm-4 mt-2">
-              <input type="number" step="any" name='subtotal' placeholder=0 
+              <input type="number" step="any" name='subtotal' placeholder=0  step="0.00" min="0"
                 class="form-control text-dark bg-light" id="subtotal" readonly style="background-color: #2A3038;border: 1px solid #2c2e33;">
             </div>
           </div>
@@ -579,21 +584,21 @@
           <div class="row container-fluid p-2 m-0 d-none" id="igst1">
             <div class="col-sm-5 mt-2"><label for="a" class="text-center">IGST</label></div>
             <div class="col-sm-3 mt-2"></div>
-            <div class="col-sm-4 mt-2"><input type="number" name='igst' step="any" id="igst" placeholder=0 
+            <div class="col-sm-4 mt-2"><input type="number" name='igst' step="0.00" min="0" id="igst" placeholder=0 
                 class="form-control text-dark bg-light" readonly style="background-color: #2A3038;border: 1px solid #2c2e33;"/>
             </div>
           </div>
           <div class="row container-fluid p-2 m-0 d-none" id="cgst1">
             <div class="col-sm-5 mt-2"><label for="a" class="text-center">CGST</label></div>
             <div class="col-sm-3 mt-2"></div>
-            <div class="col-sm-4 mt-2"><input type="text" name='cgst' step="any" id="cgst" placeholder=0 
+            <div class="col-sm-4 mt-2"><input type="number" name='cgst' step="0.00" min="0" id="cgst" placeholder=0 
                 class="form-control text-dark bg-light" readonly style="background-color: #2A3038;border: 1px solid #2c2e33;"/>
             </div>
           </div>
           <div class="row container-fluid p-2 m-0 d-none" id="sgst1">
             <div class="col-sm-5 mt-2"><label for="a" class="text-center">SGST</label></div>
             <div class="col-sm-3 mt-2"></div>
-            <div class="col-sm-4 mt-2"><input type="text" name='sgst' step="any" id="sgst" placeholder=0 
+            <div class="col-sm-4 mt-2"><input type="number" name='sgst' step="0.00" min="0" id="sgst" placeholder=0 
                 class="form-control text-dark bg-light" readonly style="background-color: #2A3038;border: 1px solid #2c2e33;"/>
             </div>
           </div>
@@ -605,7 +610,7 @@
             <div class="col-sm-3 mt-2">
             </div>
             <div class="col-sm-4 mt-2">
-              <input type="number" name='addcharge' step="any" id="addcharge" placeholder=0 
+              <input type="number" name='addcharge' tep="0.00" min="0" id="addcharge" placeholder=0 
               class="form-control text-dark bg-light"/>
             </div>
           </div>
@@ -622,7 +627,7 @@
           <div class="row container-fluid  p-2 m-0">
             <div class="col-sm-5 mt-2"><label for="a" class="text-center" id="grandtotallbl">Grand Total</label></div>
             <div class="col-sm-2 mt-2"></div>
-            <div class="col-sm-5 mt-2"><input type="number" name='grand_total' id="grandtotal" placeholder="0" step="any" 
+            <div class="col-sm-5 mt-2"><input type="number" name='grand_total' id="grandtotal" placeholder="0" step="0.00" min="0"
                 class="form-control text-dark bg-light" readonly>
             </div>
           </div>
@@ -2113,7 +2118,25 @@
                     <label for="">Account Type</label><br>
                   </div>
                   <div class="col-md-6 mt-2">
-                    <input type="text" class="form-control text-dark bg-light" id="acct_type" name="acct_type" required>
+                    <select class="form-control text-dark bg-light" id="acct_type" name="acct_type">
+                      <option value="" disabled selected>Select Account Types</option>
+                      <option value="Accounts Payable ">Accounts Payable </option>
+                      <option value="Accounts Receivable ">Accounts Receivable </option>
+                      <option value="Other Current Asset">Other Current Asset</option>
+                      <option value="Cash">Cash</option>
+                      <option value="Bank">Bank</option>
+                      <option value="Fixed Asset"> Fixed Asset</option>
+                      <option value="Stock">Stock</option>
+                      <option value="Other Current Liability">Other Current Liability</option>
+                      <option value="Credit Card">Credit Card</option>
+                      <option value="Long Term Liability">Long Term Liability</option>
+                      <option value="Other Liability"> Other Liability</option>
+                      <option value="Equity">Equity</option>
+                      <option value="Income">Income</option>
+                      <option value="Other Expense">Other Expense</option>
+                      <option value="Expense">Expense</option>
+                      <option value="Cost of Goods Sold"> Cost of Goods Sold</option>
+                    </select>  
                   </div>
                 </div>
                 
@@ -2201,16 +2224,16 @@ document.getElementById("cancelButton").addEventListener("click", function() {
 $(document).ready(function() {
     $('#vendor').change(function() {
         var name = $("#vendor").val();
-        var na = name.split(' ')
-        console.log(na)
+        var na = name.split(' ')[0];
+        // console.log(name);
         $.ajax({
 
             url: "{% url 'get_vendordet' %}", 
 
             data: { 
-                    fname : na[0],
-                    lname : na[1],
-                    id :na[2],
+                    // fname : na[0],
+                    // lname : na[1],
+                    id :na,
                     csrfmiddlewaretoken: '{{ csrf_token }}' 
                 },
 
@@ -2238,18 +2261,14 @@ $(document).ready(function() {
     $('#customer').change(function() {
 
         var name = $("#customer").val();
-        var na = name.split(' ')
-        console.log(na)
+        var na = name.split(' ')[0];
         $.ajax({
 
             url: "{% url 'get_customerdet' %}", 
 
             data: { 
-                 id:[0],
-                    title : na[1],
-                    fname :na[2],
-                    lname : na[3],
-                    
+                    // name : na[1]+ " " + na[2] + " "+ na[3],
+                    id : na,
                     csrfmiddlewaretoken: '{{ csrf_token }}' 
                 },
 
@@ -2289,47 +2308,12 @@ $(document).ready(function() {
                 // gst or igst in tax
 
               $("#cust_state").val(data.state);
-              $(".selecttax").removeClass('d-flex');
-              $(".selecttax").addClass('d-none');
               
-              if( data.state == $("#company_state").val())
-              {
-                $(".tax2").addClass('d-none');
-                $(".tax1").removeClass('d-none');
-                $(".tax1").addClass('d-flex');
-
-                $("#cgst1").removeClass('d-none');
-                $("#cgst1").addClass('d-flex');
-                $("#sgst1").removeClass('d-none');
-                $("#sgst1").addClass('d-flex');
-
-                $("#igst1").removeClass('d-flex');
-                $("#igst1").addClass('d-none');
-
-              }
-              else{
-
-                $(".tax1").addClass('d-none');
-                $(".tax2").removeClass('d-none');
-                $(".tax2").addClass('d-flex');
-
-                $("#igst1").removeClass('d-none');
-                $("#igst1").addClass('d-flex');
-
-                $("#cgst1").removeClass('d-flex');
-                $("#cgst1").addClass('d-none');
-                $("#sgst1").removeClass('d-flex');
-                $("#sgst1").addClass('d-none');
-              }
             }
-            
+           
         });
-    
     });
 });
-
-
-
 
   $(document).ready(function(){
 
@@ -2340,7 +2324,7 @@ $(document).ready(function() {
 
       $('#items-table-body').append(
         
-        `<tr id='addr${roinc}' class = 'addr'>
+        `<tr id='addr${roinc}' class = 'addr '>
           <td style="width: 20%;">
             <div class="d-flex">
               <select name='item[]' id="item${roinc}" class="form-control item text-dark bg-light" onchange = "showRate(this.id,this.value);">
@@ -2472,11 +2456,15 @@ $(document).ready(function() {
                   <option value='Mortgages'>Mortgages</option>
                 </optgroup>
 
-                <optgroup class="" label="Others">
-                  {% for i in account %}
-                    <option value="{{ i.id }}">{{ i.accountName }} </option>
+                <{% for ty in account_type %}
+                  <optgroup class="" label="{{ty.account_type}}">
+                    {% for i in account %}
+                      {% if ty.account_type == i.account_type %}
+                      <option value="{{ i.id }}">{{ i.account_name }} </option>
+                      {% endif %}
+                    {% endfor %}
+                  </optgroup>
                   {% endfor %}
-                </optgroup>
               </select>
             </div>  
           </td>
@@ -2489,7 +2477,7 @@ $(document).ready(function() {
           <td style="width: 15%;">
             <input type="hidden" id="tax_total0" class="form-control mb-2 d-none">
             <input type="text" placeholder="Select TAX" class="form-control selecttax text-dark bg-light" id="selecttax${roinc}">
-            <select name="tax[]" id="intra_tax${roinc}" class="form-control tax1 d-none mb-2 text-dark bg-light">
+            <select name="tax1[]" id="intra_tax${roinc}" class="form-control tax1 d-none mb-2 text-dark bg-light">
                 <option id="ta1" value=0 text=" ">Choose GST</option>
                 <option value=28 text={{ cmp1.state }}>28.0% GST(28%)</option>
                 <option value=18 text={{ cmp1.state }}>18.0% GST(18%)</option>
@@ -2499,7 +2487,7 @@ $(document).ready(function() {
                 <option value=0 text={{ cmp1.state }}>0.0% GST(0%)</option>
             </select>
 
-            <select name="tax[]" id="inter_tax${roinc}" class="form-control tax2 d-none mb-2 text-dark bg-light">
+            <select name="tax2[]" id="inter_tax${roinc}" class="form-control tax2 d-none mb-2 text-dark bg-light">
               <option id="ta5" value=0 text=" " >Choose IGST</option>
               <option value=28 text=" ">28.0% IGST(28%)</option>
               <option value=18 text=" ">18.0% IGST(18%)</option>
@@ -2552,12 +2540,25 @@ $(document).ready(function() {
     var disc = row.find(".disc");
     var intra = row.find(".tax1");
     var inter = row.find(".tax2");
-
+    var clone = row.find(".clone_row");
+    var rm = row.find(".remove_row");
 
     newRow.each(function(index) {
         var idPrefix = 'addr';
         var newId = idPrefix + roinc ;
         newRow.attr('id' , newId);
+        
+    });
+    clone.each(function(index) {
+        var value1 = $(this).val();
+        var newId = roinc ;
+        newRow.find('.clone_row').eq(index).attr('id' , newId);
+        
+    });
+    rm.each(function(index) {
+        var value1 = $(this).val();
+        var newId = roinc ;
+        newRow.find('.remove_row').eq(index).attr('id' , newId);
         
     });
     item.each(function(index) {
@@ -2642,30 +2643,24 @@ $(document).ready(function() {
       amount_t += parseFloat($("#amount"+i).val());
 
       $("#subtotal").val(amount_t);
-
+      
       var tax1 = $("#intra_tax" +i).val();
       var tax2 = $("#inter_tax" +i).val();
-
-      console.log(tax1);
-      console.log(tax2);
-      console.log($("#amount"+i).val());
-
       if (tax1 == 0){
         if(tax2 == 0){
           tax = 0;
           tax_tot += tax;
         }
         else{
-          tax = ($("#amount"+i).val()*(tax2/100));
+          tax = (($("#qty"+i).val())*($("#rate"+i).val()))*(tax2/100) ;
           
           tax_tot += tax;
-          // console.log(tax_tot);
           $("#igst").val(tax_tot);
         }
       }
       else{
 
-        tax = ($("#amount"+i).val()*(tax1/100));
+        tax = (($("#qty"+i).val())*($("#rate"+i).val()))*(tax1/100) ;
         tax_tot += tax;
         $("#sgst").val(tax_tot/2);
         $("#cgst").val(tax_tot/2);
@@ -2682,8 +2677,93 @@ $(document).ready(function() {
   $(document).on('click','.remove_row',function(){
     
     var row_id = $(this).attr("id");
-
     $('#addr'+row_id+'').remove();
+
+    $('tr[id^="addr"]').each(function(index) {
+        var new_row_id = 'addr' + (index);
+        $(this).attr('id', new_row_id);
+
+        $(this).find('select[id^="item"]').each(function(tdIndex) {
+          var new_td_id = 'item' + (index * 1 + tdIndex);
+          $(this).attr('id', new_td_id);
+        });
+        $(this).find('select[id^="account"]').each(function(tdIndex) {
+          var new_td_id = 'account' + (index * 1 + tdIndex);
+          $(this).attr('id', new_td_id);
+        });
+        $(this).find('input[id^="qty"]').each(function(tdIndex) {
+          var new_td_id = 'qty' + (index * 1 + tdIndex);
+          $(this).attr('id', new_td_id);
+        });
+        $(this).find('input[id^="rate"]').each(function(tdIndex) {
+          var new_td_id = 'rate' + (index * 1 + tdIndex);
+          $(this).attr('id', new_td_id);
+        });
+        $(this).find('input[id^="disc"]').each(function(tdIndex) {
+          var new_td_id = 'disc' + (index * 1 + tdIndex);
+          $(this).attr('id', new_td_id);
+        });
+        $(this).find('input[id^="amount"]').each(function(tdIndex) {
+          var new_td_id = 'amount' + (index * 1 + tdIndex);
+          $(this).attr('id', new_td_id);
+        });
+        $(this).find('select[id^="intra_tax"]').each(function(tdIndex) {
+          var new_td_id = 'intra_tax' + (index * 1 + tdIndex);
+          $(this).attr('id', new_td_id);
+        });
+        $(this).find('select[id^="inter_tax"]').each(function(tdIndex) {
+          var new_td_id = 'inter_tax' + (index * 1 + tdIndex);
+          $(this).attr('id', new_td_id);
+        });
+        $(this).find('button').each(function(tdIndex) {
+          var new_td_id = (index * 1 + tdIndex);
+          $(this).attr('id', new_td_id);
+        });
+        $(this).find('button[class="remove_row"]').each(function(tdIndex) {
+          var new_td_id1 = ((index * 1) + tdIndex);
+          $(this).attr('id', new_td_id1);
+        });
+        var row_c = $("#items-table-body tr").length;
+        var amount_t = 0;
+        var tax = 0;
+        var tax_tot = 0;
+        var ship = parseFloat( $("#addcharge").val());
+        for(var i=0; i<row_c;i++){
+          amount_t += parseFloat($("#amount"+i).val());
+
+          $("#subtotal").val(amount_t);
+
+          var tax1 = $("#intra_tax" +i).val();
+          var tax2 = $("#inter_tax" +i).val();
+
+          if (tax1 == 0){
+            if(tax2 == 0){
+              tax = 0;
+              tax_tot += tax;
+            }
+            else{
+              tax = (($("#qty"+i).val())*($("#rate"+i).val()))*(tax2/100);
+              
+              tax_tot += tax;
+              // console.log(tax_tot);
+              $("#igst").val(tax_tot);
+            }
+          }
+          else{
+
+            tax = (($("#qty"+i).val())*($("#rate"+i).val()))*(tax2/100) ;
+            tax_tot += tax;
+            $("#sgst").val(tax_tot/2);
+            $("#cgst").val(tax_tot/2);
+          }
+          if(ship){
+            $("#grandtotal").val(amount_t+tax_tot+ship)
+          }
+          else{
+            $("#grandtotal").val(amount_t+tax_tot)
+          }
+        }
+    });
 
   });
 
@@ -2758,9 +2838,9 @@ $(document).ready(function() {
   function addressSame(){
     var chkbtn1 = document.getElementById('vokay');
     var chkbtn2 = document.getElementById('csokay');
+
     if (chkbtn1.checked == true) {
-      document.getElementById('vsstreet1').value = document.getElementById('vstreet1').value;
-      document.getElementById('vsstreet2').value = document.getElementById('vstreet2').value;
+      document.getElementById('vsstreet').value = document.getElementById('vstreet').value;
       document.getElementById('vscity').value = document.getElementById('vcity').value;
       document.getElementById('vspincode').value = document.getElementById('vpincode').value;
       document.getElementById('vscountry').value = document.getElementById('vcountry').value;
@@ -2788,7 +2868,8 @@ $(document).ready(function() {
       document.getElementById('csfax').value = document.getElementById('cfax').value;
     } 
     else {
-      document.getElementById('csstreet').value = '';
+      document.getElementById('csstreet1').value = '';
+      document.getElementById('csstreet2').value = '';
       document.getElementById('cscity').value = '';
       document.getElementById('csstate').value = '';
       document.getElementById('cspincode').value = '';
@@ -2865,7 +2946,7 @@ function reloadVendor() {
       var dropdown = $('#vendor');
       dropdown.empty();
       $.each(data, function(key, value) {
-          dropdown.append($('<option></option>').attr('value', key).text(value[0]+" " +value[1] + ' ' + value[2]).val(value[1] + ' ' + value[2]+ ' ' +value[3]));
+        dropdown.append($('<option></option>').attr('value', key).text(value[0]+" " +value[1] + ' ' + value[2]).val(value[3]+' '+ value[1] + ' ' + value[2]+ ' ' +value[3]));
       });
     },
     error: function(xhr, status, error) {
@@ -2950,7 +3031,7 @@ function reloadCustomer() {
       var dropdown = $('#customer');
       dropdown.empty();
       $.each(data, function(key, value) {
-          dropdown.append($('<option></option>').attr('value', key).text(value[0]).val(value[1] + ' ' + value[2]));
+          dropdown.append($('<option></option>').attr('value', key).text(value[1]).val(value[0] + ' ' + value[1]));
       });
     },
     error: function(xhr, status, error) {
@@ -3164,7 +3245,7 @@ function reloadItem() {
 // account modal
 
 $(document).on("click","#accountSave",function(){
-  
+
   $.ajax({
     
     type : 'POST',
@@ -3371,13 +3452,51 @@ $(document).ready(function() {
 
   }
 
+  $(document).on('change', '#srcofsupply',function(){
 
+      $(".selecttax").removeClass('d-none');
+      $(".selecttax").addClass('d-flex');
+      var st = $("#srcofsupply").val().split(" ").slice(1).join(" ").trim();
+      // console.log(st)
+      if( st == $("#company_state").val())
+      {
+        $(".tax2").removeClass('d-flex');
+        $(".tax2").addClass('d-none');
+        $(".tax1").removeClass('d-flex');
+        $(".tax1").addClass('d-none');
+
+        $("#cgst1").removeClass('d-none');
+        $("#cgst1").addClass('d-flex');
+        $("#sgst1").removeClass('d-none');
+        $("#sgst1").addClass('d-flex');
+
+        $("#igst1").removeClass('d-flex');
+        $("#igst1").addClass('d-none');
+
+      }
+      else{
+        $(".tax1").removeClass('d-flex');
+        $(".tax1").addClass('d-none');
+        $(".tax2").removeClass('d-flex');
+        $(".tax2").addClass('d-none');
+
+        $("#igst1").removeClass('d-none');
+        $("#igst1").addClass('d-flex');
+
+        $("#cgst1").removeClass('d-flex');
+        $("#cgst1").addClass('d-none');
+        $("#sgst1").removeClass('d-flex');
+        $("#sgst1").addClass('d-none');
+      }
+    });
+ 
   $(document).on("click",".selecttax",function(){
 
     $(".selecttax").removeClass('d-flex');
     $(".selecttax").addClass('d-none');
+    var st = $("#srcofsupply").val().split(" ").slice(1).join(" ").trim();
 
-    if($("#cust_state").val() == $("#company_state").val()){
+    if(st == $("#company_state").val()){
       $(".tax2").addClass('d-none');
       $(".tax1").removeClass('d-none');
       $(".tax1").addClass('d-flex');
@@ -3620,11 +3739,13 @@ $(document).on('change','.disc',function(){
 
     $(document).on("change","#addcharge",function(){
 
-      if($("#cust_state").val() == $("#company_state").val()){
+      var sta = $("#srcofsupply").val().slice(4).trim();
+
+      if(sta == $("#company_state").val()){
         var total =parseFloat( $("#subtotal").val())+ parseFloat( $("#sgst").val())+ parseFloat($("#cgst").val())+ parseFloat($("#addcharge").val());
         $("#grandtotal").val(total);
       }
-      else if($("#cust_state").val() != $("#company_state").val()){
+      else if(sta != $("#company_state").val()){
         var total = parseFloat($("#subtotal").val())+  parseFloat($("#igst").val())+ parseFloat($("#addcharge").val());
         $("#grandtotal").val(total);
       }

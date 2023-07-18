@@ -316,8 +316,8 @@
         </div>
 
         <div class="col-md-6">
-            <select name="srcofsupply" id="srcofsupply" onclick="toggleDateInput()" onselect="calculateTaxAmount()" class="form-control bg-light text-dark">
-                <option selected value="{{po.sourceofsupply}}">{{po.sourceofsupply}}</option>
+            <select name="srcofsupply" id="srcofsupply" onclick="toggleDateInput()" oncha="calculateTaxAmount()" class="form-control bg-light text-dark">
+                <option selected value="{{po.source_supply}}">{{po.source_supply}}</option>
                 <option value="[AN] Andaman and Nicobar Islads">[AN] Andaman and Nicobar Islads</option>
                 <option value="[AD] Andhra Predhesh">[AD] Andhra Predhesh</option>
                 <option value="[AR] Arunachal Predesh">[AR] Arunachal Predesh</option>
@@ -335,7 +335,7 @@
                 <option value="[JK] Jammu and Kashmir">[JK] Jammu and Kashmir</option>
                 <option value="[JH] Jharkhand">[JH] Jharkhand</option>
                 <option value="[KA] Karnataka">[KA] Karnataka</option>
-                <option selected="selected" value="[KL] Kerala">[KL] Kerala</option>
+                <option  value="[KL] Kerala">[KL] Kerala</option>
                 <option value="[LA] Ladakh">[LA] Ladakh</option>
                 <option value="[LD] Lakshadweep">[LD] Lakshadweep</option>
                 <option value="[MP] Madhya Predesh">[MP] Madhya Predesh</option>
@@ -448,7 +448,7 @@
 
       <div class="row mt-2">
         <div class="col-md-12 table-responsive-md mt-3">
-          <table class="table table-bordered" id="item_table" onclick='toggleDateInput()'>
+          <table class="table table-bordered" id="item_table" onclick='toggleDateInput()' onselect="calculateTaxAmount()">
             <thead>
               <tr>
                 <th>Item<br><a href="" data-toggle="modal" data-target="#newitem" class="text-capitalize">+ Item</a></th>
@@ -624,9 +624,11 @@
                   </td>
                   <td style="width: 15%;" class='text-right'> <select name='tax[]' id='tax{{forloop.counter}}'
                           class='form-control bg-light text-dark text-right border-0 tax'>
-                        
-                          <option value="{{i.tax}}">{{i.tax}}</option>
-            
+                            {% if i.PO.source_supply == "[KL] Kerala" %}
+                          <option value="{{i.tax}} ">{{i.tax}}  GST</option>
+                            {% else %}
+                            <option value="{{i.tax}} ">{{i.tax}} IGST</option>
+                            {% endif %}
                           <optgroup class="text-center" label="GST">
                             <option value="0">0% GST(0%)</option>
                             <option value="3">3.0% GST(3%)</option>
@@ -652,11 +654,11 @@
                   <td style="width: 20%;" class='text-right'><input type='number' id='amount{{forloop.counter}}'
                           class=' text-right form-control amount bg-light text-dark' name='amount[]'
                           value="{{i.amount}}"></td>
-                  <td class='text-center'><button type='button' id='del_btn{{forloop.counter}}'
+                  <td class='text-center'><button onclick="calculateTaxAmount()" type='button' id='del_btn{{forloop.counter}}'
                           class='btn btn-transparent text-danger btn-sm btn-outline-danger rounded-circle delete-row'
                           style='width:30px'>X</button></td>
                           <td class='text-center'>
-                            <button type='button' class='btn btn-transparent text-primary btn-sm btn-outline-primary rounded-circle clone-row' data-row=1 style='width:30px'><i class="fa fa-clone"></i>
+                            <button type='button' onclick="calculateTaxAmount()" class='btn btn-transparent text-primary btn-sm btn-outline-primary rounded-circle clone-row' data-row=1 style='width:30px'><i class="fa fa-clone"></i>
                             </button>
                           </td>
  </tr>
@@ -3201,10 +3203,10 @@ function calculateGrandTotal() {
         </td>
         
         <td class='text-center'>
-          <button type='button' id='del_btn${rowCount}' class='btn btn-transparent text-danger btn-sm btn-outline-danger rounded-circle delete-row' style='width:30px'>X</button>
+          <button type='button' onclick="calculateTaxAmount()" id='del_btn${rowCount}' class='btn btn-transparent text-danger btn-sm btn-outline-danger rounded-circle delete-row' style='width:30px'>X</button>
         </td>
         <td class='text-center'>
-        <button type='button' class='btn btn-transparent text-primary btn-sm btn-outline-primary rounded-circle clone-row' data-row='${rowCount}' style='width:30px'><i class="fa fa-clone"></i>
+        <button type='button' onclick="calculateTaxAmount()" class='btn btn-transparent text-primary btn-sm btn-outline-primary rounded-circle clone-row' data-row='${rowCount}' style='width:30px'><i class="fa fa-clone"></i>
 </button>
       </td>
       </tr>
@@ -3219,8 +3221,19 @@ function calculateGrandTotal() {
     calculateTaxAmount();
   });
 
+  $('#srcofsupply').on('change', function () {
+  var row = $(this).closest('tr');
+  calculateRowAmount(row);
+  calculateSubtotal();
+  calculateGrandTotal();
+  toggleDateInput();
+  calculateTaxAmount();
+});
+  $(document).ready(function() {
+  calculateTaxAmount();
+});
   // Input change event for quantity, rate, and discount
-  $('#item_table').on('input', '.qty, .rate, .discount,.tax', function () {
+  $('#item_table').on('input', '.qty, .rate, .discount,.tax,.acnt,.item_select', function () {
     var row = $(this).closest('tr');
     calculateRowAmount(row);
     calculateSubtotal();
@@ -3240,7 +3253,7 @@ $('#item_table').on('click', '.clone-row', function() {
   var clonedRow = rowToClone.clone(); // Clone the row
   
   // Generate a unique ID for the new row
-  var newRowId = 'row' + (rowCount + 1);
+  var newRowId =  (rowCount + 1);
   
   // Update IDs of cloned elements
   clonedRow.attr('id', newRowId);
@@ -3272,60 +3285,54 @@ $('#item_table').on('click', '.clone-row', function() {
 
 });
 function calculateTaxAmount() {
-        var checkbox = document.getElementById("srcofsupply");
-        var vale=checkbox.value;
-        var srcofsupply = vale; // Replace with the actual value of srcofsupply
-        var companyState = "[KL] Kerala"; // Replace with the actual value of company state
+  var checkbox = document.getElementById("srcofsupply");
+  var vale = checkbox.value;
+  var srcofsupply = vale; // Replace with the actual value of srcofsupply
+  var companyState = "[KL] Kerala"; // Replace with the actual value of company state
 
-        var subtotal = parseFloat(document.getElementById("subtotal").value);
-        var shipping = parseFloat(document.getElementById("shipping").value);
-        var tax = parseFloat(document.getElementById("total_taxamount").value);
-        
-        var tax_rate = 0.0; // Default tax rate for IGST
-        if (srcofsupply === companyState) {
-            tax_rate =tax; // Tax rate for CGST/SGST
-        }
+  var subtotal = parseFloat(document.getElementById("subtotal").value);
+  var shipping = parseFloat(document.getElementById("shipping").value);
+  var tax = parseFloat(document.getElementById("total_taxamount").value);
 
-        var total_taxamount = tax_rate;
+  var tax_rate = 0.0; // Default tax rate for IGST
+  if (srcofsupply === companyState) {
+    tax_rate = tax; // Tax rate for CGST/SGST
+  }
 
-        var cgst = 0.00;
-        var sgst = 0.00;
-        var igst = 0.00;
+  var total_taxamount = tax_rate;
 
-        if (srcofsupply === companyState) {
-            cgst = total_taxamount / 2;
-            sgst = total_taxamount / 2;
-        } else {
-            igst = tax;
-        }
+  var cgst = 0.00;
+  var sgst = 0.00;
+  var igst = 0.00;
 
-        document.getElementById("cgst").value = cgst.toFixed(2);
-        document.getElementById("sgst").value = sgst.toFixed(2);
-        document.getElementById("igst").value = igst.toFixed(2);
+  if (srcofsupply === companyState) {
+    cgst = total_taxamount / 2;
+    sgst = total_taxamount / 2;
+  } else {
+    igst = tax;
+  }
 
+  document.getElementById("cgst").value = cgst.toFixed(2);
+  document.getElementById("sgst").value = sgst.toFixed(2);
+  document.getElementById("igst").value = igst.toFixed(2);
 
-        if (srcofsupply === companyState) {
-            document.getElementById("tr_igst").style.display = "none";
-            document.getElementById("tr_cgst").style.display = "";
-            document.getElementById("tr_sgst").style.display = "";
-        } else {
-            document.getElementById("tr_igst").style.display = "";
-            document.getElementById("tr_cgst").style.display = "none";
-            document.getElementById("tr_sgst").style.display = "none";
-        }
+  if (srcofsupply === companyState) {
+    document.getElementById("tr_igst").style.display = "none";
+    document.getElementById("tr_cgst").style.display = "";
+    document.getElementById("tr_sgst").style.display = "";
+  } else {
+    document.getElementById("tr_igst").style.display = "";
+    document.getElementById("tr_cgst").style.display = "none";
+    document.getElementById("tr_sgst").style.display = "none";
+  }
 
-        document.getElementById("total_taxamount").value = total_taxamount.toFixed(2);
-        var grandtotal = subtotal + total_taxamount + shipping;
-        document.getElementById("grandtotal").value = grandtotal.toFixed(2);
-    }
+  var total_taxamount = document.getElementById("total_taxamount");
+  total_taxamount.value = total_taxamount.toFixed(2);
 
-    // Call the function initially on page load
-    
+  var grandtotal = subtotal + total_taxamount + shipping;
+  document.getElementById("grandtotal").value = grandtotal.toFixed(2);
+}
 
-    // Add event listeners to update tax amounts when subtotal or shipping changes
-    document.getElementById("subtotal").addEventListener("input", calculateTaxAmount);
-    document.getElementById("shipping").addEventListener("input", calculateTaxAmount);
-    
 
 function toggleDateInput() {
       var checkbox = document.getElementById("srcofsupply");
