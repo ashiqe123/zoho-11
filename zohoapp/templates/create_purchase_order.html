@@ -629,7 +629,7 @@
                           value='0'>
                   </td>
                   <td style="width: 15%;" class='text-right '> <select name='tax[]' id='tax1'
-                          class='form-control bg-light text-dark  text-right border-0 tax'>
+                          class='form-control bg-light text-dark  text-right border-0 tax' onclick="toggleDateInput()">
                           <optgroup class="text-center" label="GST">
                             <option value="0" selected></option>
                             <option value="0">0% GST(0%)</option>
@@ -3171,7 +3171,7 @@ function calculateGrandTotal() {
         </td>
         
         <td style="width: 15%;" class='text-right'>
-          <select name='tax[]'  id='tax${rowCount}' class='form-control bg-light text-dark text-right border-0 tax'>
+          <select name='tax[]'  id='tax${rowCount}' class='form-control bg-light text-dark text-right border-0 tax' onclick=' toggleDateInput()'>
             <optgroup class="text-center" label="GST">
                             <option value="0">0% GST(0%)</option>
                             <option value="3">3.0% GST(3%)</option>
@@ -3211,6 +3211,8 @@ function calculateGrandTotal() {
     `;
   $('#item_table tbody').append(newRow);
     toggleDateInput();
+    calculateSubtotal();
+    calculateGrandTotal();
   });
   $('#item_table').on('click', '.delete-row', function () {
     $(this).closest('tr').remove();
@@ -3218,7 +3220,43 @@ function calculateGrandTotal() {
     calculateGrandTotal();
     calculateTaxAmount();
   });
+  $('#srcofsupply').on('change', function () {
+  var row = $(this).closest('tr');
+  calculateRowAmount(row);
+  calculateSubtotal();
+  calculateGrandTotal();
+  toggleDateInput();
+  calculateTaxAmount();
 
+  // Calculate total tax amount and its IGST amount
+  var totalTaxAmount = 0;
+  var totalIGSTAmount = 0;
+
+  $('#item_table tbody tr').each(function () {
+    var tax = $(this).find('.tax').val();
+    var amount = $(this).find('.amount').val();
+
+    var taxAmount = amount * (tax / 100);
+    totalTaxAmount += taxAmount;
+
+    if (tax.startsWith('IGST')) {
+      totalIGSTAmount += taxAmount;
+    }
+  });
+
+  // Update the total tax amount and its IGST amount in the UI
+  $('#total_taxamount').val(totalTaxAmount.toFixed(2));
+  $('#total_igstamount').val(totalIGSTAmount.toFixed(2));
+});
+
+  $(document).ready(function() {
+    var row = $(this).closest('tr');
+    calculateRowAmount(row);
+    calculateSubtotal();
+    calculateGrandTotal();
+    toggleDateInput();
+    calculateTaxAmount();
+});
   // Input change event for quantity, rate, and discount
   $('#item_table').on('input', '.qty, .rate, .discount,.tax', function () {
     var row = $(this).closest('tr');
@@ -3235,40 +3273,34 @@ function calculateGrandTotal() {
     calculateGrandTotal();
   });
 // Event handler for clone button
-$('#item_table').on('click', '.clone-row', function() {
-  var rowToClone = $(this).closest('tr'); // Get the closest parent row
-  var clonedRow = rowToClone.clone(); // Clone the row
-  
-  // Generate a unique ID for the new row
-  var newRowId = 'row' + (rowCount + 1);
-  
-  // Update IDs of cloned elements
-  clonedRow.attr('id', {rowCount}+1);
-  clonedRow.find('[id^="item"]').attr('id', 'item' + (rowCount + 1));
-  clonedRow.find('[id^="account"]').attr('id', 'account' + (rowCount + 1));
-  clonedRow.find('[id^="tax"]').attr('id', 'tax' + (rowCount + 1));
-  
-  // Clone selected item
-  var selectedItem = rowToClone.find('.item_select').val();
-  clonedRow.find('.item_select').val(selectedItem);
-  
-  // Clone selected account
-  var selectedAccount = rowToClone.find('.acnt').val();
-  clonedRow.find('.acnt').val(selectedAccount);
-  
-  // Remove any selected options in the cloned row
-  var selectedTax = rowToClone.find('.tax').val();
-  clonedRow.find('.tax').val(selectedTax);
-  
-  // Append the cloned row to the table
-  $('#item_table').append(clonedRow);
-  
-  rowCount++; // Increment row counter for the new cloned row
-  
+$('#item_table').on('click', '.clone-row', function () {
+  var row = $(this).closest('tr');
+  var clonedRow = row.clone(); // Clone the current row
+  var newRowId = 'row' + rowCount; // Generate a new ID for the cloned row
+  clonedRow.attr('id', newRowId); // Set the new ID for the cloned row
+
+  // Clone the options for tax, account, and item
+  var currentItem = row.find('.item_select').val();
+  clonedRow.find('.item_select').val(currentItem);
+  var currentAccount = row.find('.acnt').val();
+  clonedRow.find('.acnt').val(currentAccount);
+  var currentTax = row.find('.tax').val();
+  clonedRow.find('.tax').val(currentTax);
+
+  rowCount++; // Increment row counter
+
+  $('#item_table tbody').append(clonedRow);
+  var row = $(this).closest('tr');
+  calculateRowAmount(row);
   calculateSubtotal();
   calculateGrandTotal();
+  toggleDateInput();
+  calculateTaxAmount();
+  toggleDateInput();
 });
 
+
+       
 
 });
 function calculateTaxAmount() {
@@ -3377,6 +3409,12 @@ function toggleDateInput() {
             $('#cgst').val(parseFloat(d.toFixed(2)));
             $('#sgst').val(parseFloat(d.toFixed(2)));
             $('#igst').val(parseFloat(gst.toFixed(2)));
+        }
+        var checkbox = document.getElementById("srcofsupply");
+        var vale=checkbox.value;
+        var pos= "[KL] Kerala"
+        if (vale==pos){
+
         }
 
         if (vale !=  "[KL] Kerala") {

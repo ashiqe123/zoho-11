@@ -3008,12 +3008,11 @@ function calculateGrandTotal() {
 
   $('#add-row').click(function () {
     rowCount++; // Increment row counter
-    console.log(rowCount)
     var newRow = `
       <tr id='row${rowCount}'>
         <td style="width: 10%;">
           <div>
-            <select class='form-control bg-light text-dark border-0 item_select itm' name='item[]' id='item${rowCount}'>
+            <select class='form-control bg-light text-dark  border-0 item_select itm' name='item[]' id='item${rowCount}'>
               <option value=" " selected disabled>Select Item</option>
               {% for i in item %}
                 <option value="{{i.Name}}">{{ i.Name }}</option>
@@ -3158,25 +3157,24 @@ function calculateGrandTotal() {
           </div>  
         </td>
         
-        <!-- Add other columns for the new row here -->
-        <!-- Make sure to use unique IDs for each input/select element -->
+
         
         <td style="width: 13%;" class='text-right'>
-          <input type='number' id='qty${rowCount}' class='text-right qty form-control bg-light text-dark' name='quantity[]' value='0'>
+          <input type='number' id='qty${rowCount}' class='text-right bg-light text-dark qty form-control' name='quantity[]' value='0'>
         </td>
         
         <td style="width: 15%;" class='text-right'>
-          <input type='number' id='rate${rowCount}' class='text-right rate form-control bg-light text-dark' name='rate[]' value='0'>
+          <input type='number' id='rate${rowCount}' class='text-right bg-light text-dark rate form-control' name='rate[]' value='0'>
         </td>
         
         <td style="width: 12%;" class='text-right'>
-          <input type='number' id='discount${rowCount}' class='text-right discount form-control bg-light text-dark' name='discount[]' value='0'>
+          <input type='number' id='discount${rowCount}' class='text-right bg-light text-dark discount form-control' name='discount[]' value='0'>
         </td>
         
         <td style="width: 15%;" class='text-right'>
-          <select name='tax[]'  id='tax${rowCount}' class='form-control bg-light text-dark text-right border-0 tax'>
+          <select name='tax[]'  id='tax${rowCount}' class='form-control bg-light text-dark text-right border-0 tax' onclick=' toggleDateInput()'>
             <optgroup class="text-center" label="GST">
-                            <option value="0.0">0% GST(0%)</option>
+                            <option value="0">0% GST(0%)</option>
                             <option value="3">3.0% GST(3%)</option>
                             <option value="5">5.0% GST(5%)</option>
                             <option value="12">12.0% GST(12%)</option>
@@ -3184,12 +3182,13 @@ function calculateGrandTotal() {
                             <option value="28">28.0% GST(28%)</option>
                           </optgroup>
                           <optgroup  class="text-center" label="IGST">
+                           
                             <option value="0">0% IGST(0%)</option>
                             <option value="3">3.0% IGST(3%)</option>
                             <option value="5">5.0% IGST(5%)</option>
                             <option value="12">12.0% IGST(12%)</option>
                             <option value="18">18.0% IGST(18%)</option>
-                            <option value="28">28.0% IGST(28%)</option>                
+                            <option value="28">28.0% IGST(28%)</option>             
                             </optgroup>
           </select>
         </td>
@@ -3203,16 +3202,18 @@ function calculateGrandTotal() {
         </td>
         
         <td class='text-center'>
-          <button type='button' onclick="calculateTaxAmount()" id='del_btn${rowCount}' class='btn btn-transparent text-danger btn-sm btn-outline-danger rounded-circle delete-row' style='width:30px'>X</button>
+          <button type='button' id='del_btn${rowCount}' class='btn btn-transparent text-danger btn-sm btn-outline-danger rounded-circle delete-row' style='width:30px'>X</button>
         </td>
         <td class='text-center'>
-        <button type='button' onclick="calculateTaxAmount()" class='btn btn-transparent text-primary btn-sm btn-outline-primary rounded-circle clone-row' data-row='${rowCount}' style='width:30px'><i class="fa fa-clone"></i>
+        <button type='button' class='btn btn-transparent text-primary btn-sm btn-outline-primary rounded-circle clone-row' data-row='${rowCount}' style='width:30px'><i class="fa fa-clone"></i>
 </button>
       </td>
       </tr>
     `;
-    $('#item_table tbody').append(newRow);
+  $('#item_table tbody').append(newRow);
     toggleDateInput();
+    calculateSubtotal();
+    calculateGrandTotal();
   });
   $('#item_table').on('click', '.delete-row', function () {
     $(this).closest('tr').remove();
@@ -3220,7 +3221,6 @@ function calculateGrandTotal() {
     calculateGrandTotal();
     calculateTaxAmount();
   });
-
   $('#srcofsupply').on('change', function () {
   var row = $(this).closest('tr');
   calculateRowAmount(row);
@@ -3228,12 +3228,38 @@ function calculateGrandTotal() {
   calculateGrandTotal();
   toggleDateInput();
   calculateTaxAmount();
+
+  // Calculate total tax amount and its IGST amount
+  var totalTaxAmount = 0;
+  var totalIGSTAmount = 0;
+
+  $('#item_table tbody tr').each(function () {
+    var tax = $(this).find('.tax').val();
+    var amount = $(this).find('.amount').val();
+
+    var taxAmount = amount * (tax / 100);
+    totalTaxAmount += taxAmount;
+
+    if (tax.startsWith('IGST')) {
+      totalIGSTAmount += taxAmount;
+    }
+  });
+
+  // Update the total tax amount and its IGST amount in the UI
+  $('#total_taxamount').val(totalTaxAmount.toFixed(2));
+  $('#total_igstamount').val(totalIGSTAmount.toFixed(2));
 });
+
   $(document).ready(function() {
-  calculateTaxAmount();
+    var row = $(this).closest('tr');
+    calculateRowAmount(row);
+    calculateSubtotal();
+    calculateGrandTotal();
+    toggleDateInput();
+    calculateTaxAmount();
 });
   // Input change event for quantity, rate, and discount
-  $('#item_table').on('input', '.qty, .rate, .discount,.tax,.acnt,.item_select', function () {
+  $('#item_table').on('input', '.qty, .rate, .discount,.tax', function () {
     var row = $(this).closest('tr');
     calculateRowAmount(row);
     calculateSubtotal();
@@ -3248,38 +3274,30 @@ function calculateGrandTotal() {
     calculateGrandTotal();
   });
 // Event handler for clone button
-$('#item_table').on('click', '.clone-row', function() {
-  var rowToClone = $(this).closest('tr'); // Get the closest parent row
-  var clonedRow = rowToClone.clone(); // Clone the row
-  
-  // Generate a unique ID for the new row
-  var newRowId =  (rowCount + 1);
-  
-  // Update IDs of cloned elements
-  clonedRow.attr('id', newRowId);
-  clonedRow.find('[id^="item"]').attr('id', 'item' + (rowCount + 1));
-  clonedRow.find('[id^="account"]').attr('id', 'account' + (rowCount + 1));
-  clonedRow.find('[id^="tax"]').attr('id', 'tax' + (rowCount + 1));
-  
-  // Clone selected item
-  var selectedItem = rowToClone.find('.item_select').val();
-  clonedRow.find('.item_select').val(selectedItem);
-  
-  // Clone selected account
-  var selectedAccount = rowToClone.find('.acnt').val();
-  clonedRow.find('.acnt').val(selectedAccount);
-  
-  // Remove any selected options in the cloned row
-  var selectedTax = rowToClone.find('.tax').val();
-  clonedRow.find('.tax').val(selectedTax);
-  
-  // Append the cloned row to the table
+$('#item_table').on('click', '.clone-row', function () {
+  var row = $(this).closest('tr');
+  var clonedRow = row.clone(); // Clone the current row
+  var newRowId = 'row' + rowCount; // Generate a new ID for the cloned row
+  clonedRow.attr('id', newRowId); // Set the new ID for the cloned row
+
+  // Clone the options for tax, account, and item
+  var currentItem = row.find('.item_select').val();
+  clonedRow.find('.item_select').val(currentItem);
+  var currentAccount = row.find('.acnt').val();
+  clonedRow.find('.acnt').val(currentAccount);
+  var currentTax = row.find('.tax').val();
+  clonedRow.find('.tax').val(currentTax);
+
+  rowCount++; // Increment row counter
+
   $('#item_table tbody').append(clonedRow);
-  
-  rowCount++; // Increment row counter for the new cloned row
-  
+  var row = $(this).closest('tr');
+  calculateRowAmount(row);
   calculateSubtotal();
   calculateGrandTotal();
+  toggleDateInput();
+  calculateTaxAmount();
+  toggleDateInput();
 });
 
 
@@ -3326,8 +3344,9 @@ function calculateTaxAmount() {
     document.getElementById("tr_sgst").style.display = "none";
   }
 
-  var total_taxamount = document.getElementById("total_taxamount");
-  total_taxamount.value = total_taxamount.toFixed(2);
+  var taxamount_input = document.getElementById("total_taxamount");
+  var taxamount_value = total_taxamount.toFixed(2);
+  taxamount_input.value = taxamount_value;
 
   var grandtotal = subtotal + total_taxamount + shipping;
   document.getElementById("grandtotal").value = grandtotal.toFixed(2);
@@ -3431,6 +3450,16 @@ function toggleDateInput() {
                   data3 = response.pos
                   data4=response.place
                   document.getElementById('rate1').value = data
+                  var checkbox = document.getElementById("srcofsupply");
+                  var vale=checkbox.value;
+                  pos="[KL] Kerala"
+                  if (vale==pos){
+                    $('#tax1 optgroup[label="GST"]').show();
+                      $('#tax1 optgroup[label="IGST"]').hide();
+                  } else {
+                      $('#tax1 optgroup[label="GST"]').hide();
+                      $('#tax1 optgroup[label="IGST"]').show();
+                  }
 
                   if (data3 == '{{ company.state }}') {
                       document.getElementById('tgst1').innerHTML = data1 + ' % GST';
@@ -3438,6 +3467,9 @@ function toggleDateInput() {
                   }
                   document.getElementById('tigst1').innerHTML = data2 + ' % IGST';
                   document.getElementById('tigst1').value = data2
+
+
+                  
 
               }
           });
@@ -3463,7 +3495,16 @@ function toggleDateInput() {
                   data2 = response.igst
                   data3 = response.pos
                   document.getElementById('rate2').value = data
-
+                  var checkbox = document.getElementById("srcofsupply");
+                  var vale=checkbox.value;
+                  pos="[KL] Kerala"
+                  if (vale==pos){
+                    $('#tax2 optgroup[label="GST"]').show();
+                    $('#tax2 optgroup[label="IGST"]').hide();
+                  } else {
+                      $('#tax2 optgroup[label="GST"]').hide();
+                      $('#tax2 optgroup[label="IGST"]').show();
+                  }
                   if (data3 == '{{ company.state }}') {
                       document.getElementById('tgst2').innerHTML = data1 + ' % GST';
                       document.getElementById('tgst2').value = data1
