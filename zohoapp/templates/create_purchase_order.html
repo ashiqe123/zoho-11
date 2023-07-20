@@ -3272,6 +3272,26 @@ function calculateGrandTotal() {
     $('#shipping_charge').val(shippingAmount.toFixed(2));
     calculateGrandTotal();
   });
+
+
+
+  // Add an event listener to the fields in the item table
+$('#item_table').on('click', '.item_select, .acnt, .rate, .qty, .tax, .discount', function () {
+  var row = $(this).closest('tr');
+  var taxElement = row.find('.tax');
+
+  var checkbox = document.getElementById("srcofsupply");
+  var vale = checkbox.value;
+
+  if (vale === "[KL] Kerala") {
+    taxElement.find('optgroup[label="GST"]').show();
+    taxElement.find('optgroup[label="IGST"]').hide();
+  } else {
+    taxElement.find('optgroup[label="GST"]').hide();
+    taxElement.find('optgroup[label="IGST"]').show();
+  }
+});
+
 // Event handler for clone button
 $('#item_table').on('click', '.clone-row', function () {
   var row = $(this).closest('tr');

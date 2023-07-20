@@ -5502,7 +5502,7 @@ def create_Purchase_order(request):
         cname = request.POST.get('custom')
         cmail = request.POST.get('custMail')
         caddress = request.POST.get('custAddress')
-        cstreet = request.POST.get('custstreet')
+        cstreet = request.POST.get('custStreet')
         ccity = request.POST.get('custcity')
         cstate = request.POST.get('custstate')
 
@@ -5637,8 +5637,8 @@ def create_Purchase_order(request):
                     )
                 print('Done')
 
-            return redirect('purchaseView')
-    return redirect('purchas_order')
+        return redirect('purchaseView')
+    return render(request,'create_purchase_order.html')
 
 def purchase_delet(request,id):
     po=Purchase_Order.objects.get(id=id)

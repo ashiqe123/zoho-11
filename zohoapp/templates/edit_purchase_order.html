@@ -3273,6 +3273,26 @@ function calculateGrandTotal() {
     $('#shipping_charge').val(shippingAmount.toFixed(2));
     calculateGrandTotal();
   });
+
+  // Add an event listener to the fields in the item table
+$('#item_table').on('click', '.item_select, .acnt, .rate, .qty, .tax, .discount', function () {
+  var row = $(this).closest('tr');
+  var taxElement = row.find('.tax');
+
+  var checkbox = document.getElementById("srcofsupply");
+  var vale = checkbox.value;
+
+  if (vale === "[KL] Kerala") {
+    taxElement.find('optgroup[label="GST"]').show();
+    taxElement.find('optgroup[label="IGST"]').hide();
+  } else {
+    taxElement.find('optgroup[label="GST"]').hide();
+    taxElement.find('optgroup[label="IGST"]').show();
+  }
+});
+
+
+
 // Event handler for clone button
 $('#item_table').on('click', '.clone-row', function () {
   var row = $(this).closest('tr');
@@ -3454,7 +3474,7 @@ function toggleDateInput() {
                   var vale=checkbox.value;
                   pos="[KL] Kerala"
                   if (vale==pos){
-                    $('#tax1 optgroup[label="GST"]').show();
+                      $('#tax1 optgroup[label="GST"]').show();
                       $('#tax1 optgroup[label="IGST"]').hide();
                   } else {
                       $('#tax1 optgroup[label="GST"]').hide();
@@ -3501,9 +3521,10 @@ function toggleDateInput() {
                   if (vale==pos){
                     $('#tax2 optgroup[label="GST"]').show();
                     $('#tax2 optgroup[label="IGST"]').hide();
-                  } else {
-                      $('#tax2 optgroup[label="GST"]').hide();
-                      $('#tax2 optgroup[label="IGST"]').show();
+                  } 
+                  else {
+                    $('#tax2 optgroup[label="GST"]').hide();
+                    $('#tax2 optgroup[label="IGST"]').show();
                   }
                   if (data3 == '{{ company.state }}') {
                       document.getElementById('tgst2').innerHTML = data1 + ' % GST';
@@ -3536,7 +3557,17 @@ function toggleDateInput() {
                   data2 = response.igst
                   data3 = response.pos
                   document.getElementById('rate3').value = data
-
+                  var checkbox = document.getElementById("srcofsupply");
+                  var vale=checkbox.value;
+                  pos="[KL] Kerala"
+                  if (vale==pos){
+                    $('#tax3 optgroup[label="GST"]').show();
+                    $('#tax3 optgroup[label="IGST"]').hide();
+                  } 
+                  else {
+                    $('#tax3 optgroup[label="GST"]').hide();
+                    $('#tax3 optgroup[label="IGST"]').show();
+                  }
                   if (data3 == '{{ company.state }}') {
                       document.getElementById('tgst3').innerHTML = data1 + ' % GST';
                       document.getElementById('tgst3').value = data1
@@ -3568,7 +3599,17 @@ function toggleDateInput() {
                   data2 = response.igst
                   data3 = response.pos
                   document.getElementById('rate4').value = data
-
+                  var checkbox = document.getElementById("srcofsupply");
+                  var vale=checkbox.value;
+                  pos="[KL] Kerala"
+                  if (vale==pos){
+                    $('#tax4 optgroup[label="GST"]').show();
+                    $('#tax4 optgroup[label="IGST"]').hide();
+                  } 
+                  else {
+                    $('#tax4 optgroup[label="GST"]').hide();
+                    $('#tax4 optgroup[label="IGST"]').show();
+                  }
                   if (data3 == '{{ company.state }}') {
                       document.getElementById('tgst4').innerHTML = data1 + ' % GST';
                       document.getElementById('tgst4').value = data1
@@ -3600,7 +3641,17 @@ function toggleDateInput() {
                   data2 = response.igst
                   data3 = response.pos
                   document.getElementById('rate5').value = data
-
+                  var checkbox = document.getElementById("srcofsupply");
+                  var vale=checkbox.value;
+                  pos="[KL] Kerala"
+                  if (vale==pos){
+                    $('#tax5 optgroup[label="GST"]').show();
+                    $('#tax5 optgroup[label="IGST"]').hide();
+                  } 
+                  else {
+                    $('#tax5 optgroup[label="GST"]').hide();
+                    $('#tax5 optgroup[label="IGST"]').show();
+                  }
                   if (data3 == '{{ company.state }}') {
                       document.getElementById('tgst5').innerHTML = data1 + ' % GST';
                       document.getElementById('tgst5').value = data1
@@ -3632,7 +3683,17 @@ function toggleDateInput() {
                   data2 = response.igst
                   data3 = response.pos
                   document.getElementById('rate6').value = data
-
+                  var checkbox = document.getElementById("srcofsupply");
+                  var vale=checkbox.value;
+                  pos="[KL] Kerala"
+                  if (vale==pos){
+                    $('#tax6 optgroup[label="GST"]').show();
+                    $('#tax6 optgroup[label="IGST"]').hide();
+                  } 
+                  else {
+                    $('#tax5 optgroup[label="GST"]').hide();
+                    $('#tax5 optgroup[label="IGST"]').show();
+                  }
                   if (data3 == '{{ company.state }}') {
                       document.getElementById('tgst6').innerHTML = data1 + ' % GST';
                       document.getElementById('tgst6').value = data1
