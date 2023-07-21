@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Accounting Software</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+  body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-image:url('https://tax.thomsonreuters.com/blog/wp-content/uploads/sites/17/2020/03/GettyImages-1156032243.jpg') ;
+  }
+    header {
+      background-color:#000000 ;
+      color: #222;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Align logo to the left and links to the right */
+      border-bottom:2px solid #ccc;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 40px; /* Set the height of the logo */
+      margin-right: 10px; /* Add some spacing between the logo and links */
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 10px;
+      position: relative;
+    }
+
+    /* Animation for the navigation links */
+    .nav-links a::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #fff;
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover::before {
+      width: 100%;
+    }
+
+    /* Animation for the logo */
+    .logo-image {
+      opacity: 0;
+    }
+    main {
+      padding: 20px;
+    }
+
+header img {
+  height: 40px; /* Set the height of the logo */
+  margin-right: 10px; /* Add some spacing between the logo and links */
+}
+
+.hero p {
+  font-size: 18px;
+  max-width: 800px; /* Limit the width of the hero paragraph */
+  margin: 0 auto; /* Center the hero paragraph */
+}
+
+/* Additional styling for the CTA button */
+.cta-button:hover {
+  background-color: #ff4d00;
+  transform: scale(1.1);
+}
+
+/* Additional styling for the footer */
+footer {
+  padding: 10px;
+}
+
+
+
+.hero {
+      text-align: center;
+      padding: 50px 0;
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 0.5rem;
+    }
+
+.hero h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 18px;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #ff6600;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.features {
+  display: flex;
+  justify-content: space-around;
+  padding: 50px 0;
+}
+
+.feature {
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+  background-color:rgb(46, 45, 45);
+  box-shadow: 0 2px 5px rgba(247, 243, 243, 0.932);
+  margin: 20px;
+  color: #fff;
+}
+
+.feature h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.feature p {
+  font-size: 16px;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #ffffff;
+  color: #000000;
+}
+/* ... previous CSS code ... */
+
+.pricing {
+  text-align: center;
+  padding: 50px 0;
+  background-color: #ddd9d9;
+}
+
+.price-card {
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 5px;
+  margin: 20px;
+  max-width: 300px;
+  display: inline-block;
+}
+
+.price-card h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.price-card p {
+  font-size: 16px;
+}
+
+.price-card .price {
+  display: block;
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #007bff;
+}
+#about {
+      text-align: center;
+      padding: 50px 0;
+      background-color: #161616;
+      color: #fff8f8;
+    }
+
+    #map-container {
+      position: relative;
+      max-width: 100%;
+      height: 400px;
+      overflow: hidden;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+    .contact-address {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    /* Animation for the contact address box */
+    .contact-address {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+/* Styling for the Contact section */
+
+.contact {
+  text-align: center;
+  padding: 50px 0;
+  background-color: #cfd0d1;
+  color: #050505;
+}
+
+.contact form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.contact h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.contact input,
+.contact textarea,
+.contact button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+}
+
+.contact input,
+.contact textarea {
+  background-color: #fff;
+}
+
+.contact button {
+  background-color: #ff6600;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contact button:hover {
+  background-color: #ff4d00;
+}
+
+.split-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center; /* Center content vertically */
+    }
+
+    .split-content {
+      flex: 1;
+      padding: 20px;
+      text-align: center; /* Center content horizontally */
+    }
+
+    .split-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .split-image img {
+      max-width: 80%;
+      max-height: 80%;
+      border-radius: 50%;
+    }
+
+    /* Mobile responsiveness */
+    @media screen and (max-width: 768px) {
+        header {
+        padding: 10px;
+      }
+
+      .logo img {
+        height: 30px; /* Decrease the height of the logo on mobile */
+      }
+
+      .nav-links {
+        flex-direction: column; /* Stack the navigation links vertically on mobile */
+        align-items: center;
+      }
+
+      .nav-links a {
+        margin: 5px; /* Reduce margin between links on mobile */
+        font-size: 14px; /* Reduce font size of navigation links on mobile */
+      }
+
+      /* Hero section */
+      .hero {
+        padding: 30px 0;
+      }
+
+      .hero h2 {
+        font-size: 24px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .split-section {
+        flex-direction: column; /* Stack sections vertically on mobile */
+        align-items: center; /* Center content horizontally */
+      }
+
+      .split-image {
+        padding: 10px; /* Reduce padding for the image on mobile */
+      }
+
+      .split-image img {
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 50%;
+      }
+
+      /* Features section */
+      .features {
+        flex-direction: column; /* Stack features vertically on mobile */
+        align-items: center; /* Center content horizontally */
+      }
+
+      .feature {
+        margin: 10px;
+      }
+
+      /* Pricing section */
+      .price-card {
+        width: 100%; /* Make price cards occupy full width on mobile */
+        margin: 10px 0;
+      }
+
+      /* Contact section */
+      .contact form {
+        max-width: 90%; /* Adjust contact form width on mobile */
+      }
+    }
+    
+  </style>
+</head>
+<body>
+    <header>
+      <nav>
+        <div class="logo">
+          <img class="logo-image" src="path/to/logo.png" alt="Zoho Account">
+        </div>
+        <div class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#contact">Contact</a>
+          <a href="#about">About</a>
+        </div>
+      </nav>
+    </header>
+  
+    <main>
+        <section id="home" class="hero split-section">
+            <div class="split-content">
+              <h2>Zoho Books is a comprehensive cloud accounting platform that takes care of your business finance.</h2>
+              <p>Dummy text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <a href="#" class="cta-button">Get Started</a>
+            </div>
+            <div class="split-image">
+              <img src="https://previews.123rf.com/images/nsit0108/nsit01081811/nsit0108181101982/111456058-accounting-icon-set-outline-set-of-accounting-icons-for-web-design-isolated-on-white-background.jpg" alt="">
+            </div>
+          </section>
+      <section id="features" class="features">
+        <div class="feature">
+          <h2>Feature 1</h2>
+          <p>Dummy text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <div class="feature">
+          <h2>Feature 2</h2>
+          <p>Dummy text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <div class="feature">
+          <h2>Feature 3</h2>
+          <p>Dummy text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+      </section>
+      <section id="pricing" class="pricing">
+        <h2>Pricing</h2>
+        <div class="price-card">
+          <h3>Basic</h3>
+          <p>Dummy text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <span class="price">$19.99/month</span>
+          <a href="#" class="cta-button">Buy Now</a>
+        </div>
+        <div class="price-card">
+          <h3>Pro</h3>
+          <p>Dummy text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <span class="price">$39.99/month</span>
+          <a href="#" class="cta-button">Buy Now</a>
+        </div>
+        <div class="price-card">
+          <h3>Enterprise</h3>
+          <p>Dummy text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <span class="price">$99.99/month</span>
+          <a href="#" class="cta-button">Buy Now</a>
+        </div>
+      </section>
+  
+      <section id="about">
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="map-container">
+                    <!-- Replace the following iframe with the actual Google Maps iframe code for Infopark location -->
+                    <iframe  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.819415753366!2d76.31073461410834!3d10.01027759284793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05ebc35d019c8d%3A0x3ed19401929f1df1!2sInfopark%20Kochi%20Campus!5e0!3m2!1sen!2sin!4v1627493006079!5m2!1sen!2sin" width="50%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                  </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="contact-address">
+                    <h2>Contact Address</h2>
+                    <p>123 Main Street</p>
+                    <p>City, Country</p>
+                    <p>Email: info@example.com</p>
+                    <p>Phone: +1 123-456-7890</p>
+                  </div>
+            </div>
+
+        </div>
+        
+       
+      </section>
+      <section id="contact" class="contact">
+        <h2>Contact</h2>
+        <form>
+          <input type="text" placeholder="Name">
+          <input type="email" placeholder="Email">
+          <textarea placeholder="Message"></textarea>
+          <button type="submit" class="cta-button">Send Message</button>
+        </form>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2023 Zoho Accounting Software. All rights reserved.</p>
+    </footer>
+    <script src="app.js"></script>
+    <!-- Add this line at the bottom of the HTML file, just before the closing </body> tag -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+      // GSAP animations for the Pricing and Contact sections
+      gsap.from(".pricing h2", { duration: 1, opacity: 0, y: -50, stagger: 0.3, delay: 1 });
+      gsap.from(".price-card", { duration: 1, opacity: 0, y: 50, stagger: 0.3, delay: 1.5 });
+  
+      gsap.from(".contact h2", { duration: 1, opacity: 0, y: -50, delay: 2 });
+      gsap.from(".contact form", { duration: 1, opacity: 0, y: 50, delay: 2.5 });
+
+        // GSAP animation for the logo when the page loads
+        gsap.from(".logo-image", { duration: 1, opacity: 0, delay: 0.5 });
+    
+        // GSAP animation for the navigation links
+        const navLinks = document.querySelectorAll(".nav-links a");
+        navLinks.forEach((link) => {
+          link.addEventListener("mouseenter", () => {
+            gsap.to(link, { duration: 0.2, scaleX: 1.1, color: "#ff4d00" });
+          });
+          link.addEventListener("mouseleave", () => {
+            gsap.to(link, { duration: 0.2, scaleX: 1, color: "#fff" });
+          });
+        });
+
+
+
+        gsap.from(".logo-image", { duration: 1, opacity: 0, delay: 0.5 });
+        function smoothScroll(target) {
+      const targetSection = document.querySelector(target);
+      const targetPosition = targetSection.getBoundingClientRect().top + window.scrollY;
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: "smooth"
+      });
+    }
+
+    // Smooth scrolling effect for the navigation links
+         navLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+        event.preventDefault(); // Prevent default link behavior
+        const targetSection = link.getAttribute("href");
+        smoothScroll(targetSection);
+      });
+    });
+
+
+    function checkScroll() {
+      var aboutSection = document.getElementById('about');
+      var contactAddress = document.querySelector('.contact-address');
+
+      var positionFromTop = aboutSection.getBoundingClientRect().top;
+
+      if (positionFromTop - window.innerHeight <= 0) {
+        contactAddress.classList.add('show');
+      } else {
+        contactAddress.classList.remove('show');
+      }
+    }
+
+    window.addEventListener('scroll', checkScroll);
+
+      </script>
+  </body>
+</html>

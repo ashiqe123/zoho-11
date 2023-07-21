@@ -278,11 +278,11 @@ urlpatterns = [
     path('Approved/<int:id>',views.Approved,name='Approved'),
     path('itemdata_challan_save',views.itemdata_challan_save,name='itemdata_challan_save'),
     path('edit_Purchase_order/<int:id>',views.edit_Purchase_order,name='edit_Purchase_order'),
-
     path("drf",views.drf,name='drf'),
     path('apr',views.apr,name='apr'),
 
-   
+#    ------------------------------------------------------------------------
+    path('landpage',views.landpage,name='landpage'),
     
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
     

@@ -5941,3 +5941,11 @@ def apr(request):
 def drf(request):
     pt=Purchase_Order.objects.filter(status='Draft')
     return render(request,'purchase_order.html',{'pt':pt})
+
+
+
+    # ----------------------------------------------------------------------
+
+
+def landpage(request):
+    return render(request,'landpage.html')
